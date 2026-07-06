@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Widget Preview - <%= @widget.name %></title>
+  <title>Vista previa del widget - <%= @widget.name %></title>
   <style>
     :root {
       --pwb-primary: <%= @widget.effective_theme['primary_color'] %>;
@@ -163,8 +163,8 @@
 </head>
 <body>
   <div class="preview-header">
-    <h1>Widget Preview: <%= @widget.name %></h1>
-    <span class="badge">Preview Mode</span>
+    <h1>Vista previa del widget: <%= @widget.name %></h1>
+    <span class="badge">Modo vista previa</span>
   </div>
 
   <div class="widget-container">
@@ -188,9 +188,9 @@
                 <% end %>
 
                 <% if prop.for_sale %>
-                  <span class="pwb-card-badge">For Sale</span>
+                  <span class="pwb-card-badge">En venta</span>
                 <% elsif prop.for_rent %>
-                  <span class="pwb-card-badge" style="background:#7c3aed;">For Rent</span>
+                  <span class="pwb-card-badge" style="background:#7c3aed;">En alquiler</span>
                 <% end %>
               </div>
 
@@ -213,10 +213,10 @@
 
                 <div class="pwb-card-specs">
                   <% if visible['bedrooms'] && prop.count_bedrooms.to_i > 0 %>
-                    <span class="pwb-card-spec"><%= prop.count_bedrooms %> bed</span>
+                    <span class="pwb-card-spec"><%= prop.count_bedrooms %> hab.</span>
                   <% end %>
                   <% if visible['bathrooms'] && prop.count_bathrooms.to_f > 0 %>
-                    <span class="pwb-card-spec"><%= prop.count_bathrooms.to_i %> bath</span>
+                    <span class="pwb-card-spec"><%= prop.count_bathrooms.to_i %> baños</span>
                   <% end %>
                   <% if visible['area'] && prop.constructed_area.to_f > 0 %>
                     <span class="pwb-card-spec"><%= number_with_delimiter(prop.constructed_area.to_i) %> m<sup>2</sup></span>
@@ -229,7 +229,7 @@
       </div>
     <% else %>
       <div class="pwb-empty">
-        <p>No properties match the widget filters.</p>
+        <p>Ninguna propiedad coincide con los filtros del widget.</p>
       </div>
     <% end %>
   </div>

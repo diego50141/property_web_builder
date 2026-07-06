@@ -5,9 +5,9 @@
     <div class="p-6">
       <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
         <p class="text-sm text-blue-700">
-          <strong>Note:</strong> A property can have multiple sale and rental listings, but only one of each type can be <strong>active</strong> at a time.
-          The active listing is displayed on your website when set to <strong>Visible</strong>.
-          You can archive old listings to keep history without deleting them.
+          <strong>Nota:</strong> Una propiedad puede tener varios anuncios de venta y de arriendo, pero solo uno de cada tipo puede estar <strong>activo</strong> a la vez.
+          El anuncio activo se muestra en tu sitio web cuando está configurado como <strong>Visible</strong>.
+          Puedes archivar anuncios antiguos para conservar el historial sin eliminarlos.
         </p>
       </div>
 
@@ -16,15 +16,15 @@
         <div class="border border-gray-200 rounded-lg p-6">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold text-gray-900 flex items-center">
-              <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">FOR SALE</span>
-              Sale Listings
+              <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">EN VENTA</span>
+              Anuncios de venta
             </h3>
             <%= link_to new_site_admin_prop_sale_listing_path(@prop),
                 class: 'inline-flex items-center px-3 py-1.5 border border-green-600 text-green-600 rounded-md hover:bg-green-50 text-sm font-medium' do %>
               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
               </svg>
-              New Listing
+              Nuevo anuncio
             <% end %>
           </div>
 
@@ -37,7 +37,7 @@
                       <div class="flex items-center gap-2 mb-2">
                         <% if listing.active? %>
                           <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-600 text-white">
-                            Active
+                            Activo
                           </span>
                         <% end %>
                         <% if listing.visible? %>
@@ -47,12 +47,12 @@
                         <% end %>
                         <% if listing.archived? %>
                           <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
-                            Archived
+                            Archivado
                           </span>
                         <% end %>
                         <% if listing.highlighted? %>
                           <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
-                            Featured
+                            Destacado
                           </span>
                         <% end %>
                       </div>
@@ -60,35 +60,35 @@
                         <% if listing.price_sale_current_cents.to_i > 0 %>
                           <%= number_to_currency(listing.price_sale_current_cents / 100.0, unit: listing.price_sale_current_currency || 'EUR', precision: 0) %>
                         <% else %>
-                          <span class="text-gray-400">No price set</span>
+                          <span class="text-gray-400">Sin precio definido</span>
                         <% end %>
                       </div>
                       <div class="text-xs text-gray-500 mt-1">
-                        Created: <%= listing.created_at.strftime('%b %d, %Y') %>
+                        Creado: <%= listing.created_at.strftime('%b %d, %Y') %>
                       </div>
                     </div>
                     <div class="flex flex-col gap-1 ml-4">
-                      <%= link_to 'Edit', edit_site_admin_prop_sale_listing_path(@prop, listing),
+                      <%= link_to 'Editar', edit_site_admin_prop_sale_listing_path(@prop, listing),
                           class: 'text-xs text-blue-600 hover:text-blue-800' %>
                       <% unless listing.active? %>
-                        <%= button_to 'Activate', activate_site_admin_prop_sale_listing_path(@prop, listing),
+                        <%= button_to 'Activar', activate_site_admin_prop_sale_listing_path(@prop, listing),
                             method: :patch,
                             form_class: 'inline',
                             class: 'text-xs text-green-600 hover:text-green-800 bg-transparent border-0 p-0 cursor-pointer' %>
                         <% if listing.archived? %>
-                          <%= button_to 'Unarchive', unarchive_site_admin_prop_sale_listing_path(@prop, listing),
+                          <%= button_to 'Desarchivar', unarchive_site_admin_prop_sale_listing_path(@prop, listing),
                               method: :patch,
                               form_class: 'inline',
                               class: 'text-xs text-gray-600 hover:text-gray-800 bg-transparent border-0 p-0 cursor-pointer' %>
                         <% else %>
-                          <%= button_to 'Archive', archive_site_admin_prop_sale_listing_path(@prop, listing),
+                          <%= button_to 'Archivar', archive_site_admin_prop_sale_listing_path(@prop, listing),
                               method: :patch,
                               form_class: 'inline',
                               class: 'text-xs text-gray-600 hover:text-gray-800 bg-transparent border-0 p-0 cursor-pointer' %>
                         <% end %>
-                        <%= button_to 'Delete', site_admin_prop_sale_listing_path(@prop, listing),
+                        <%= button_to 'Eliminar', site_admin_prop_sale_listing_path(@prop, listing),
                             method: :delete,
-                            form: { data: { turbo_confirm: 'Are you sure you want to delete this listing?' } },
+                            form: { data: { turbo_confirm: '¿Estás seguro de que deseas eliminar este anuncio?' } },
                             form_class: 'inline',
                             class: 'text-xs text-red-600 hover:text-red-800 bg-transparent border-0 p-0 cursor-pointer' %>
                       <% end %>
@@ -102,8 +102,8 @@
               <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p class="mt-2">No sale listings yet</p>
-              <%= link_to 'Create your first sale listing', new_site_admin_prop_sale_listing_path(@prop),
+              <p class="mt-2">Aún no hay anuncios de venta</p>
+              <%= link_to 'Crea tu primer anuncio de venta', new_site_admin_prop_sale_listing_path(@prop),
                   class: 'mt-2 inline-block text-green-600 hover:text-green-800' %>
             </div>
           <% end %>
@@ -113,15 +113,15 @@
         <div class="border border-gray-200 rounded-lg p-6">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold text-gray-900 flex items-center">
-              <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">FOR RENT</span>
-              Rental Listings
+              <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">EN ARRIENDO</span>
+              Anuncios de arriendo
             </h3>
             <%= link_to new_site_admin_prop_rental_listing_path(@prop),
                 class: 'inline-flex items-center px-3 py-1.5 border border-purple-600 text-purple-600 rounded-md hover:bg-purple-50 text-sm font-medium' do %>
               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
               </svg>
-              New Listing
+              Nuevo anuncio
             <% end %>
           </div>
 
@@ -134,7 +134,7 @@
                       <div class="flex items-center gap-2 mb-2">
                         <% if listing.active? %>
                           <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-600 text-white">
-                            Active
+                            Activo
                           </span>
                         <% end %>
                         <% if listing.visible? %>
@@ -144,53 +144,53 @@
                         <% end %>
                         <% if listing.archived? %>
                           <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
-                            Archived
+                            Archivado
                           </span>
                         <% end %>
                         <% if listing.for_rent_short_term? %>
                           <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">
-                            Short Term
+                            Corto plazo
                           </span>
                         <% end %>
                         <% if listing.for_rent_long_term? %>
                           <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-teal-100 text-teal-800">
-                            Long Term
+                            Largo plazo
                           </span>
                         <% end %>
                       </div>
                       <div class="text-sm text-gray-900 font-medium">
                         <% if listing.price_rental_monthly_current_cents.to_i > 0 %>
-                          <%= number_to_currency(listing.price_rental_monthly_current_cents / 100.0, unit: listing.price_rental_monthly_current_currency || 'EUR', precision: 0) %>/month
+                          <%= number_to_currency(listing.price_rental_monthly_current_cents / 100.0, unit: listing.price_rental_monthly_current_currency || 'EUR', precision: 0) %>/mes
                         <% else %>
-                          <span class="text-gray-400">No price set</span>
+                          <span class="text-gray-400">Sin precio definido</span>
                         <% end %>
                       </div>
                       <div class="text-xs text-gray-500 mt-1">
-                        Created: <%= listing.created_at.strftime('%b %d, %Y') %>
+                        Creado: <%= listing.created_at.strftime('%b %d, %Y') %>
                       </div>
                     </div>
                     <div class="flex flex-col gap-1 ml-4">
-                      <%= link_to 'Edit', edit_site_admin_prop_rental_listing_path(@prop, listing),
+                      <%= link_to 'Editar', edit_site_admin_prop_rental_listing_path(@prop, listing),
                           class: 'text-xs text-blue-600 hover:text-blue-800' %>
                       <% unless listing.active? %>
-                        <%= button_to 'Activate', activate_site_admin_prop_rental_listing_path(@prop, listing),
+                        <%= button_to 'Activar', activate_site_admin_prop_rental_listing_path(@prop, listing),
                             method: :patch,
                             form_class: 'inline',
                             class: 'text-xs text-purple-600 hover:text-purple-800 bg-transparent border-0 p-0 cursor-pointer' %>
                         <% if listing.archived? %>
-                          <%= button_to 'Unarchive', unarchive_site_admin_prop_rental_listing_path(@prop, listing),
+                          <%= button_to 'Desarchivar', unarchive_site_admin_prop_rental_listing_path(@prop, listing),
                               method: :patch,
                               form_class: 'inline',
                               class: 'text-xs text-gray-600 hover:text-gray-800 bg-transparent border-0 p-0 cursor-pointer' %>
                         <% else %>
-                          <%= button_to 'Archive', archive_site_admin_prop_rental_listing_path(@prop, listing),
+                          <%= button_to 'Archivar', archive_site_admin_prop_rental_listing_path(@prop, listing),
                               method: :patch,
                               form_class: 'inline',
                               class: 'text-xs text-gray-600 hover:text-gray-800 bg-transparent border-0 p-0 cursor-pointer' %>
                         <% end %>
-                        <%= button_to 'Delete', site_admin_prop_rental_listing_path(@prop, listing),
+                        <%= button_to 'Eliminar', site_admin_prop_rental_listing_path(@prop, listing),
                             method: :delete,
-                            form: { data: { turbo_confirm: 'Are you sure you want to delete this listing?' } },
+                            form: { data: { turbo_confirm: '¿Estás seguro de que deseas eliminar este anuncio?' } },
                             form_class: 'inline',
                             class: 'text-xs text-red-600 hover:text-red-800 bg-transparent border-0 p-0 cursor-pointer' %>
                       <% end %>
@@ -204,8 +204,8 @@
               <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
-              <p class="mt-2">No rental listings yet</p>
-              <%= link_to 'Create your first rental listing', new_site_admin_prop_rental_listing_path(@prop),
+              <p class="mt-2">Aún no hay anuncios de arriendo</p>
+              <%= link_to 'Crea tu primer anuncio de arriendo', new_site_admin_prop_rental_listing_path(@prop),
                   class: 'mt-2 inline-block text-purple-600 hover:text-purple-800' %>
             </div>
           <% end %>
@@ -214,7 +214,7 @@
 
       <!-- Back Link -->
       <div class="flex justify-start items-center mt-8 pt-6 border-t border-gray-200">
-        <%= link_to '&larr; Back to Properties'.html_safe, site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
+        <%= link_to '&larr; Volver a Propiedades'.html_safe, site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
       </div>
     </div>
   </div>

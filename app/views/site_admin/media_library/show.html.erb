@@ -2,16 +2,16 @@
   <div class="flex items-center justify-between mb-6">
     <div>
       <h1 class="text-2xl font-bold text-gray-900"><%= @media.display_name %></h1>
-      <p class="text-gray-600 mt-1">Media Details</p>
+      <p class="text-gray-600 mt-1">Detalles del medio</p>
     </div>
     <div class="flex items-center gap-3">
       <%= link_to edit_site_admin_media_library_path(@media),
           class: "px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700" do %>
-        Edit
+        Editar
       <% end %>
       <%= link_to site_admin_media_library_index_path,
           class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200" do %>
-        Back to Library
+        Volver a la biblioteca
       <% end %>
     </div>
   </div>
@@ -37,63 +37,63 @@
       <!-- Details -->
       <div class="space-y-4">
         <div>
-          <label class="text-sm font-medium text-gray-700">Filename</label>
+          <label class="text-sm font-medium text-gray-700">Nombre de archivo</label>
           <p class="text-gray-900 mt-1"><%= @media.filename %></p>
         </div>
 
         <% if @media.title.present? %>
           <div>
-            <label class="text-sm font-medium text-gray-700">Title</label>
+            <label class="text-sm font-medium text-gray-700">Título</label>
             <p class="text-gray-900 mt-1"><%= @media.title %></p>
           </div>
         <% end %>
 
         <% if @media.alt_text.present? %>
           <div>
-            <label class="text-sm font-medium text-gray-700">Alt Text</label>
+            <label class="text-sm font-medium text-gray-700">Texto alternativo</label>
             <p class="text-gray-900 mt-1"><%= @media.alt_text %></p>
           </div>
         <% end %>
 
         <% if @media.description.present? %>
           <div>
-            <label class="text-sm font-medium text-gray-700">Description</label>
+            <label class="text-sm font-medium text-gray-700">Descripción</label>
             <p class="text-gray-900 mt-1"><%= @media.description %></p>
           </div>
         <% end %>
 
         <div>
-          <label class="text-sm font-medium text-gray-700">Type</label>
+          <label class="text-sm font-medium text-gray-700">Tipo</label>
           <p class="text-gray-900 mt-1"><%= @media.content_type %></p>
         </div>
 
         <div>
-          <label class="text-sm font-medium text-gray-700">Size</label>
+          <label class="text-sm font-medium text-gray-700">Tamaño</label>
           <p class="text-gray-900 mt-1"><%= @media.human_file_size %></p>
         </div>
 
         <% if @media.dimensions %>
           <div>
-            <label class="text-sm font-medium text-gray-700">Dimensions</label>
+            <label class="text-sm font-medium text-gray-700">Dimensiones</label>
             <p class="text-gray-900 mt-1"><%= @media.dimensions %></p>
           </div>
         <% end %>
 
         <% if @media.folder %>
           <div>
-            <label class="text-sm font-medium text-gray-700">Folder</label>
+            <label class="text-sm font-medium text-gray-700">Carpeta</label>
             <p class="text-gray-900 mt-1"><%= @media.folder.name %></p>
           </div>
         <% end %>
 
         <div>
-          <label class="text-sm font-medium text-gray-700">Uploaded</label>
+          <label class="text-sm font-medium text-gray-700">Subido</label>
           <p class="text-gray-900 mt-1"><%= @media.created_at.strftime('%B %d, %Y at %H:%M') %></p>
         </div>
 
         <% if @media.tags.any? %>
           <div>
-            <label class="text-sm font-medium text-gray-700">Tags</label>
+            <label class="text-sm font-medium text-gray-700">Etiquetas</label>
             <div class="flex flex-wrap gap-2 mt-1">
               <% @media.tags.each do |tag| %>
                 <span class="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded"><%= tag %></span>
@@ -110,7 +110,7 @@
                      class="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm">
               <button type="button" onclick="navigator.clipboard.writeText('<%= @media.url %>')"
                       class="px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
-                Copy
+                Copiar
               </button>
             </div>
           </div>

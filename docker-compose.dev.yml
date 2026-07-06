@@ -1,0 +1,76 @@
+# Isolated DEV stack for PropertyWebBuilder on the Hostinger VPS.
+# Runs alongside (and never touches) the existing Chatwoot / Evolution stacks:
+# its own project name, network, database, redis and volumes. Only host port
+# 3100 is published (3000 is taken by Chatwoot).
+name: pwb-dev
+
+services:
+  db:
+    image: postgres:16-bookworm
+    environment:
+      POSTGRES_USER: pwb
+      POSTGRES_PASSWORD: pwb_dev_pass
+      POSTGRES_DB: pwb_development
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pwb"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    # No host port published — reached only from the app container on the
+    # private compose network, so it can't clash with other stacks.
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redisdata:/data
+    # No host port published.
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/dev/Dockerfile
+    environment:
+      RAILS_ENV: development
+      PORT: "3000"
+      # libpq env vars → every DB connection (primary + shards) goes to `db`.
+      PGHOST: db
+      PGPORT: "5432"
+      PGUSER: pwb
+      PGPASSWORD: pwb_dev_pass
+      REDIS_URL: redis://redis:6379/0
+      # Tenants resolve by subdomain of a "platform domain". We add a nip.io
+      # wildcard host (default.187.77.211.121.nip.io → this VPS) so the demo
+      # tenant (subdomain 'default') is reachable from a browser without DNS
+      # setup. Replace with a real domain later.
+      PLATFORM_DOMAINS: 187.77.211.121.nip.io,localhost,pwb.localhost,e2e.localhost,propertywebbuilder.com
+      # ActiveStorage uses local disk in dev. The cloudflare_r2 block in
+      # config/storage.yml is ERB-evaluated for the whole file at load and
+      # raises if these are blank, so we pass harmless dummies (never used
+      # because the active service is `local`).
+      ACTIVE_STORAGE_SERVICE: local
+      R2_ACCOUNT_ID: dev-dummy
+      R2_ACCESS_KEY_ID: dev-dummy
+      R2_SECRET_ACCESS_KEY: dev-dummy
+      R2_BUCKET: dev-dummy
+      CDN_IMAGES_BUCKET: dev-dummy
+      CDN_IMAGES_URL: http://localhost
+      R2_PUBLIC_URL: http://localhost
+      # Convenience for early dev; revisit before exposing publicly.
+      BYPASS_ADMIN_AUTH: "true"
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+    ports:
+      - "3100:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+volumes:
+  pgdata:
+  redisdata:
+  bundle:

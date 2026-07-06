@@ -3,46 +3,46 @@
   <div class="p-4 bg-gray-50 rounded-lg">
     <div class="flex items-center">
       <%= f.check_box :active, class: "h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" %>
-      <label class="ml-2 block text-sm font-medium text-gray-900">Set as Active Listing</label>
+      <label class="ml-2 block text-sm font-medium text-gray-900">Establecer como anuncio activo</label>
     </div>
-    <p class="mt-1 text-xs text-gray-500">Only one sale listing can be active at a time. Activating this will deactivate any other active sale listing.</p>
+    <p class="mt-1 text-xs text-gray-500">Solo un anuncio de venta puede estar activo a la vez. Al activar este se desactivará cualquier otro anuncio de venta activo.</p>
   </div>
 
   <!-- Visibility Flags -->
   <div>
-    <h4 class="text-sm font-medium text-gray-700 mb-3">Visibility Settings</h4>
+    <h4 class="text-sm font-medium text-gray-700 mb-3">Configuración de visibilidad</h4>
     <div class="grid grid-cols-2 gap-4">
       <div class="flex items-center">
         <%= f.check_box :visible, class: "h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" %>
-        <label class="ml-2 block text-sm text-gray-900">Visible on Website</label>
+        <label class="ml-2 block text-sm text-gray-900">Visible en el sitio web</label>
       </div>
       <div class="flex items-center">
         <%= f.check_box :highlighted, class: "h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" %>
-        <label class="ml-2 block text-sm text-gray-900">Highlighted/Featured</label>
+        <label class="ml-2 block text-sm text-gray-900">Resaltado/Destacado</label>
       </div>
       <div class="flex items-center">
         <%= f.check_box :reserved, class: "h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded" %>
-        <label class="ml-2 block text-sm text-gray-900">Reserved</label>
+        <label class="ml-2 block text-sm text-gray-900">Reservado</label>
       </div>
       <div class="flex items-center">
         <%= f.check_box :furnished, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
-        <label class="ml-2 block text-sm text-gray-900">Furnished</label>
+        <label class="ml-2 block text-sm text-gray-900">Amoblado</label>
       </div>
     </div>
   </div>
 
   <!-- Pricing -->
   <div>
-    <h4 class="text-sm font-medium text-gray-700 mb-3">Pricing</h4>
+    <h4 class="text-sm font-medium text-gray-700 mb-3">Precios</h4>
     <div class="space-y-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Sale Price</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Precio de venta</label>
         <div class="flex space-x-2">
           <%= f.number_field :price_sale_current_cents,
               value: listing.price_sale_current_cents.to_i > 0 ? listing.price_sale_current_cents / 100.0 : nil,
               step: 0.01, min: 0,
               class: "flex-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm",
-              placeholder: "Enter sale price..." %>
+              placeholder: "Ingresa el precio de venta..." %>
           <%= f.select :price_sale_current_currency,
               [['EUR', 'EUR'], ['USD', 'USD'], ['GBP', 'GBP']],
               { selected: listing.price_sale_current_currency || 'EUR' },
@@ -51,13 +51,13 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Commission</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Comisión</label>
         <div class="flex space-x-2">
           <%= f.number_field :commission_cents,
               value: listing.commission_cents.to_i > 0 ? listing.commission_cents / 100.0 : nil,
               step: 0.01, min: 0,
               class: "flex-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm",
-              placeholder: "Enter commission..." %>
+              placeholder: "Ingresa la comisión..." %>
           <%= f.select :commission_currency,
               [['EUR', 'EUR'], ['USD', 'USD'], ['GBP', 'GBP']],
               { selected: listing.commission_currency || 'EUR' },
@@ -69,25 +69,25 @@
 
   <!-- Listing Text (Title & Description) -->
   <div>
-    <h4 class="text-sm font-medium text-gray-700 mb-3">Listing Text</h4>
+    <h4 class="text-sm font-medium text-gray-700 mb-3">Texto del anuncio</h4>
     <% I18n.available_locales.each do |locale| %>
       <div class="mb-4 p-4 border border-gray-200 rounded-lg">
         <h5 class="text-sm font-medium text-gray-600 mb-2"><%= locale.to_s.upcase %></h5>
         <div class="space-y-3">
           <div>
-            <label class="block text-sm text-gray-700 mb-1">Title</label>
+            <label class="block text-sm text-gray-700 mb-1">Título</label>
             <%= f.text_field "title_#{locale}",
                 value: listing.send("title_#{locale}"),
                 class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm",
-                placeholder: "Enter title in #{locale.to_s.upcase}..." %>
+                placeholder: "Ingresa el título en #{locale.to_s.upcase}..." %>
           </div>
           <div>
-            <label class="block text-sm text-gray-700 mb-1">Description</label>
+            <label class="block text-sm text-gray-700 mb-1">Descripción</label>
             <%= f.text_area "description_#{locale}",
                 value: listing.send("description_#{locale}"),
                 rows: 3,
                 class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm",
-                placeholder: "Enter description in #{locale.to_s.upcase}..." %>
+                placeholder: "Ingresa la descripción en #{locale.to_s.upcase}..." %>
           </div>
         </div>
       </div>
@@ -98,14 +98,14 @@
   <div class="mt-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200">
     <div class="flex items-center mb-4">
       <span class="text-2xl mr-3">🎯</span>
-      <h4 class="text-lg font-semibold text-purple-900">Guess the Price Game</h4>
+      <h4 class="text-lg font-semibold text-purple-900">Juego: Adivina el precio</h4>
     </div>
 
     <% if listing.game_enabled? %>
       <!-- Game is enabled -->
       <div class="mb-4">
         <p class="text-sm text-purple-700 mb-3">
-          Share this link on social media to let visitors guess the property price!
+          ¡Comparte este enlace en redes sociales para que los visitantes adivinen el precio de la propiedad!
         </p>
         <div class="flex items-center gap-2">
           <input type="text"
@@ -114,14 +114,14 @@
                  class="flex-1 px-3 py-2 bg-white border border-purple-200 rounded-lg text-sm text-gray-700"
                  id="game-url-<%= listing.id %>">
           <button type="button"
-                  onclick="navigator.clipboard.writeText(document.getElementById('game-url-<%= listing.id %>').value).then(() => { this.textContent = 'Copied!'; setTimeout(() => { this.textContent = 'Copy'; }, 2000); })"
+                  onclick="navigator.clipboard.writeText(document.getElementById('game-url-<%= listing.id %>').value).then(() => { this.textContent = '¡Copiado!'; setTimeout(() => { this.textContent = 'Copiar'; }, 2000); })"
                   class="px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition">
-            Copy
+            Copiar
           </button>
           <a href="<%= price_game_path(token: listing.game_token) %>"
              target="_blank"
              class="px-4 py-2 bg-white border border-purple-300 text-purple-700 text-sm font-medium rounded-lg hover:bg-purple-50 transition">
-            Preview
+            Vista previa
           </a>
         </div>
       </div>
@@ -130,31 +130,31 @@
       <div class="grid grid-cols-3 gap-4 mb-4">
         <div class="bg-white rounded-lg p-3 text-center">
           <p class="text-2xl font-bold text-purple-700"><%= listing.game_views_count %></p>
-          <p class="text-xs text-gray-500">Views</p>
+          <p class="text-xs text-gray-500">Vistas</p>
         </div>
         <div class="bg-white rounded-lg p-3 text-center">
           <p class="text-2xl font-bold text-purple-700"><%= listing.game_guesses_count %></p>
-          <p class="text-xs text-gray-500">Guesses</p>
+          <p class="text-xs text-gray-500">Intentos</p>
         </div>
         <div class="bg-white rounded-lg p-3 text-center">
           <p class="text-2xl font-bold text-purple-700"><%= listing.game_shares_count %></p>
-          <p class="text-xs text-gray-500">Shares</p>
+          <p class="text-xs text-gray-500">Compartidos</p>
         </div>
       </div>
 
       <%= link_to disable_game_site_admin_prop_sale_listing_path(@realty_asset, listing),
                   method: :patch,
                   class: "inline-flex items-center text-sm text-red-600 hover:text-red-800",
-                  data: { confirm: "Are you sure you want to disable the game? Existing guesses will be preserved." } do %>
+                  data: { confirm: "¿Estás seguro de que deseas desactivar el juego? Los intentos existentes se conservarán." } do %>
         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
         </svg>
-        Disable Game
+        Desactivar juego
       <% end %>
     <% else %>
       <!-- Game is not enabled -->
       <p class="text-sm text-gray-600 mb-4">
-        Create a shareable "Guess the Price" game for this listing. Visitors can try to guess the property price - great for social media engagement!
+        Crea un juego "Adivina el precio" para compartir de este anuncio. Los visitantes pueden intentar adivinar el precio de la propiedad: ¡ideal para generar interacción en redes sociales!
       </p>
       <%= link_to enable_game_site_admin_prop_sale_listing_path(@realty_asset, listing),
                   method: :patch,
@@ -163,7 +163,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-        Enable Game Mode
+        Activar modo juego
       <% end %>
     <% end %>
   </div>

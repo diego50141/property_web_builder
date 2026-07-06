@@ -52,10 +52,10 @@
     <% if usage[:properties].present? %>
       <div class="usage-meter">
         <div class="flex justify-between text-sm <%= compact ? 'mb-1' : 'mb-2' %>">
-          <span class="font-medium text-gray-700">Properties</span>
+          <span class="font-medium text-gray-700">Propiedades</span>
           <span class="text-gray-600">
             <% if usage[:properties][:unlimited] %>
-              <%= usage[:properties][:current] %> <span class="text-gray-400">(Unlimited)</span>
+              <%= usage[:properties][:current] %> <span class="text-gray-400">(Ilimitado)</span>
             <% else %>
               <%= usage[:properties][:current] %> / <%= usage[:properties][:limit] %>
             <% end %>
@@ -69,10 +69,10 @@
           <p class="text-xs text-red-600 mt-1">
             <% remaining = remaining_count(usage[:properties]) %>
             <% if remaining == 0 %>
-              Property limit reached.
-              <%= link_to 'Upgrade', billing_path, class: 'underline font-medium' %>
+              Límite de propiedades alcanzado.
+              <%= link_to 'Actualizar', billing_path, class: 'underline font-medium' %>
             <% else %>
-              Only <%= remaining %> <%= 'slot'.pluralize(remaining) %> remaining.
+              Solo <%= remaining %> <%= 'cupo'.pluralize(remaining) %> disponible(s).
             <% end %>
           </p>
         <% end %>
@@ -83,10 +83,10 @@
     <% if usage[:users].present? %>
       <div class="usage-meter">
         <div class="flex justify-between text-sm <%= compact ? 'mb-1' : 'mb-2' %>">
-          <span class="font-medium text-gray-700">Team Members</span>
+          <span class="font-medium text-gray-700">Miembros del equipo</span>
           <span class="text-gray-600">
             <% if usage[:users][:unlimited] %>
-              <%= usage[:users][:current] %> <span class="text-gray-400">(Unlimited)</span>
+              <%= usage[:users][:current] %> <span class="text-gray-400">(Ilimitado)</span>
             <% else %>
               <%= usage[:users][:current] %> / <%= usage[:users][:limit] %>
             <% end %>
@@ -100,10 +100,10 @@
           <p class="text-xs text-red-600 mt-1">
             <% remaining = remaining_count(usage[:users]) %>
             <% if remaining == 0 %>
-              User limit reached.
-              <%= link_to 'Upgrade', billing_path, class: 'underline font-medium' %>
+              Límite de usuarios alcanzado.
+              <%= link_to 'Actualizar', billing_path, class: 'underline font-medium' %>
             <% else %>
-              Only <%= remaining %> <%= 'slot'.pluralize(remaining) %> remaining.
+              Solo <%= remaining %> <%= 'cupo'.pluralize(remaining) %> disponible(s).
             <% end %>
           </p>
         <% end %>
@@ -114,10 +114,10 @@
     <% if usage[:storage].present? %>
       <div class="usage-meter">
         <div class="flex justify-between text-sm <%= compact ? 'mb-1' : 'mb-2' %>">
-          <span class="font-medium text-gray-700">Storage</span>
+          <span class="font-medium text-gray-700">Almacenamiento</span>
           <span class="text-gray-600">
             <% if usage[:storage][:unlimited] %>
-              <%= number_to_human_size(usage[:storage][:current]) %> <span class="text-gray-400">(Unlimited)</span>
+              <%= number_to_human_size(usage[:storage][:current]) %> <span class="text-gray-400">(Ilimitado)</span>
             <% else %>
               <%= number_to_human_size(usage[:storage][:current]) %> / <%= number_to_human_size(usage[:storage][:limit]) %>
             <% end %>
@@ -129,8 +129,8 @@
         </div>
         <% if show_warnings && usage_warning?(usage[:storage]) %>
           <p class="text-xs text-red-600 mt-1">
-            Storage almost full.
-            <%= link_to 'Upgrade', billing_path, class: 'underline font-medium' %>
+            Almacenamiento casi lleno.
+            <%= link_to 'Actualizar', billing_path, class: 'underline font-medium' %>
           </p>
         <% end %>
       </div>

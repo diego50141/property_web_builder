@@ -1,26 +1,26 @@
 <div class="max-w-7xl mx-auto">
   <div class="mb-6">
-    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Activity Logs</h1>
-    <p class="mt-2 text-gray-600">Authentication and security events for <%= current_website.subdomain %></p>
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Registro de actividad</h1>
+    <p class="mt-2 text-gray-600">Eventos de autenticación y seguridad de <%= current_website.subdomain %></p>
   </div>
 
   <!-- Stats Dashboard -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
     <div class="bg-white rounded-lg shadow p-4">
       <div class="text-2xl font-bold text-gray-900"><%= @stats[:total_today] %></div>
-      <div class="text-sm text-gray-600">Events Today</div>
+      <div class="text-sm text-gray-600">Eventos de hoy</div>
     </div>
     <div class="bg-white rounded-lg shadow p-4">
       <div class="text-2xl font-bold text-green-600"><%= @stats[:logins_today] %></div>
-      <div class="text-sm text-gray-600">Logins Today</div>
+      <div class="text-sm text-gray-600">Inicios de sesión de hoy</div>
     </div>
     <div class="bg-white rounded-lg shadow p-4">
       <div class="text-2xl font-bold text-red-600"><%= @stats[:failures_today] %></div>
-      <div class="text-sm text-gray-600">Failed Attempts</div>
+      <div class="text-sm text-gray-600">Intentos fallidos</div>
     </div>
     <div class="bg-white rounded-lg shadow p-4">
       <div class="text-2xl font-bold text-blue-600"><%= @stats[:unique_ips_today] %></div>
-      <div class="text-sm text-gray-600">Unique IPs</div>
+      <div class="text-sm text-gray-600">IPs únicas</div>
     </div>
   </div>
 
@@ -28,33 +28,33 @@
   <div class="bg-white rounded-lg shadow p-4 mb-6">
     <%= form_with url: site_admin_activity_logs_path, method: :get, local: true, class: "flex flex-wrap gap-4" do |f| %>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Event Type</label>
-        <%= select_tag :event_type, 
-            options_for_select([['All Events', '']] + @event_types.map { |e| [e.titleize, e] }, params[:event_type]),
+        <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de evento</label>
+        <%= select_tag :event_type,
+            options_for_select([['Todos los eventos', '']] + @event_types.map { |e| [e.titleize, e] }, params[:event_type]),
             class: "px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" %>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">User</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
         <%= select_tag :user_id,
-            options_for_select([['All Users', '']] + @users.map { |u| [u.email, u.id] }, params[:user_id]),
+            options_for_select([['Todos los usuarios', '']] + @users.map { |u| [u.email, u.id] }, params[:user_id]),
             class: "px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" %>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Time Range</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Rango de tiempo</label>
         <%= select_tag :since,
             options_for_select([
-              ['All Time', ''],
-              ['Last Hour', '1h'],
-              ['Last 24 Hours', '24h'],
-              ['Last 7 Days', '7d'],
-              ['Last 30 Days', '30d']
+              ['Todo el tiempo', ''],
+              ['Última hora', '1h'],
+              ['Últimas 24 horas', '24h'],
+              ['Últimos 7 días', '7d'],
+              ['Últimos 30 días', '30d']
             ], params[:since]),
             class: "px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" %>
       </div>
       <div class="flex items-end">
-        <%= f.submit "Filter", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+        <%= f.submit "Filtrar", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
         <% if params[:event_type].present? || params[:user_id].present? || params[:since].present? %>
-          <%= link_to "Clear", site_admin_activity_logs_path, class: "ml-2 px-4 py-2 text-gray-600 hover:text-gray-800" %>
+          <%= link_to "Limpiar", site_admin_activity_logs_path, class: "ml-2 px-4 py-2 text-gray-600 hover:text-gray-800" %>
         <% end %>
       </div>
     <% end %>
@@ -65,11 +65,11 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-          <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP Address</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Evento</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+          <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dirección IP</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hora</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detalles</th>
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
@@ -92,7 +92,7 @@
                 <% if log.user.present? %>
                   <%= link_to log.email, site_admin_user_path(log.user), class: 'text-blue-600 hover:text-blue-800' %>
                 <% else %>
-                  <span class="text-gray-500"><%= log.email || 'Unknown' %></span>
+                  <span class="text-gray-500"><%= log.email || 'Desconocido' %></span>
                 <% end %>
               </td>
               <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -100,11 +100,11 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <span title="<%= log.created_at.strftime('%Y-%m-%d %H:%M:%S') %>">
-                  <%= time_ago_in_words(log.created_at) %> ago
+                  hace <%= time_ago_in_words(log.created_at) %>
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">
-                <%= link_to 'View', site_admin_activity_log_path(log), class: 'text-blue-600 hover:text-blue-800' %>
+                <%= link_to 'Ver', site_admin_activity_log_path(log), class: 'text-blue-600 hover:text-blue-800' %>
               </td>
             </tr>
           <% end %>
@@ -114,9 +114,9 @@
               <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              <p class="mt-2">No activity logs found</p>
+              <p class="mt-2">No se encontraron registros de actividad</p>
               <% if params[:event_type].present? || params[:user_id].present? || params[:since].present? %>
-                <p class="mt-1 text-sm">Try adjusting your filters</p>
+                <p class="mt-1 text-sm">Intenta ajustar los filtros</p>
               <% end %>
             </td>
           </tr>
@@ -139,10 +139,10 @@
         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
       </svg>
       <div>
-        <h3 class="text-sm font-medium text-blue-800">About Activity Logs</h3>
+        <h3 class="text-sm font-medium text-blue-800">Acerca del registro de actividad</h3>
         <p class="mt-1 text-sm text-blue-700">
-          Activity logs track authentication events including logins, logouts, password resets, and security events.
-          Use these logs to monitor access to your website and identify potential security issues.
+          El registro de actividad rastrea eventos de autenticación, como inicios de sesión, cierres de sesión, restablecimientos de contraseña y eventos de seguridad.
+          Usa estos registros para monitorear el acceso a tu sitio web e identificar posibles problemas de seguridad.
         </p>
       </div>
     </div>

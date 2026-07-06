@@ -9,15 +9,15 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
         </svg>
       </div>
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome to Your New Website!</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">¡Bienvenido a tu nuevo sitio web!</h1>
       <p class="text-lg text-gray-600">
-        Congratulations on setting up <strong class="text-blue-600"><%= current_website.subdomain %></strong>
+        Felicitaciones por configurar <strong class="text-blue-600"><%= current_website.subdomain %></strong>
       </p>
     </div>
 
     <!-- What's Next -->
     <div class="mb-8">
-      <h2 class="text-xl font-semibold text-gray-900 mb-4">Let's get you set up in just a few minutes:</h2>
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Configuremos todo en solo unos minutos:</h2>
       
       <div class="space-y-4">
         <div class="flex items-start space-x-4">
@@ -25,8 +25,8 @@
             <span class="text-blue-600 font-semibold">1</span>
           </div>
           <div>
-            <h3 class="font-medium text-gray-900">Set up your profile</h3>
-            <p class="text-sm text-gray-600">Add your agency name, contact details, and logo</p>
+            <h3 class="font-medium text-gray-900">Configura tu perfil</h3>
+            <p class="text-sm text-gray-600">Añade el nombre de tu inmobiliaria, datos de contacto y logo</p>
           </div>
         </div>
 
@@ -35,8 +35,8 @@
             <span class="text-blue-600 font-semibold">2</span>
           </div>
           <div>
-            <h3 class="font-medium text-gray-900">Add your first property</h3>
-            <p class="text-sm text-gray-600">List a property to see how it looks on your site</p>
+            <h3 class="font-medium text-gray-900">Añade tu primera propiedad</h3>
+            <p class="text-sm text-gray-600">Publica una propiedad para ver cómo se ve en tu sitio</p>
           </div>
         </div>
 
@@ -45,8 +45,8 @@
             <span class="text-blue-600 font-semibold">3</span>
           </div>
           <div>
-            <h3 class="font-medium text-gray-900">Choose your theme</h3>
-            <p class="text-sm text-gray-600">Pick a design that matches your brand</p>
+            <h3 class="font-medium text-gray-900">Elige tu tema</h3>
+            <p class="text-sm text-gray-600">Selecciona un diseño que combine con tu marca</p>
           </div>
         </div>
       </div>
@@ -61,10 +61,10 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-blue-800">Quick Tip</h3>
+          <h3 class="text-sm font-medium text-blue-800">Consejo rápido</h3>
           <p class="mt-1 text-sm text-blue-700">
-            You can always come back to these settings later from your admin dashboard. 
-            This wizard just helps you get started quickly!
+            Siempre puedes volver a esta configuración después desde tu panel de administración.
+            ¡Este asistente solo te ayuda a comenzar rápidamente!
           </p>
         </div>
       </div>
@@ -73,7 +73,7 @@
     <!-- Action Buttons -->
     <div class="flex justify-end">
       <%= form_with url: site_admin_onboarding_path(step: @step), method: :post, local: true do |f| %>
-        <%= f.submit "Let's Get Started", class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer" %>
+        <%= f.submit "Comenzar", class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer" %>
       <% end %>
     </div>
   </div>

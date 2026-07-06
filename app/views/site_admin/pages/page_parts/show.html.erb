@@ -1,7 +1,7 @@
 <div class="max-w-5xl mx-auto">
   <!-- Breadcrumb -->
   <div class="mb-6">
-    <%= link_to '← Back to Pages', site_admin_pages_path, class: 'text-blue-600 hover:text-blue-800' %>
+    <%= link_to '← Volver a Páginas', site_admin_pages_path, class: 'text-blue-600 hover:text-blue-800' %>
   </div>
 
   <!-- Header -->
@@ -11,9 +11,9 @@
       <% tab_title = editor_setup['tabTitleKey'] ? I18n.t(editor_setup['tabTitleKey'], default: @page_part.page_part_key.titleize) : @page_part.page_part_key.titleize %>
       <h1 class="text-3xl font-bold text-gray-900"><%= tab_title %></h1>
       <p class="mt-2 text-gray-600">
-        Page: <span class="font-medium"><%= @page.slug.titleize %></span>
+        Página: <span class="font-medium"><%= @page.slug.titleize %></span>
         &middot;
-        Section: <span class="font-mono text-sm"><%= @page_part.page_part_key %></span>
+        Sección: <span class="font-mono text-sm"><%= @page_part.page_part_key %></span>
       </p>
     </div>
     <%= link_to edit_site_admin_page_page_part_path(@page, @page_part),
@@ -21,7 +21,7 @@
       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
       </svg>
-      Edit Content
+      Editar contenido
     <% end %>
   </div>
 
@@ -33,7 +33,7 @@
       <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
           <h2 class="text-lg font-semibold text-gray-900">
-            Content (<%= locale_detail[:label] %>)
+            Contenido (<%= locale_detail[:label] %>)
           </h2>
         </div>
         <div class="p-6">
@@ -53,14 +53,14 @@
                         <%= content %>
                       <% end %>
                     <% else %>
-                      <span class="text-gray-400 italic">No content</span>
+                      <span class="text-gray-400 italic">Sin contenido</span>
                     <% end %>
                   </dd>
                 </div>
               <% end %>
             </dl>
           <% else %>
-            <p class="text-gray-500 text-center py-4">No content saved for this locale</p>
+            <p class="text-gray-500 text-center py-4">No hay contenido guardado para este idioma</p>
           <% end %>
         </div>
       </div>
@@ -71,7 +71,7 @@
   <% if @editor_setup.present? %>
     <div class="mt-6 bg-white rounded-lg shadow overflow-hidden">
       <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-900">Editor Configuration</h2>
+        <h2 class="text-lg font-semibold text-gray-900">Configuración del editor</h2>
       </div>
       <div class="p-6">
         <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code><%= JSON.pretty_generate(@editor_setup) %></code></pre>

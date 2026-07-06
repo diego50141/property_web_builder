@@ -1,6 +1,6 @@
 <div class="max-w-4xl mx-auto">
   <div class="mb-6">
-    <%= link_to '&larr; Back to Properties'.html_safe, site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
+    <%= link_to '&larr; Volver a Propiedades'.html_safe, site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
   </div>
 
   <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -13,7 +13,7 @@
           <div class="flex items-end justify-between">
             <div>
               <h1 class="text-2xl font-bold text-white drop-shadow-lg">
-                <%= @prop.title.presence || @prop.reference || 'Property Details' %>
+                <%= @prop.title.presence || @prop.reference || 'Detalles de la propiedad' %>
               </h1>
               <% if @prop.reference.present? %>
                 <p class="text-sm text-white/80">Ref: <%= @prop.reference %></p>
@@ -24,7 +24,7 @@
                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
-                <%= @prop.prop_photos.count %> photos
+                <%= @prop.prop_photos.count %> fotos
               <% end %>
             <% end %>
           </div>
@@ -37,8 +37,8 @@
           <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
           </svg>
-          <p class="mt-2 text-sm text-gray-500">No photos yet</p>
-          <%= link_to 'Add Photos', edit_photos_site_admin_prop_path(@prop), class: 'mt-2 inline-flex items-center px-3 py-1.5 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 shadow-sm' %>
+          <p class="mt-2 text-sm text-gray-500">Aún no hay fotos</p>
+          <%= link_to 'Añadir fotos', edit_photos_site_admin_prop_path(@prop), class: 'mt-2 inline-flex items-center px-3 py-1.5 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 shadow-sm' %>
         </div>
       </div>
     <% end %>
@@ -47,7 +47,7 @@
       <div>
         <% unless primary_photo && photo_has_image?(primary_photo) %>
           <h1 class="text-2xl font-bold text-gray-900">
-            <%= @prop.title.presence || @prop.reference || 'Property Details' %>
+            <%= @prop.title.presence || @prop.reference || 'Detalles de la propiedad' %>
           </h1>
           <% if @prop.reference.present? %>
             <p class="text-sm text-gray-500">Ref: <%= @prop.reference %></p>
@@ -56,13 +56,13 @@
         <!-- View on Main Site Links -->
         <% if @prop.visible && (@prop.for_sale || @prop.for_rent) %>
           <div class="<%= 'mt-2' unless primary_photo && photo_has_image?(primary_photo) %> flex flex-wrap items-center gap-2 text-sm">
-            <span class="text-gray-500">View on site:</span>
+            <span class="text-gray-500">Ver en el sitio:</span>
             <% if @prop.for_sale %>
               <%= link_to @prop.contextual_show_path('for_sale'), target: '_blank', class: 'inline-flex items-center text-blue-600 hover:text-blue-800 hover:underline' do %>
                 <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                 </svg>
-                For Sale
+                En venta
               <% end %>
             <% end %>
             <% if @prop.for_rent %>
@@ -70,17 +70,17 @@
                 <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                 </svg>
-                For Rent
+                En arriendo
               <% end %>
             <% end %>
           </div>
         <% elsif !@prop.visible %>
           <p class="<%= 'mt-2' unless primary_photo && photo_has_image?(primary_photo) %> text-sm text-gray-500 italic">
-            Property is hidden - make it visible to view on the main site
+            La propiedad está oculta; hazla visible para verla en el sitio principal
           </p>
         <% end %>
       </div>
-      <%= link_to 'Edit Property', edit_site_admin_prop_path(@prop), class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700' %>
+      <%= link_to 'Editar propiedad', edit_site_admin_prop_path(@prop), class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700' %>
     </div>
 
     <div class="p-6">
@@ -88,7 +88,7 @@
       <div class="mb-6 flex flex-wrap gap-2">
         <% if @prop.for_sale %>
           <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-            For Sale
+            En venta
             <% if @prop.price_sale_current_cents.to_i > 0 %>
               - <%= number_to_currency(@prop.price_sale_current_cents / 100.0, unit: @prop.price_sale_current_currency || 'EUR') %>
             <% end %>
@@ -96,9 +96,9 @@
         <% end %>
         <% if @prop.for_rent %>
           <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
-            For Rent
+            En arriendo
             <% if @prop.price_rental_monthly_current_cents.to_i > 0 %>
-              - <%= number_to_currency(@prop.price_rental_monthly_current_cents / 100.0, unit: @prop.price_rental_monthly_current_currency || 'EUR') %>/month
+              - <%= number_to_currency(@prop.price_rental_monthly_current_cents / 100.0, unit: @prop.price_rental_monthly_current_currency || 'EUR') %>/mes
             <% end %>
           </span>
         <% end %>
@@ -108,7 +108,7 @@
           </span>
         <% else %>
           <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600">
-            Hidden
+            Oculto
           </span>
         <% end %>
       </div>
@@ -121,7 +121,7 @@
             type_label = type_field_key&.display_label || @prop.prop_type_key.to_s.split('.').last&.humanize&.titleize || @prop.prop_type_key
           %>
           <div>
-            <dt class="text-sm font-medium text-gray-500">Property Type</dt>
+            <dt class="text-sm font-medium text-gray-500">Tipo de propiedad</dt>
             <dd class="mt-1 text-sm text-gray-900"><%= type_label %></dd>
           </div>
         <% end %>
@@ -132,7 +132,7 @@
             state_label = state_field_key&.display_label || @prop.prop_state_key.to_s.split('.').last&.humanize&.titleize || @prop.prop_state_key
           %>
           <div>
-            <dt class="text-sm font-medium text-gray-500">Property State</dt>
+            <dt class="text-sm font-medium text-gray-500">Estado de la propiedad</dt>
             <dd class="mt-1 text-sm text-gray-900"><%= state_label %></dd>
           </div>
         <% end %>
@@ -140,14 +140,14 @@
         <!-- Room Counts -->
         <% if @prop.count_bedrooms.to_i > 0 %>
           <div>
-            <dt class="text-sm font-medium text-gray-500">Bedrooms</dt>
+            <dt class="text-sm font-medium text-gray-500">Habitaciones</dt>
             <dd class="mt-1 text-sm text-gray-900"><%= @prop.count_bedrooms %></dd>
           </div>
         <% end %>
 
         <% if @prop.count_bathrooms.to_f > 0 %>
           <div>
-            <dt class="text-sm font-medium text-gray-500">Bathrooms</dt>
+            <dt class="text-sm font-medium text-gray-500">Baños</dt>
             <dd class="mt-1 text-sm text-gray-900"><%= @prop.count_bathrooms %></dd>
           </div>
         <% end %>
@@ -155,14 +155,14 @@
         <!-- Areas -->
         <% if @prop.constructed_area.to_f > 0 %>
           <div>
-            <dt class="text-sm font-medium text-gray-500">Constructed Area</dt>
+            <dt class="text-sm font-medium text-gray-500">Área construida</dt>
             <dd class="mt-1 text-sm text-gray-900"><%= number_with_delimiter(@prop.constructed_area) %> m<sup>2</sup></dd>
           </div>
         <% end %>
 
         <% if @prop.plot_area.to_f > 0 %>
           <div>
-            <dt class="text-sm font-medium text-gray-500">Plot Area</dt>
+            <dt class="text-sm font-medium text-gray-500">Área del lote</dt>
             <dd class="mt-1 text-sm text-gray-900"><%= number_with_delimiter(@prop.plot_area) %> m<sup>2</sup></dd>
           </div>
         <% end %>
@@ -170,26 +170,26 @@
         <!-- Location -->
         <% if @prop.location.present? %>
           <div class="sm:col-span-2">
-            <dt class="text-sm font-medium text-gray-500">Location</dt>
+            <dt class="text-sm font-medium text-gray-500">Ubicación</dt>
             <dd class="mt-1 text-sm text-gray-900"><%= @prop.location %></dd>
           </div>
         <% end %>
 
         <!-- Timestamps -->
         <div>
-          <dt class="text-sm font-medium text-gray-500">Created</dt>
+          <dt class="text-sm font-medium text-gray-500">Creado</dt>
           <dd class="mt-1 text-sm text-gray-900"><%= format_date(@prop.created_at) %></dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Updated</dt>
+          <dt class="text-sm font-medium text-gray-500">Actualizado</dt>
           <dd class="mt-1 text-sm text-gray-900"><%= format_date(@prop.updated_at) %></dd>
         </div>
 
         <!-- Description -->
         <% if @prop.description.present? %>
           <div class="sm:col-span-2">
-            <dt class="text-sm font-medium text-gray-500">Description</dt>
+            <dt class="text-sm font-medium text-gray-500">Descripción</dt>
             <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap"><%= @prop.description %></dd>
           </div>
         <% end %>
@@ -199,8 +199,8 @@
       <% if @prop.features.any? %>
         <div class="mt-8 pt-6 border-t border-gray-200">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-medium text-gray-900">Labels</h3>
-            <%= link_to 'Edit Labels', edit_labels_site_admin_prop_path(@prop), class: 'text-sm text-blue-600 hover:text-blue-800' %>
+            <h3 class="text-lg font-medium text-gray-900">Etiquetas</h3>
+            <%= link_to 'Editar etiquetas', edit_labels_site_admin_prop_path(@prop), class: 'text-sm text-blue-600 hover:text-blue-800' %>
           </div>
           <div class="flex flex-wrap gap-2">
             <% @prop.features.each do |feature| %>
@@ -219,17 +219,17 @@
       <% else %>
         <div class="mt-8 pt-6 border-t border-gray-200">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-medium text-gray-900">Labels</h3>
-            <%= link_to 'Add Labels', edit_labels_site_admin_prop_path(@prop), class: 'text-sm text-blue-600 hover:text-blue-800' %>
+            <h3 class="text-lg font-medium text-gray-900">Etiquetas</h3>
+            <%= link_to 'Añadir etiquetas', edit_labels_site_admin_prop_path(@prop), class: 'text-sm text-blue-600 hover:text-blue-800' %>
           </div>
-          <p class="text-sm text-gray-500">No labels assigned to this property.</p>
+          <p class="text-sm text-gray-500">No hay etiquetas asignadas a esta propiedad.</p>
         </div>
       <% end %>
 
       <!-- Photos Preview -->
       <% if @prop.prop_photos.any? %>
         <div class="mt-8 pt-6 border-t border-gray-200">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Photos (<%= @prop.prop_photos.count %>)</h3>
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Fotos (<%= @prop.prop_photos.count %>)</h3>
           <div class="grid grid-cols-4 gap-4">
             <% @prop.prop_photos.limit(4).each do |photo| %>
               <% if photo_has_image?(photo) %>
@@ -239,7 +239,7 @@
           </div>
           <% if @prop.prop_photos.count > 4 %>
             <p class="mt-2 text-sm text-gray-500">
-              <%= link_to "View all #{@prop.prop_photos.count} photos", edit_photos_site_admin_prop_path(@prop), class: 'text-blue-600 hover:text-blue-800' %>
+              <%= link_to "Ver las #{@prop.prop_photos.count} fotos", edit_photos_site_admin_prop_path(@prop), class: 'text-blue-600 hover:text-blue-800' %>
             </p>
           <% end %>
         </div>

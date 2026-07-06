@@ -1,26 +1,26 @@
 <div class="max-w-4xl mx-auto">
   <div class="mb-6">
-    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Storage Statistics</h1>
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Estadísticas de almacenamiento</h1>
     <p class="mt-2 text-sm text-gray-600">
-      ActiveStorage blob and attachment statistics
+      Estadísticas de blobs y adjuntos de ActiveStorage
     </p>
   </div>
 
   <!-- Overview Stats -->
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
     <div class="bg-white rounded-lg shadow p-4">
-      <p class="text-sm font-medium text-gray-600">Total Blobs</p>
+      <p class="text-sm font-medium text-gray-600">Blobs totales</p>
       <p class="text-2xl font-bold text-gray-900 mt-1"><%= @stats[:total_blobs] %></p>
       <p class="text-xs text-gray-500 mt-1"><%= number_to_human_size(@stats[:total_size]) %></p>
     </div>
 
     <div class="bg-white rounded-lg shadow p-4">
-      <p class="text-sm font-medium text-gray-600">Attachments</p>
+      <p class="text-sm font-medium text-gray-600">Adjuntos</p>
       <p class="text-2xl font-bold text-gray-900 mt-1"><%= @stats[:total_attachments] %></p>
     </div>
 
     <div class="bg-white rounded-lg shadow p-4 <%= @stats[:orphan_count] > 0 ? 'border-l-4 border-yellow-400' : '' %>">
-      <p class="text-sm font-medium text-gray-600">Orphaned Blobs</p>
+      <p class="text-sm font-medium text-gray-600">Blobs huérfanos</p>
       <p class="text-2xl font-bold <%= @stats[:orphan_count] > 0 ? 'text-yellow-600' : 'text-green-600' %> mt-1">
         <%= @stats[:orphan_count] %>
       </p>
@@ -31,21 +31,21 @@
   <!-- Orphan Details -->
   <% if @stats[:orphan_count] > 0 %>
     <div class="bg-white rounded-lg shadow p-6 mb-6">
-      <h2 class="text-lg font-semibold text-gray-900 mb-4">Orphaned Blob Details</h2>
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Detalles de blobs huérfanos</h2>
 
       <div class="space-y-3">
         <div class="flex justify-between items-center py-2 border-b border-gray-100">
           <div>
-            <p class="font-medium text-gray-700">Recent orphans (&lt; 24 hours)</p>
-            <p class="text-sm text-gray-500">May be in-progress uploads - will be kept</p>
+            <p class="font-medium text-gray-700">Huérfanos recientes (&lt; 24 horas)</p>
+            <p class="text-sm text-gray-500">Pueden ser cargas en progreso - se conservarán</p>
           </div>
           <span class="text-lg font-semibold text-gray-600"><%= @stats[:recent_orphans] %></span>
         </div>
 
         <div class="flex justify-between items-center py-2 border-b border-gray-100">
           <div>
-            <p class="font-medium text-gray-700">Old orphans (&gt; 24 hours)</p>
-            <p class="text-sm text-gray-500">Eligible for cleanup</p>
+            <p class="font-medium text-gray-700">Huérfanos antiguos (&gt; 24 horas)</p>
+            <p class="text-sm text-gray-500">Elegibles para limpieza</p>
           </div>
           <span class="text-lg font-semibold <%= @stats[:old_orphans] > 0 ? 'text-yellow-600' : 'text-gray-600' %>">
             <%= @stats[:old_orphans] %>
@@ -55,12 +55,12 @@
 
       <% if @stats[:old_orphans] > 0 %>
         <div class="mt-6">
-          <%= button_to "Run Cleanup Now", cleanup_site_admin_storage_stats_path,
+          <%= button_to "Ejecutar limpieza ahora", cleanup_site_admin_storage_stats_path,
               method: :post,
               class: "bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded",
-              data: { confirm: "This will queue a job to purge #{@stats[:old_orphans]} orphaned blobs. Continue?" } %>
+              data: { confirm: "Esto pondrá en cola un trabajo para purgar #{@stats[:old_orphans]} blobs huérfanos. ¿Continuar?" } %>
           <p class="text-sm text-gray-500 mt-2">
-            Note: Cleanup runs automatically every day at 3am
+            Nota: La limpieza se ejecuta automáticamente todos los días a las 3 a. m.
           </p>
         </div>
       <% end %>
@@ -71,21 +71,21 @@
         <svg class="w-6 h-6 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
         </svg>
-        <p class="text-green-700 font-medium">No orphaned blobs found!</p>
+        <p class="text-green-700 font-medium">¡No se encontraron blobs huérfanos!</p>
       </div>
       <p class="text-sm text-green-600 mt-2 ml-9">
-        All storage blobs are properly attached to records.
+        Todos los blobs de almacenamiento están correctamente adjuntos a registros.
       </p>
     </div>
   <% end %>
 
   <!-- Info Box -->
   <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-    <h3 class="text-sm font-semibold text-blue-800 mb-2">About Orphaned Blobs</h3>
+    <h3 class="text-sm font-semibold text-blue-800 mb-2">Acerca de los blobs huérfanos</h3>
     <p class="text-sm text-blue-700">
-      Orphaned blobs are files that were uploaded but are no longer attached to any record.
-      This can happen when records are deleted or uploads fail. The system automatically
-      cleans up orphaned blobs older than 24 hours every day at 3am.
+      Los blobs huérfanos son archivos que se cargaron pero que ya no están adjuntos a ningún registro.
+      Esto puede ocurrir cuando se eliminan registros o fallan las cargas. El sistema limpia
+      automáticamente los blobs huérfanos con más de 24 horas todos los días a las 3 a. m.
     </p>
   </div>
 </div>

@@ -3,99 +3,99 @@
   <div class="space-y-8">
     <!-- Basic SEO Settings -->
     <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-lg font-medium text-gray-900 mb-4">Basic SEO Settings</h2>
-      <p class="text-sm text-gray-600 mb-6">These defaults are used when pages don't have their own SEO settings.</p>
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Configuración básica de SEO</h2>
+      <p class="text-sm text-gray-600 mb-6">Estos valores predeterminados se usan cuando las páginas no tienen su propia configuración de SEO.</p>
       
       <div class="space-y-4">
         <div>
-          <%= f.label :default_seo_title, "Default Page Title", class: "block text-sm font-medium text-gray-700 mb-1" %>
-          <%= f.text_field :default_seo_title, 
+          <%= f.label :default_seo_title, "Título de página predeterminado", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :default_seo_title,
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-              placeholder: "Your Agency Name | Real Estate in Your City" %>
-          <p class="mt-1 text-sm text-gray-500">Appears in browser tabs and search results. Keep it under 60 characters.</p>
+              placeholder: "Nombre de tu inmobiliaria | Bienes raíces en tu ciudad" %>
+          <p class="mt-1 text-sm text-gray-500">Aparece en las pestañas del navegador y en los resultados de búsqueda. Mantenlo por debajo de 60 caracteres.</p>
         </div>
 
         <div>
-          <%= f.label :default_meta_description, "Default Meta Description", class: "block text-sm font-medium text-gray-700 mb-1" %>
-          <%= f.text_area :default_meta_description, 
+          <%= f.label :default_meta_description, "Metadescripción predeterminada", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_area :default_meta_description,
               rows: 3,
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-              placeholder: "Find your dream home with our extensive property listings..." %>
-          <p class="mt-1 text-sm text-gray-500">Appears in search results. Keep it between 150-160 characters for best results.</p>
+              placeholder: "Encuentra la casa de tus sueños con nuestra amplia oferta de propiedades..." %>
+          <p class="mt-1 text-sm text-gray-500">Aparece en los resultados de búsqueda. Mantenla entre 150 y 160 caracteres para obtener mejores resultados.</p>
         </div>
       </div>
     </div>
 
     <!-- Branding -->
     <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-lg font-medium text-gray-900 mb-4">Branding</h2>
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Marca</h2>
       
       <div class="space-y-4">
         <div>
-          <%= f.label :favicon_url, "Favicon URL", class: "block text-sm font-medium text-gray-700 mb-1" %>
-          <%= f.url_field :favicon_url, 
+          <%= f.label :favicon_url, "URL del favicon", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.url_field :favicon_url,
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-              placeholder: "https://example.com/favicon.ico" %>
-          <p class="mt-1 text-sm text-gray-500">The small icon that appears in browser tabs. Use .ico, .png, or .svg format.</p>
+              placeholder: "https://ejemplo.com/favicon.ico" %>
+          <p class="mt-1 text-sm text-gray-500">El ícono pequeño que aparece en las pestañas del navegador. Usa formato .ico, .png o .svg.</p>
         </div>
 
         <div>
-          <%= f.label :main_logo_url, "Logo URL", class: "block text-sm font-medium text-gray-700 mb-1" %>
-          <%= f.url_field :main_logo_url, 
+          <%= f.label :main_logo_url, "URL del logo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.url_field :main_logo_url,
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-              placeholder: "https://example.com/logo.png" %>
-          <p class="mt-1 text-sm text-gray-500">Used for Open Graph sharing and other branding purposes.</p>
+              placeholder: "https://ejemplo.com/logo.png" %>
+          <p class="mt-1 text-sm text-gray-500">Se usa para compartir en Open Graph y otros fines de marca.</p>
         </div>
       </div>
     </div>
 
     <!-- Social Media / Open Graph -->
     <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-lg font-medium text-gray-900 mb-4">Social Media Sharing</h2>
-      <p class="text-sm text-gray-600 mb-6">These settings control how your website appears when shared on social media.</p>
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Compartir en redes sociales</h2>
+      <p class="text-sm text-gray-600 mb-6">Esta configuración controla cómo se ve tu sitio web cuando se comparte en redes sociales.</p>
       
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Open Graph Image URL</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">URL de la imagen de Open Graph</label>
           <%= text_field_tag 'social_media[og_image]', @social_media['og_image'],
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
               placeholder: "https://example.com/og-image.jpg" %>
-          <p class="mt-1 text-sm text-gray-500">Image shown when sharing on Facebook, LinkedIn, etc. Recommended: 1200x630px</p>
+          <p class="mt-1 text-sm text-gray-500">Imagen que se muestra al compartir en Facebook, LinkedIn, etc. Recomendado: 1200x630px</p>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Twitter Card Type</label>
-          <%= select_tag 'social_media[twitter_card]', 
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de tarjeta de Twitter</label>
+          <%= select_tag 'social_media[twitter_card]',
               options_for_select([
-                ['Summary', 'summary'],
-                ['Summary with Large Image', 'summary_large_image']
+                ['Resumen', 'summary'],
+                ['Resumen con imagen grande', 'summary_large_image']
               ], @social_media['twitter_card'] || 'summary_large_image'),
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Twitter Handle</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Usuario de Twitter</label>
           <%= text_field_tag 'social_media[twitter_handle]', @social_media['twitter_handle'],
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
               placeholder: "@yourcompany" %>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Facebook Page URL</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">URL de la página de Facebook</label>
           <%= text_field_tag 'social_media[facebook_url]', @social_media['facebook_url'],
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
               placeholder: "https://facebook.com/yourcompany" %>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Instagram Handle</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Usuario de Instagram</label>
           <%= text_field_tag 'social_media[instagram_handle]', @social_media['instagram_handle'],
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
               placeholder: "@yourcompany" %>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn URL</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">URL de LinkedIn</label>
           <%= text_field_tag 'social_media[linkedin_url]', @social_media['linkedin_url'],
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
               placeholder: "https://linkedin.com/company/yourcompany" %>
@@ -105,8 +105,8 @@
 
     <!-- Search Engine Verification -->
     <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-lg font-medium text-gray-900 mb-4">Search Engine Verification</h2>
-      <p class="text-sm text-gray-600 mb-6">Add verification codes from search engines to prove site ownership. These codes appear as meta tags in your site's HTML head.</p>
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Verificación de motores de búsqueda</h2>
+      <p class="text-sm text-gray-600 mb-6">Añade códigos de verificación de los motores de búsqueda para demostrar la propiedad del sitio. Estos códigos aparecen como metaetiquetas en el head HTML de tu sitio.</p>
 
       <div class="space-y-4">
         <div>
@@ -117,14 +117,14 @@
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
             </svg>
-            Google Search Console Verification
+            Verificación de Google Search Console
           </label>
           <%= text_field_tag 'social_media[google_site_verification]', @social_media['google_site_verification'],
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-              placeholder: "Enter verification code (e.g., ABC123xyz...)" %>
+              placeholder: "Ingresa el código de verificación (p. ej., ABC123xyz...)" %>
           <p class="mt-1 text-sm text-gray-500">
-            Find this in Google Search Console under Settings > Ownership verification > HTML tag.
-            Copy only the <code class="bg-gray-100 px-1 rounded">content</code> value.
+            Encuéntralo en Google Search Console en Configuración > Verificación de propiedad > Etiqueta HTML.
+            Copia solo el valor de <code class="bg-gray-100 px-1 rounded">content</code>.
           </p>
         </div>
 
@@ -133,14 +133,14 @@
             <svg class="inline w-4 h-4 mr-1 text-teal-500" fill="currentColor" viewBox="0 0 24 24">
               <path d="M11.93 0L1.35 11.93l10.58 10.58L22.51 11.93 11.93 0zm0 3.54l7.39 8.39-7.39 8.39-7.39-8.39 7.39-8.39z"/>
             </svg>
-            Bing Webmaster Verification
+            Verificación de Bing Webmaster
           </label>
           <%= text_field_tag 'social_media[bing_site_verification]', @social_media['bing_site_verification'],
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-              placeholder: "Enter verification code" %>
+              placeholder: "Ingresa el código de verificación" %>
           <p class="mt-1 text-sm text-gray-500">
-            Find this in Bing Webmaster Tools under Settings > Ownership verification > XML Meta Tag.
-            Copy only the <code class="bg-gray-100 px-1 rounded">content</code> value.
+            Encuéntralo en Bing Webmaster Tools en Configuración > Verificación de propiedad > Etiqueta meta XML.
+            Copia solo el valor de <code class="bg-gray-100 px-1 rounded">content</code>.
           </p>
         </div>
       </div>
@@ -148,15 +148,15 @@
       <!-- Help box -->
       <div class="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg">
         <p class="text-sm text-blue-800">
-          <strong>How verification works:</strong> After saving, a meta tag will be added to your site's HTML.
-          Search engines will detect this tag to verify you own the site.
+          <strong>Cómo funciona la verificación:</strong> Después de guardar, se añadirá una metaetiqueta al HTML de tu sitio.
+          Los motores de búsqueda detectarán esta etiqueta para verificar que eres el propietario del sitio.
         </p>
       </div>
     </div>
 
     <!-- Submit -->
     <div class="flex justify-end">
-      <%= f.submit "Save SEO Settings", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+      <%= f.submit "Guardar configuración de SEO", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
     </div>
   </div>
 <% end %>
@@ -168,13 +168,13 @@
       <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
     </svg>
     <div>
-      <h3 class="text-sm font-medium text-green-800">SEO Tips</h3>
+      <h3 class="text-sm font-medium text-green-800">Consejos de SEO</h3>
       <ul class="mt-2 text-sm text-green-700 list-disc list-inside space-y-1">
-        <li>Keep page titles under 60 characters to avoid truncation in search results</li>
-        <li>Meta descriptions between 150-160 characters perform best</li>
-        <li>Use unique, descriptive titles for each property page</li>
-        <li>Ensure your Open Graph image is at least 1200x630 pixels</li>
-        <li>Your sitemap is automatically generated at <code class="bg-green-100 px-1 rounded">/sitemap.xml</code></li>
+        <li>Mantén los títulos de página por debajo de 60 caracteres para evitar que se corten en los resultados de búsqueda</li>
+        <li>Las metadescripciones entre 150 y 160 caracteres funcionan mejor</li>
+        <li>Usa títulos únicos y descriptivos para cada página de propiedad</li>
+        <li>Asegúrate de que tu imagen de Open Graph tenga al menos 1200x630 píxeles</li>
+        <li>Tu mapa del sitio se genera automáticamente en <code class="bg-green-100 px-1 rounded">/sitemap.xml</code></li>
       </ul>
     </div>
   </div>

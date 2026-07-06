@@ -3,7 +3,7 @@
               local: true, class: "space-y-8" do |f| %>
   <% if @widget.errors.any? %>
     <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-      <h3 class="text-red-800 font-medium">Please fix the following errors:</h3>
+      <h3 class="text-red-800 font-medium">Corrige los siguientes errores:</h3>
       <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
         <% @widget.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -14,19 +14,19 @@
 
   <!-- Basic Settings -->
   <div class="bg-white rounded-lg shadow p-6">
-    <h2 class="text-lg font-medium text-gray-900 mb-4">Basic Settings</h2>
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Configuración básica</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
-        <%= f.label :name, 'Widget Name', class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.text_field :name, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500', placeholder: 'My Property Widget' %>
-        <p class="mt-1 text-xs text-gray-500">A name to identify this widget in your dashboard</p>
+        <%= f.label :name, 'Nombre del widget', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.text_field :name, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500', placeholder: 'Mi widget de propiedades' %>
+        <p class="mt-1 text-xs text-gray-500">Un nombre para identificar este widget en tu panel</p>
       </div>
 
       <div>
-        <%= f.label :active, class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.label :active, 'Activo', class: 'block text-sm font-medium text-gray-700 mb-1' %>
         <label class="flex items-center gap-2">
           <%= f.check_box :active, class: 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500' %>
-          <span class="text-sm text-gray-600">Widget is active and can be embedded</span>
+          <span class="text-sm text-gray-600">El widget está activo y puede incrustarse</span>
         </label>
       </div>
     </div>
@@ -34,22 +34,22 @@
 
   <!-- Layout Settings -->
   <div class="bg-white rounded-lg shadow p-6">
-    <h2 class="text-lg font-medium text-gray-900 mb-4">Layout & Display</h2>
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Diseño y visualización</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div>
-        <%= f.label :layout, class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.select :layout, [['Grid', 'grid'], ['List', 'list'], ['Carousel', 'carousel']],
+        <%= f.label :layout, 'Diseño', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.select :layout, [['Cuadrícula', 'grid'], ['Lista', 'list'], ['Carrusel', 'carousel']],
             {}, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500' %>
       </div>
 
       <div>
-        <%= f.label :columns, class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.label :columns, 'Columnas', class: 'block text-sm font-medium text-gray-700 mb-1' %>
         <%= f.select :columns, (1..6).to_a, {}, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500' %>
-        <p class="mt-1 text-xs text-gray-500">For grid layout (responsive on mobile)</p>
+        <p class="mt-1 text-xs text-gray-500">Para el diseño en cuadrícula (adaptable en móvil)</p>
       </div>
 
       <div>
-        <%= f.label :max_properties, 'Max Properties', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.label :max_properties, 'Máx. de propiedades', class: 'block text-sm font-medium text-gray-700 mb-1' %>
         <%= f.number_field :max_properties, min: 1, max: 100, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500' %>
       </div>
     </div>
@@ -57,42 +57,42 @@
     <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       <label class="flex items-center gap-2">
         <%= f.check_box :show_search, class: 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500' %>
-        <span class="text-sm text-gray-600">Show search bar</span>
+        <span class="text-sm text-gray-600">Mostrar barra de búsqueda</span>
       </label>
 
       <label class="flex items-center gap-2">
         <%= f.check_box :show_filters, class: 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500' %>
-        <span class="text-sm text-gray-600">Show filters</span>
+        <span class="text-sm text-gray-600">Mostrar filtros</span>
       </label>
 
       <label class="flex items-center gap-2">
         <%= f.check_box :show_pagination, class: 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500' %>
-        <span class="text-sm text-gray-600">Show pagination</span>
+        <span class="text-sm text-gray-600">Mostrar paginación</span>
       </label>
     </div>
   </div>
 
   <!-- Property Filters -->
   <div class="bg-white rounded-lg shadow p-6">
-    <h2 class="text-lg font-medium text-gray-900 mb-4">Property Filters</h2>
-    <p class="text-sm text-gray-600 mb-4">Filter which properties appear in this widget</p>
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Filtros de propiedades</h2>
+    <p class="text-sm text-gray-600 mb-4">Filtra qué propiedades aparecen en este widget</p>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div>
-        <%= f.label :listing_type, class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.select :listing_type, [['All Properties', ''], ['For Sale Only', 'sale'], ['For Rent Only', 'rent']],
+        <%= f.label :listing_type, 'Tipo de anuncio', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.select :listing_type, [['Todas las propiedades', ''], ['Solo en venta', 'sale'], ['Solo en alquiler', 'rent']],
             {}, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500' %>
       </div>
 
       <div>
-        <%= f.label :min_bedrooms, class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.select :min_bedrooms, [['Any', '']] + (1..10).map { |n| ["#{n}+ beds", n] },
+        <%= f.label :min_bedrooms, 'Habitaciones mínimas', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.select :min_bedrooms, [['Cualquiera', '']] + (1..10).map { |n| ["#{n}+ hab.", n] },
             {}, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500' %>
       </div>
 
       <div>
-        <%= f.label :max_bedrooms, class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.select :max_bedrooms, [['Any', '']] + (1..10).map { |n| ["Up to #{n} beds", n] },
+        <%= f.label :max_bedrooms, 'Habitaciones máximas', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.select :max_bedrooms, [['Cualquiera', '']] + (1..10).map { |n| ["Hasta #{n} hab.", n] },
             {}, class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500' %>
       </div>
     </div>
@@ -100,45 +100,45 @@
     <div class="mt-6">
       <label class="flex items-center gap-2">
         <%= f.check_box :highlighted_only, class: 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500' %>
-        <span class="text-sm text-gray-600">Only show highlighted/featured properties</span>
+        <span class="text-sm text-gray-600">Mostrar solo propiedades destacadas</span>
       </label>
     </div>
   </div>
 
   <!-- Visible Fields -->
   <div class="bg-white rounded-lg shadow p-6">
-    <h2 class="text-lg font-medium text-gray-900 mb-4">Visible Information</h2>
-    <p class="text-sm text-gray-600 mb-4">Choose which property details to display</p>
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Información visible</h2>
+    <p class="text-sm text-gray-600 mb-4">Elige qué detalles de la propiedad mostrar</p>
 
     <%= f.fields_for :visible_fields, OpenStruct.new(@widget.effective_visible_fields) do |vf| %>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <label class="flex items-center gap-2">
           <%= vf.check_box :price, { checked: @widget.effective_visible_fields['price'] }, 'true', 'false' %>
-          <span class="text-sm text-gray-600">Price</span>
+          <span class="text-sm text-gray-600">Precio</span>
         </label>
         <label class="flex items-center gap-2">
           <%= vf.check_box :bedrooms, { checked: @widget.effective_visible_fields['bedrooms'] }, 'true', 'false' %>
-          <span class="text-sm text-gray-600">Bedrooms</span>
+          <span class="text-sm text-gray-600">Habitaciones</span>
         </label>
         <label class="flex items-center gap-2">
           <%= vf.check_box :bathrooms, { checked: @widget.effective_visible_fields['bathrooms'] }, 'true', 'false' %>
-          <span class="text-sm text-gray-600">Bathrooms</span>
+          <span class="text-sm text-gray-600">Baños</span>
         </label>
         <label class="flex items-center gap-2">
           <%= vf.check_box :area, { checked: @widget.effective_visible_fields['area'] }, 'true', 'false' %>
-          <span class="text-sm text-gray-600">Area</span>
+          <span class="text-sm text-gray-600">Área</span>
         </label>
         <label class="flex items-center gap-2">
           <%= vf.check_box :location, { checked: @widget.effective_visible_fields['location'] }, 'true', 'false' %>
-          <span class="text-sm text-gray-600">Location</span>
+          <span class="text-sm text-gray-600">Ubicación</span>
         </label>
         <label class="flex items-center gap-2">
           <%= vf.check_box :reference, { checked: @widget.effective_visible_fields['reference'] }, 'true', 'false' %>
-          <span class="text-sm text-gray-600">Reference</span>
+          <span class="text-sm text-gray-600">Referencia</span>
         </label>
         <label class="flex items-center gap-2">
           <%= vf.check_box :property_type, { checked: @widget.effective_visible_fields['property_type'] }, 'true', 'false' %>
-          <span class="text-sm text-gray-600">Property Type</span>
+          <span class="text-sm text-gray-600">Tipo de propiedad</span>
         </label>
       </div>
     <% end %>
@@ -146,34 +146,34 @@
 
   <!-- Theme Settings -->
   <div class="bg-white rounded-lg shadow p-6">
-    <h2 class="text-lg font-medium text-gray-900 mb-4">Theme Colors</h2>
-    <p class="text-sm text-gray-600 mb-4">Customize the widget appearance to match your brand</p>
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Colores del tema</h2>
+    <p class="text-sm text-gray-600 mb-4">Personaliza la apariencia del widget para que coincida con tu marca</p>
 
     <%= f.fields_for :theme, OpenStruct.new(@widget.effective_theme) do |tf| %>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
         <div>
-          <%= tf.label :primary_color, 'Primary Color', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+          <%= tf.label :primary_color, 'Color principal', class: 'block text-sm font-medium text-gray-700 mb-1' %>
           <div class="flex gap-2">
             <%= tf.color_field :primary_color, value: @widget.effective_theme['primary_color'], class: 'h-10 w-16 rounded border border-gray-300' %>
             <%= tf.text_field :primary_color, value: @widget.effective_theme['primary_color'], class: 'flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono' %>
           </div>
         </div>
         <div>
-          <%= tf.label :secondary_color, 'Secondary Color', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+          <%= tf.label :secondary_color, 'Color secundario', class: 'block text-sm font-medium text-gray-700 mb-1' %>
           <div class="flex gap-2">
             <%= tf.color_field :secondary_color, value: @widget.effective_theme['secondary_color'], class: 'h-10 w-16 rounded border border-gray-300' %>
             <%= tf.text_field :secondary_color, value: @widget.effective_theme['secondary_color'], class: 'flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono' %>
           </div>
         </div>
         <div>
-          <%= tf.label :background_color, 'Background', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+          <%= tf.label :background_color, 'Fondo', class: 'block text-sm font-medium text-gray-700 mb-1' %>
           <div class="flex gap-2">
             <%= tf.color_field :background_color, value: @widget.effective_theme['background_color'], class: 'h-10 w-16 rounded border border-gray-300' %>
             <%= tf.text_field :background_color, value: @widget.effective_theme['background_color'], class: 'flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono' %>
           </div>
         </div>
         <div>
-          <%= tf.label :card_background, 'Card Background', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+          <%= tf.label :card_background, 'Fondo de la tarjeta', class: 'block text-sm font-medium text-gray-700 mb-1' %>
           <div class="flex gap-2">
             <%= tf.color_field :card_background, value: @widget.effective_theme['card_background'], class: 'h-10 w-16 rounded border border-gray-300' %>
             <%= tf.text_field :card_background, value: @widget.effective_theme['card_background'], class: 'flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono' %>
@@ -185,24 +185,24 @@
 
   <!-- Allowed Domains -->
   <div class="bg-white rounded-lg shadow p-6">
-    <h2 class="text-lg font-medium text-gray-900 mb-4">Allowed Domains (Optional)</h2>
-    <p class="text-sm text-gray-600 mb-4">Restrict which websites can embed this widget. Leave empty to allow any domain.</p>
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Dominios permitidos (opcional)</h2>
+    <p class="text-sm text-gray-600 mb-4">Restringe qué sitios web pueden incrustar este widget. Déjalo vacío para permitir cualquier dominio.</p>
 
     <div>
-      <%= f.label :allowed_domains, class: 'block text-sm font-medium text-gray-700 mb-1' %>
+      <%= f.label :allowed_domains, 'Dominios permitidos', class: 'block text-sm font-medium text-gray-700 mb-1' %>
       <%= f.text_area :allowed_domains,
           value: @widget.allowed_domains.join("\n"),
           rows: 4,
           class: 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono text-sm',
           placeholder: "example.com\n*.example.com\nmysite.org" %>
-      <p class="mt-1 text-xs text-gray-500">Enter one domain per line. Use *.domain.com to allow all subdomains.</p>
+      <p class="mt-1 text-xs text-gray-500">Introduce un dominio por línea. Usa *.domain.com para permitir todos los subdominios.</p>
     </div>
   </div>
 
   <!-- Form Actions -->
   <div class="flex justify-end gap-4">
-    <%= link_to 'Cancel', site_admin_widgets_path, class: 'px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50' %>
-    <%= f.submit @widget.new_record? ? 'Create Widget' : 'Save Changes',
+    <%= link_to 'Cancelar', site_admin_widgets_path, class: 'px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50' %>
+    <%= f.submit @widget.new_record? ? 'Crear widget' : 'Guardar cambios',
         class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer' %>
   </div>
 <% end %>

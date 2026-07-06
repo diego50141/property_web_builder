@@ -1,22 +1,22 @@
 <div class="analytics-conversions">
   <div class="flex justify-between items-center mb-6">
     <div>
-      <h1 class="text-2xl font-bold">Conversions & Funnel</h1>
-      <p class="text-gray-500">Track visitor engagement and inquiry generation</p>
+      <h1 class="text-2xl font-bold">Conversiones y embudo</h1>
+      <p class="text-gray-500">Rastrea la interacción de los visitantes y la generación de consultas</p>
     </div>
-    
-    <%= link_to "Back to Overview", site_admin_analytics_path, class: "text-blue-600 hover:underline" %>
+
+    <%= link_to "Volver al resumen", site_admin_analytics_path, class: "text-blue-600 hover:underline" %>
   </div>
 
   <!-- Conversion Funnel -->
   <div class="bg-white rounded-lg shadow p-6 mb-6">
-    <h3 class="text-lg font-semibold mb-6">Inquiry Funnel</h3>
+    <h3 class="text-lg font-semibold mb-6">Embudo de consultas</h3>
     
     <div class="funnel-visualization flex flex-col items-center space-y-2">
       <!-- Visits -->
       <div class="funnel-step w-full max-w-2xl bg-blue-100 rounded p-4 text-center">
         <p class="text-2xl font-bold text-blue-800"><%= number_with_delimiter(@funnel[:visits]) %></p>
-        <p class="text-blue-600">Total Visits</p>
+        <p class="text-blue-600">Visitas totales</p>
       </div>
       
       <div class="text-gray-400">&#x25BC; <%= @conversion_rates[:view_rate] %>%</div>
@@ -24,7 +24,7 @@
       <!-- Property Views -->
       <div class="funnel-step w-full max-w-xl bg-green-100 rounded p-4 text-center">
         <p class="text-2xl font-bold text-green-800"><%= number_with_delimiter(@funnel[:property_views]) %></p>
-        <p class="text-green-600">Viewed Properties</p>
+        <p class="text-green-600">Propiedades vistas</p>
       </div>
       
       <div class="text-gray-400">&#x25BC; <%= @conversion_rates[:contact_rate] %>%</div>
@@ -32,7 +32,7 @@
       <!-- Contact Form Opens -->
       <div class="funnel-step w-full max-w-md bg-yellow-100 rounded p-4 text-center">
         <p class="text-2xl font-bold text-yellow-800"><%= number_with_delimiter(@funnel[:contact_opens]) %></p>
-        <p class="text-yellow-600">Opened Contact Form</p>
+        <p class="text-yellow-600">Abrieron el formulario de contacto</p>
       </div>
       
       <div class="text-gray-400">&#x25BC; <%= @conversion_rates[:inquiry_rate] %>%</div>
@@ -40,25 +40,25 @@
       <!-- Inquiries -->
       <div class="funnel-step w-full max-w-sm bg-purple-100 rounded p-4 text-center">
         <p class="text-2xl font-bold text-purple-800"><%= number_with_delimiter(@funnel[:inquiries]) %></p>
-        <p class="text-purple-600">Submitted Inquiries</p>
+        <p class="text-purple-600">Consultas enviadas</p>
       </div>
     </div>
     
     <div class="mt-6 text-center">
       <p class="text-lg">
-        Overall Conversion Rate: 
+        Tasa de conversión general:
         <span class="font-bold text-green-600"><%= @conversion_rates[:overall_rate] %>%</span>
       </p>
-      <p class="text-sm text-gray-500">Percentage of visits that result in an inquiry</p>
+      <p class="text-sm text-gray-500">Porcentaje de visitas que resultan en una consulta</p>
     </div>
   </div>
 
   <!-- Inquiries Over Time -->
   <div class="bg-white rounded-lg shadow p-4">
-    <h3 class="text-lg font-semibold mb-4">Inquiries Over Time</h3>
-    <%= line_chart @inquiries_by_day, 
-        xtitle: "Date", 
-        ytitle: "Inquiries",
+    <h3 class="text-lg font-semibold mb-4">Consultas a lo largo del tiempo</h3>
+    <%= line_chart @inquiries_by_day,
+        xtitle: "Fecha",
+        ytitle: "Consultas",
         colors: ["#8B5CF6"] %>
   </div>
 </div>

@@ -28,8 +28,8 @@
         </svg>
       </div>
       <div class="ml-3">
-        <h3 class="text-sm font-semibold text-gray-900">AI Description Generator</h3>
-        <p class="text-xs text-gray-500">Generate compelling property descriptions using AI</p>
+        <h3 class="text-sm font-semibold text-gray-900">Generador de Descripciones con IA</h3>
+        <p class="text-xs text-gray-500">Genera descripciones atractivas de propiedades usando IA</p>
       </div>
     </div>
 
@@ -40,29 +40,29 @@
 
   <div class="flex flex-wrap gap-3 mb-4">
     <div class="flex-1 min-w-[120px]">
-      <label for="ai_locale_<%= listing_type %>" class="block text-xs font-medium text-gray-600 mb-1">Language</label>
+      <label for="ai_locale_<%= listing_type %>" class="block text-xs font-medium text-gray-600 mb-1">Idioma</label>
       <select id="ai_locale_<%= listing_type %>"
               data-ai-description-target="localeSelect"
               class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-        <option value="en" <%= 'selected' if locale == 'en' %>>English</option>
-        <option value="es" <%= 'selected' if locale == 'es' %>>Spanish</option>
-        <option value="fr">French</option>
-        <option value="de">German</option>
-        <option value="pt">Portuguese</option>
-        <option value="it">Italian</option>
+        <option value="en" <%= 'selected' if locale == 'en' %>>Inglés</option>
+        <option value="es" <%= 'selected' if locale == 'es' %>>Español</option>
+        <option value="fr">Francés</option>
+        <option value="de">Alemán</option>
+        <option value="pt">Portugués</option>
+        <option value="it">Italiano</option>
       </select>
     </div>
 
     <div class="flex-1 min-w-[120px]">
-      <label for="ai_tone_<%= listing_type %>" class="block text-xs font-medium text-gray-600 mb-1">Tone</label>
+      <label for="ai_tone_<%= listing_type %>" class="block text-xs font-medium text-gray-600 mb-1">Tono</label>
       <select id="ai_tone_<%= listing_type %>"
               data-ai-description-target="toneSelect"
               class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-        <option value="professional">Professional</option>
-        <option value="casual">Casual</option>
-        <option value="luxury">Luxury</option>
-        <option value="warm">Warm & Friendly</option>
-        <option value="modern">Modern & Trendy</option>
+        <option value="professional">Profesional</option>
+        <option value="casual">Informal</option>
+        <option value="luxury">Lujo</option>
+        <option value="warm">Cálido y amigable</option>
+        <option value="modern">Moderno y actual</option>
       </select>
     </div>
 
@@ -74,7 +74,7 @@
         <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
-        Generate
+        Generar
       </button>
     </div>
   </div>
@@ -91,11 +91,11 @@
       <%# Generated Title %>
       <div class="mb-4">
         <div class="flex items-center justify-between mb-1">
-          <label class="text-sm font-medium text-gray-700">Generated Title</label>
+          <label class="text-sm font-medium text-gray-700">Título generado</label>
           <button type="button"
                   data-action="ai-description#applyTitle"
                   class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">
-            Apply to form
+            Aplicar al formulario
           </button>
         </div>
         <div data-ai-description-target="titleOutput"
@@ -106,11 +106,11 @@
       <%# Generated Description %>
       <div class="mb-4">
         <div class="flex items-center justify-between mb-1">
-          <label class="text-sm font-medium text-gray-700">Generated Description</label>
+          <label class="text-sm font-medium text-gray-700">Descripción generada</label>
           <button type="button"
                   data-action="ai-description#applyDescription"
                   class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">
-            Apply to form
+            Aplicar al formulario
           </button>
         </div>
         <div data-ai-description-target="descriptionOutput"
@@ -121,11 +121,11 @@
       <%# Generated Meta Description %>
       <div class="mb-4">
         <div class="flex items-center justify-between mb-1">
-          <label class="text-sm font-medium text-gray-700">Generated Meta Description (SEO)</label>
+          <label class="text-sm font-medium text-gray-700">Meta descripción generada (SEO)</label>
           <button type="button"
                   data-action="ai-description#applyMetaDescription"
                   class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">
-            Apply to form
+            Aplicar al formulario
           </button>
         </div>
         <div data-ai-description-target="metaDescriptionOutput"
@@ -141,14 +141,14 @@
           <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
-          Apply All to Form
+          Aplicar todo al formulario
         </button>
       </div>
     </div>
 
     <p class="text-xs text-gray-500">
-      <strong>Note:</strong> AI-generated content should be reviewed before publishing.
-      The generator checks for Fair Housing compliance, but always verify the content meets your requirements.
+      <strong>Nota:</strong> El contenido generado por IA debe revisarse antes de publicarlo.
+      El generador verifica el cumplimiento de las normas de vivienda justa, pero siempre confirma que el contenido cumpla con tus requisitos.
     </p>
   </div>
 </div>

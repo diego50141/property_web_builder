@@ -48,6 +48,7 @@ module Pwb
       'INR' => { label: 'Indian Rupee', symbol: "\u20B9" },
       'BRL' => { label: 'Brazilian Real', symbol: 'R$' },
       'MXN' => { label: 'Mexican Peso', symbol: 'MX$' },
+      'COP' => { label: 'Colombian Peso', symbol: '$' },
       'PLN' => { label: 'Polish Zloty', symbol: "z\u0142" },
       'RUB' => { label: 'Russian Ruble', symbol: "\u20BD" },
       'SEK' => { label: 'Swedish Krona', symbol: 'kr' },
@@ -66,6 +67,7 @@ module Pwb
     COMMON_CURRENCIES = {
       'EUR' => 'Euro (€)',
       'USD' => 'US Dollar ($)',
+      'COP' => 'Colombian Peso ($)',
       'GBP' => 'British Pound (£)',
       'CHF' => 'Swiss Franc (CHF)',
       'AUD' => 'Australian Dollar (A$)',

@@ -55,13 +55,13 @@
           <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm4.707 5.707a1 1 0 00-1.414-1.414l-2 2a1 1 0 000 1.414l2 2a1 1 0 001.414-1.414L8.414 9H12a1 1 0 100-2H8.414l1.293-1.293z" clip-rule="evenodd"></path>
           </svg>
-          Upgrade Required
+          Actualización requerida
         </span>
       </div>
 
       <% if benefits.any? %>
         <div class="mb-6">
-          <h3 class="text-sm font-semibold text-gray-900 mb-3">What you'll get:</h3>
+          <h3 class="text-sm font-semibold text-gray-900 mb-3">Lo que obtendrás:</h3>
           <ul class="space-y-2">
             <% benefits.each do |benefit| %>
               <li class="flex items-start">
@@ -80,10 +80,10 @@
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
           </svg>
-          View Plans & Upgrade
+          Ver planes y actualizar
         <% end %>
         <%= link_to site_admin_root_path, class: "inline-flex items-center justify-center px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors" do %>
-          Back to Dashboard
+          Volver al panel
         <% end %>
       </div>
     </div>
@@ -91,7 +91,7 @@
     <!-- Footer -->
     <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
       <p class="text-sm text-gray-500 text-center">
-        Questions? <%= link_to 'Contact Support', site_admin_support_tickets_path, class: 'text-blue-600 hover:text-blue-800' %>
+        ¿Preguntas? <%= link_to 'Contactar soporte', site_admin_support_tickets_path, class: 'text-blue-600 hover:text-blue-800' %>
       </p>
     </div>
   </div>

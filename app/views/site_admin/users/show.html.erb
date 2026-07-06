@@ -1,6 +1,6 @@
 <div class="max-w-4xl mx-auto">
   <div class="mb-6">
-    <%= link_to '← Back to Team', site_admin_users_path, class: 'text-blue-600 hover:text-blue-800' %>
+    <%= link_to '← Volver al equipo', site_admin_users_path, class: 'text-blue-600 hover:text-blue-800' %>
   </div>
 
   <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -24,7 +24,7 @@
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
           </svg>
-          Edit
+          Editar
         <% end %>
       </div>
     </div>
@@ -45,11 +45,11 @@
             </span>
             <% if @membership.active? %>
               <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                Active
+                Activo
               </span>
             <% else %>
               <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                Inactive
+                Inactivo
               </span>
             <% end %>
           <% end %>
@@ -59,12 +59,12 @@
         <% if @membership && @user != current_user %>
           <div class="flex items-center gap-2">
             <% if @membership.active? %>
-              <%= button_to "Deactivate", deactivate_site_admin_user_path(@user), 
+              <%= button_to "Desactivar", deactivate_site_admin_user_path(@user),
                   method: :patch,
                   class: "text-sm text-red-600 hover:text-red-800",
-                  data: { confirm: "Are you sure you want to deactivate this user?" } %>
+                  data: { confirm: "¿Estás seguro de que quieres desactivar este usuario?" } %>
             <% else %>
-              <%= button_to "Reactivate", reactivate_site_admin_user_path(@user),
+              <%= button_to "Reactivar", reactivate_site_admin_user_path(@user),
                   method: :patch, 
                   class: "text-sm text-green-600 hover:text-green-800" %>
             <% end %>
@@ -77,34 +77,34 @@
     <div class="p-6">
       <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
         <div>
-          <dt class="text-sm font-medium text-gray-500">Email</dt>
+          <dt class="text-sm font-medium text-gray-500">Correo</dt>
           <dd class="mt-1 text-sm text-gray-900"><%= @user.email %></dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Phone</dt>
+          <dt class="text-sm font-medium text-gray-500">Teléfono</dt>
           <dd class="mt-1 text-sm text-gray-900"><%= @user.phone_number_primary.presence || '-' %></dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Member Since</dt>
+          <dt class="text-sm font-medium text-gray-500">Miembro desde</dt>
           <dd class="mt-1 text-sm text-gray-900"><%= format_date(@user.created_at) %></dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Sign In Count</dt>
+          <dt class="text-sm font-medium text-gray-500">Cantidad de accesos</dt>
           <dd class="mt-1 text-sm text-gray-900"><%= @user.sign_in_count %></dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Last Sign In</dt>
+          <dt class="text-sm font-medium text-gray-500">Último acceso</dt>
           <dd class="mt-1 text-sm text-gray-900">
-            <%= @user.current_sign_in_at.present? ? format_date(@user.current_sign_in_at) : 'Never' %>
+            <%= @user.current_sign_in_at.present? ? format_date(@user.current_sign_in_at) : 'Nunca' %>
           </dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Last Sign In IP</dt>
+          <dt class="text-sm font-medium text-gray-500">IP del último acceso</dt>
           <dd class="mt-1 text-sm text-gray-900"><%= @user.current_sign_in_ip.presence || '-' %></dd>
         </div>
       </dl>
@@ -113,7 +113,7 @@
     <!-- Change Role Section -->
     <% if @membership && @user != current_user %>
       <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
-        <h3 class="text-sm font-medium text-gray-700 mb-3">Change Role</h3>
+        <h3 class="text-sm font-medium text-gray-700 mb-3">Cambiar rol</h3>
         <div class="flex items-center gap-2">
           <% Pwb::UserMembership::ROLES.each do |role| %>
             <% if role != @membership.role %>
@@ -121,7 +121,7 @@
                   update_role_site_admin_user_path(@user, role: role),
                   method: :patch,
                   class: "px-3 py-1 text-sm rounded-lg border border-gray-300 hover:bg-gray-100",
-                  data: { confirm: "Change role to #{role.titleize}?" } %>
+                  data: { confirm: "¿Cambiar rol a #{role.titleize}?" } %>
             <% end %>
           <% end %>
         </div>
@@ -131,11 +131,11 @@
     <!-- Danger Zone -->
     <% if @user != current_user %>
       <div class="px-6 py-4 border-t border-gray-200">
-        <h3 class="text-sm font-medium text-red-700 mb-3">Danger Zone</h3>
-        <%= button_to "Remove from Team", site_admin_user_path(@user),
+        <h3 class="text-sm font-medium text-red-700 mb-3">Zona de peligro</h3>
+        <%= button_to "Eliminar del equipo", site_admin_user_path(@user),
             method: :delete,
             class: "px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700",
-            data: { confirm: "Are you sure you want to remove #{@user.email} from this website? They will lose access immediately." } %>
+            data: { confirm: "¿Estás seguro de que quieres eliminar a #{@user.email} de este sitio web? Perderá el acceso de inmediato." } %>
       </div>
     <% end %>
   </div>

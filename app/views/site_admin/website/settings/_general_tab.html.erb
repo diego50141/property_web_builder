@@ -1,5 +1,5 @@
 <div class="p-6">
-  <h2 class="text-xl font-semibold text-gray-900 mb-6">General Settings</h2>
+  <h2 class="text-xl font-semibold text-gray-900 mb-6">Configuración general</h2>
 
   <%= form_with model: @website, url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
     <input type="hidden" name="tab" value="general">
@@ -7,7 +7,7 @@
     <!-- Default Locale -->
     <div>
       <label for="default_client_locale" class="block text-sm font-medium text-gray-700 mb-1">
-        Default Language
+        Idioma predeterminado
       </label>
       <%= f.select :default_client_locale,
           options_for_select(
@@ -17,15 +17,15 @@
           {},
           id: "default_locale_select",
           class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-      <p class="mt-1 text-sm text-gray-500">The default language for visitors (must be one of the supported languages)</p>
+      <p class="mt-1 text-sm text-gray-500">El idioma predeterminado para los visitantes (debe ser uno de los idiomas admitidos)</p>
     </div>
 
     <!-- Supported Languages -->
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">
-        Supported Languages
+        Idiomas admitidos
       </label>
-      <p class="text-sm text-gray-500 mb-3">Select additional languages your website will support. Visitors can switch between these languages.</p>
+      <p class="text-sm text-gray-500 mb-3">Selecciona idiomas adicionales que admitirá tu sitio web. Los visitantes pueden cambiar entre estos idiomas.</p>
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         <%
@@ -50,8 +50,8 @@
       <input type="hidden" name="pwb_website[supported_locales][]" value="">
 
       <p class="mt-2 text-sm text-gray-500">
-        <strong>Currently supported:</strong>
-        <%= current_locales.any? ? current_locales.join(', ') : 'None selected' %>
+        <strong>Admitidos actualmente:</strong>
+        <%= current_locales.any? ? current_locales.join(', ') : 'Ninguno seleccionado' %>
       </p>
     </div>
 
@@ -65,9 +65,9 @@
         </div>
         <div class="ml-3 flex-1">
           <label class="block text-sm font-medium text-gray-700">
-            Primary Currency
+            Moneda principal
             <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-600">
-              Locked
+              Bloqueada
             </span>
           </label>
           <div class="mt-2 flex items-center">
@@ -83,8 +83,8 @@
             <svg class="inline h-4 w-4 text-amber-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
             </svg>
-            This setting was chosen during initial setup and cannot be changed.
-            All property prices are stored in this currency.
+            Esta configuración se eligió durante la puesta en marcha inicial y no se puede cambiar.
+            Todos los precios de las propiedades se guardan en esta moneda.
           </p>
         </div>
       </div>
@@ -93,11 +93,11 @@
     <!-- Available Currencies for Display -->
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">
-        Additional Display Currencies
+        Monedas adicionales para mostrar
       </label>
       <p class="text-sm text-gray-500 mb-3">
-        Select additional currencies visitors can view prices in. When selected, prices will show
-        conversion alongside the original price (e.g., "€250,000 (~$270,000 USD)").
+        Selecciona monedas adicionales en las que los visitantes pueden ver los precios. Al seleccionarlas, los precios mostrarán
+        la conversión junto al precio original (por ejemplo, "€250,000 (~$270,000 USD)").
       </p>
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -118,7 +118,7 @@
             <span class="ml-2 text-sm text-gray-700">
               <%= label %>
               <% if is_default %>
-                <span class="text-xs text-gray-400">(default)</span>
+                <span class="text-xs text-gray-400">(predeterminada)</span>
               <% end %>
             </span>
           </label>
@@ -129,16 +129,16 @@
       <input type="hidden" name="pwb_website[available_currencies][]" value="">
 
       <p class="mt-2 text-sm text-gray-500">
-        <strong>Currency conversion:</strong>
-        Exchange rates are updated daily from the European Central Bank.
-        Conversions are approximate and for display purposes only.
+        <strong>Conversión de moneda:</strong>
+        Las tasas de cambio se actualizan a diario desde el Banco Central Europeo.
+        Las conversiones son aproximadas y solo tienen fines informativos.
       </p>
     </div>
 
     <!-- Default Area Unit -->
     <div>
       <label for="default_area_unit" class="block text-sm font-medium text-gray-700 mb-1">
-        Default Area Unit
+        Unidad de área predeterminada
       </label>
       <%= f.select :default_area_unit,
           options_for_select(
@@ -147,7 +147,7 @@
           ),
           {},
           class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-      <p class="mt-1 text-sm text-gray-500">Unit of measurement for property areas</p>
+      <p class="mt-1 text-sm text-gray-500">Unidad de medida para las áreas de las propiedades</p>
     </div>
 
     <%# Analytics ID - temporarily disabled %>
@@ -174,18 +174,18 @@
         </div>
         <div class="ml-3">
           <label for="external_image_mode" class="text-sm font-medium text-gray-700">
-            External Image Mode
+            Modo de imágenes externas
           </label>
           <p class="text-sm text-gray-500 mt-1">
-            When enabled, images can be added as external URLs instead of being uploaded.
-            This is useful when you have images hosted elsewhere (e.g., on a CDN or existing media server).
+            Cuando está activado, las imágenes se pueden añadir como URL externas en lugar de subirlas.
+            Esto es útil cuando tienes imágenes alojadas en otro lugar (por ejemplo, en una CDN o un servidor de medios existente).
           </p>
           <% if @website.external_image_mode %>
             <p class="text-sm text-blue-600 mt-2">
               <svg class="inline w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
               </svg>
-              External image mode is currently active. Property photos can be added via URLs.
+              El modo de imágenes externas está activo actualmente. Las fotos de las propiedades se pueden añadir mediante URL.
             </p>
           <% end %>
         </div>
@@ -194,7 +194,7 @@
 
     <!-- Submit Button -->
     <div class="pt-4 border-t border-gray-200">
-      <%= f.submit "Save General Settings",
+      <%= f.submit "Guardar configuración general",
           class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
     </div>
   <% end %>
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show warning if current selection is not in supported locales
     const warningText = warningContainer.querySelector('.warning-text');
     if (!hasValidSelection && checkedLocales.length > 0) {
-      warningText.textContent = 'The selected default language is not in the supported languages list. Please select a supported language.';
+      warningText.textContent = 'El idioma predeterminado seleccionado no está en la lista de idiomas admitidos. Selecciona un idioma admitido.';
       warningContainer.classList.remove('hidden');
       defaultLocaleSelect.classList.add('border-red-500');
     } else {

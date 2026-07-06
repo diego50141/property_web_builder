@@ -1,22 +1,22 @@
 <div class="max-w-7xl mx-auto">
   <div class="mb-6 flex justify-between items-center">
     <div>
-      <h1 class="text-3xl font-bold text-gray-900">Property Types</h1>
-      <p class="mt-2 text-gray-600">Manage property types for search filters</p>
+      <h1 class="text-3xl font-bold text-gray-900">Tipos de propiedad</h1>
+      <p class="mt-2 text-gray-600">Administra los tipos de propiedad para los filtros de búsqueda</p>
     </div>
     <div class="flex items-center space-x-3">
       <% if current_website.external_feed_enabled? %>
-        <%= button_to "Import from Provider",
+        <%= button_to "Importar desde proveedor",
                       import_from_provider_site_admin_search_filters_property_types_path,
                       method: :post,
                       class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors",
-                      data: { confirm: "This will import property types from your external feed provider. Continue?" } %>
+                      data: { confirm: "Esto importará los tipos de propiedad de tu proveedor de feed externo. ¿Continuar?" } %>
       <% end %>
       <%= link_to new_site_admin_search_filters_property_type_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" do %>
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
         </svg>
-        Add Property Type
+        Añadir tipo de propiedad
       <% end %>
     </div>
   </div>
@@ -28,10 +28,10 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
       </svg>
       <div>
-        <h3 class="text-sm font-medium text-blue-800">How it works</h3>
+        <h3 class="text-sm font-medium text-blue-800">Cómo funciona</h3>
         <p class="mt-1 text-sm text-blue-700">
-          Property types appear in search filters and dropdown menus. Toggle "Visible" to show/hide a type,
-          or "In Search" to include/exclude from search filters. External codes map to feed provider types.
+          Los tipos de propiedad aparecen en los filtros de búsqueda y los menús desplegables. Activa "Visible" para mostrar u ocultar un tipo,
+          o "En búsqueda" para incluirlo o excluirlo de los filtros de búsqueda. Los códigos externos corresponden a los tipos del proveedor del feed.
         </p>
       </div>
     </div>
@@ -43,13 +43,13 @@
       <thead class="bg-gray-50">
         <tr>
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-8">
-            <span class="sr-only">Drag</span>
+            <span class="sr-only">Arrastrar</span>
           </th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">External Code</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código externo</th>
           <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Visible</th>
-          <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">In Search</th>
-          <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">En búsqueda</th>
+          <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200" id="sortable-property-types">
@@ -101,7 +101,7 @@
                       <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                       </svg>
-                      Yes
+                      Sí
                     </span>
                   <% else %>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
@@ -123,7 +123,7 @@
                       <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                       </svg>
-                      Yes
+                      Sí
                     </span>
                   <% else %>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
@@ -134,13 +134,13 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                 <%= link_to edit_site_admin_search_filters_property_type_path(property_type), class: 'text-blue-600 hover:text-blue-800 mr-3' do %>
-                  Edit
+                  Editar
                 <% end %>
                 <%= button_to site_admin_search_filters_property_type_path(property_type),
                               method: :delete,
                               class: 'text-red-600 hover:text-red-800',
-                              form: { data: { turbo_confirm: "Are you sure you want to delete '#{property_type.display_label}'?" } } do %>
-                  Delete
+                              form: { data: { turbo_confirm: "¿Estás seguro de que deseas eliminar '#{property_type.display_label}'?" } } do %>
+                  Eliminar
                 <% end %>
               </td>
             </tr>
@@ -151,12 +151,12 @@
               <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
               </svg>
-              <p class="mt-2">No property types defined yet</p>
+              <p class="mt-2">Aún no hay tipos de propiedad definidos</p>
               <div class="mt-4 space-x-3">
-                <%= link_to 'Add your first property type', new_site_admin_search_filters_property_type_path, class: 'text-blue-600 hover:text-blue-800' %>
+                <%= link_to 'Añade tu primer tipo de propiedad', new_site_admin_search_filters_property_type_path, class: 'text-blue-600 hover:text-blue-800' %>
                 <% if current_website.external_feed_enabled? %>
-                  <span class="text-gray-400">or</span>
-                  <%= button_to "Import from provider",
+                  <span class="text-gray-400">o</span>
+                  <%= button_to "Importar desde proveedor",
                                 import_from_provider_site_admin_search_filters_property_types_path,
                                 method: :post,
                                 class: "text-green-600 hover:text-green-800" %>

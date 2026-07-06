@@ -22,25 +22,25 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-yellow-800">Trial Ending Soon</h3>
+          <h3 class="text-sm font-medium text-yellow-800">El periodo de prueba termina pronto</h3>
           <div class="mt-1 text-sm text-yellow-700">
             <p>
-              Your trial expires in
+              Tu prueba vence en
               <strong>
                 <% if subscription.trial_days_remaining == 0 %>
-                  today
+                  hoy
                 <% elsif subscription.trial_days_remaining == 1 %>
-                  1 day
+                  1 día
                 <% else %>
-                  <%= subscription.trial_days_remaining %> days
+                  <%= subscription.trial_days_remaining %> días
                 <% end %>
               </strong>.
-              Upgrade now to keep access to your website.
+              Actualiza ahora para mantener el acceso a tu sitio web.
             </p>
           </div>
           <% if show_upgrade_link %>
             <div class="mt-3">
-              <%= link_to 'Upgrade Now', billing_path, class: 'text-sm font-medium text-yellow-800 hover:text-yellow-900 underline' %>
+              <%= link_to 'Actualizar ahora', billing_path, class: 'text-sm font-medium text-yellow-800 hover:text-yellow-900 underline' %>
             </div>
           <% end %>
         </div>
@@ -58,13 +58,13 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">Payment Required</h3>
+          <h3 class="text-sm font-medium text-red-800">Pago requerido</h3>
           <div class="mt-1 text-sm text-red-700">
-            <p>Your subscription payment is past due. Please update your billing information to avoid service interruption.</p>
+            <p>El pago de tu suscripción está vencido. Actualiza tu información de facturación para evitar la interrupción del servicio.</p>
           </div>
           <% if show_upgrade_link %>
             <div class="mt-3">
-              <%= link_to 'Update Billing', billing_path, class: 'text-sm font-medium text-red-800 hover:text-red-900 underline' %>
+              <%= link_to 'Actualizar facturación', billing_path, class: 'text-sm font-medium text-red-800 hover:text-red-900 underline' %>
             </div>
           <% end %>
         </div>
@@ -82,18 +82,18 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-gray-800">Subscription Canceled</h3>
+          <h3 class="text-sm font-medium text-gray-800">Suscripción cancelada</h3>
           <div class="mt-1 text-sm text-gray-600">
             <p>
-              Your subscription has been canceled.
+              Tu suscripción ha sido cancelada.
               <% if subscription.current_period_ends_at.present? && subscription.current_period_ends_at > Time.current %>
-                Access continues until <%= subscription.current_period_ends_at.to_date.to_fs(:long) %>.
+                El acceso continúa hasta el <%= subscription.current_period_ends_at.to_date.to_fs(:long) %>.
               <% end %>
             </p>
           </div>
           <% if show_upgrade_link %>
             <div class="mt-3">
-              <%= link_to 'Reactivate', billing_path, class: 'text-sm font-medium text-gray-800 hover:text-gray-900 underline' %>
+              <%= link_to 'Reactivar', billing_path, class: 'text-sm font-medium text-gray-800 hover:text-gray-900 underline' %>
             </div>
           <% end %>
         </div>
@@ -111,15 +111,15 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-blue-800">Cancellation Scheduled</h3>
+          <h3 class="text-sm font-medium text-blue-800">Cancelación programada</h3>
           <div class="mt-1 text-sm text-blue-700">
             <p>
-              Your subscription will cancel on <%= subscription.current_period_ends_at.to_date.to_fs(:long) %>.
+              Tu suscripción se cancelará el <%= subscription.current_period_ends_at.to_date.to_fs(:long) %>.
             </p>
           </div>
           <% if show_upgrade_link %>
             <div class="mt-3">
-              <%= link_to 'Keep Subscription', billing_path, class: 'text-sm font-medium text-blue-800 hover:text-blue-900 underline' %>
+              <%= link_to 'Mantener suscripción', billing_path, class: 'text-sm font-medium text-blue-800 hover:text-blue-900 underline' %>
             </div>
           <% end %>
         </div>
@@ -137,13 +137,13 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">Subscription Expired</h3>
+          <h3 class="text-sm font-medium text-red-800">Suscripción vencida</h3>
           <div class="mt-1 text-sm text-red-700">
-            <p>Your subscription has expired. Please subscribe to regain full access.</p>
+            <p>Tu suscripción ha vencido. Suscríbete para recuperar el acceso completo.</p>
           </div>
           <% if show_upgrade_link %>
             <div class="mt-3">
-              <%= link_to 'Subscribe', billing_path, class: 'text-sm font-medium text-red-800 hover:text-red-900 underline' %>
+              <%= link_to 'Suscribirse', billing_path, class: 'text-sm font-medium text-red-800 hover:text-red-900 underline' %>
             </div>
           <% end %>
         </div>

@@ -26,12 +26,12 @@
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
           </svg>
-          Back to Pages
+          Volver a Páginas
         </span>
       <% end %>
       <span class="text-gray-300">|</span>
       <%= link_to site_admin_page_path(@page), class: 'text-blue-600 hover:text-blue-800' do %>
-        <%= @page.slug.titleize %> Page
+        Página <%= @page.slug.titleize %>
       <% end %>
     </div>
 
@@ -41,7 +41,7 @@
         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
         </svg>
-        View Page on Site
+        Ver página en el sitio
       <% end %>
       <button type="button"
               onclick="togglePreview()"
@@ -51,7 +51,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
         </svg>
-        <span id="preview-toggle-text">Show Preview</span>
+        <span id="preview-toggle-text">Mostrar vista previa</span>
       </button>
     </div>
   </div>
@@ -60,14 +60,14 @@
   <div class="mb-6">
     <% editor_setup = @page_part.editor_setup || {} %>
     <% tab_title = editor_setup['tabTitleKey'] ? I18n.t(editor_setup['tabTitleKey'], default: @page_part.page_part_key.titleize) : @page_part.page_part_key.titleize %>
-    <h1 class="text-3xl font-bold text-gray-900">Edit: <%= tab_title %></h1>
+    <h1 class="text-3xl font-bold text-gray-900">Editar: <%= tab_title %></h1>
     <p class="mt-2 text-gray-600">
-      Page: <span class="font-medium"><%= @page.slug.titleize %></span>
+      Página: <span class="font-medium"><%= @page.slug.titleize %></span>
       &middot;
-      Section: <span class="font-mono text-sm"><%= @page_part.page_part_key %></span>
+      Sección: <span class="font-mono text-sm"><%= @page_part.page_part_key %></span>
       &middot;
       <a href="<%= public_page_url %>" target="_blank" class="text-blue-600 hover:text-blue-800">
-        View live page
+        Ver página en vivo
         <svg class="w-3 h-3 inline ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
         </svg>
@@ -94,9 +94,9 @@
   <div class="bg-white rounded-lg shadow overflow-hidden">
     <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
       <div>
-        <h2 class="text-lg font-semibold text-gray-900">Content Blocks</h2>
+        <h2 class="text-lg font-semibold text-gray-900">Bloques de contenido</h2>
         <p class="text-sm text-gray-500">
-          Editing content for locale: <span class="font-medium"><%= @current_locale_detail&.dig(:label) || @current_locale_full.upcase %></span>
+          Editando contenido para el idioma: <span class="font-medium"><%= @current_locale_detail&.dig(:label) || @current_locale_full.upcase %></span>
         </p>
       </div>
 
@@ -116,7 +116,7 @@
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
           </svg>
-          Hidden
+          Oculto
         <% end %>
       <% end %>
     </div>
@@ -154,7 +154,7 @@
                            id="quill-input-<%= label.parameterize %>"
                            value="<%= block_value %>">
                   </div>
-                  <p class="mt-1 text-xs text-gray-500">Rich text editor with formatting support</p>
+                  <p class="mt-1 text-xs text-gray-500">Editor de texto enriquecido con soporte de formato</p>
 
                 <% elsif block_config['isImage'] == 'true' || block_config['isImage'] == true %>
                   <!-- Image Picker -->
@@ -162,7 +162,7 @@
                     <div class="image-preview-container" id="preview-container-<%= label.parameterize %>">
                       <% if block_value.present? %>
                         <div class="relative inline-block">
-                          <img src="<%= block_value %>" alt="Current image" class="max-h-40 rounded border border-gray-200" id="preview-img-<%= label.parameterize %>">
+                          <img src="<%= block_value %>" alt="Imagen actual" class="max-h-40 rounded border border-gray-200" id="preview-img-<%= label.parameterize %>">
                           <button type="button" onclick="clearImage('<%= label.parameterize %>')" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -170,7 +170,7 @@
                           </button>
                         </div>
                       <% else %>
-                        <div class="text-gray-400 text-sm" id="no-image-<%= label.parameterize %>">No image selected</div>
+                        <div class="text-gray-400 text-sm" id="no-image-<%= label.parameterize %>">Ninguna imagen seleccionada</div>
                       <% end %>
                     </div>
 
@@ -181,13 +181,13 @@
                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
-                        Choose from Library
+                        Elegir de la biblioteca
                       </button>
                       <label class="inline-flex items-center px-3 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 cursor-pointer">
                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
                         </svg>
-                        Upload New
+                        Subir nueva
                         <input type="file"
                                accept="image/*"
                                class="hidden"
@@ -199,7 +199,7 @@
                            name="block_contents[<%= label %>]"
                            id="image-input-<%= label.parameterize %>"
                            value="<%= block_value %>">
-                    <p class="text-xs text-gray-500">Select from your image library or upload a new image</p>
+                    <p class="text-xs text-gray-500">Selecciona de tu biblioteca de imágenes o sube una imagen nueva</p>
                   </div>
 
                 <% elsif block_config['isSingleLineText'] == 'true' || block_config['isSingleLineText'] == true %>
@@ -229,14 +229,14 @@
 
         <!-- Submit Button -->
         <div class="mt-6 pt-6 border-t border-gray-200 flex justify-between items-center">
-          <%= link_to 'Cancel', site_admin_pages_path, class: 'text-gray-600 hover:text-gray-800' %>
-          <%= f.submit "Save Changes",
+          <%= link_to 'Cancelar', site_admin_pages_path, class: 'text-gray-600 hover:text-gray-800' %>
+          <%= f.submit "Guardar cambios",
                        class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
         </div>
       <% else %>
         <div class="text-center py-8 text-gray-500">
-          <p>No editor blocks configured for this page part.</p>
-          <p class="text-sm mt-2">The editor_setup configuration may be missing.</p>
+          <p>No hay bloques de editor configurados para esta sección de la página.</p>
+          <p class="text-sm mt-2">Puede que falte la configuración de editor_setup.</p>
         </div>
       <% end %>
     <% end %>
@@ -246,13 +246,13 @@
   <div id="page-part-preview-section" class="mt-6 bg-white rounded-lg shadow overflow-hidden">
     <div class="px-6 py-4 bg-blue-50 border-b border-blue-200 flex justify-between items-center">
       <div>
-        <h2 class="text-lg font-semibold text-gray-900">Section Preview</h2>
+        <h2 class="text-lg font-semibold text-gray-900">Vista previa de la sección</h2>
         <p class="text-sm text-gray-600">
-          Live preview of this section only
+          Vista previa en vivo solo de esta sección
           <span class="text-gray-400 mx-1">|</span>
-          Locale: <span class="font-medium"><%= @current_locale_detail&.dig(:label) || @current_locale_full.upcase %></span>
+          Idioma: <span class="font-medium"><%= @current_locale_detail&.dig(:label) || @current_locale_full.upcase %></span>
           <a href="<%= page_part_url %>" target="_blank" class="text-blue-600 hover:text-blue-800 ml-2">
-            Open in new tab
+            Abrir en una pestaña nueva
             <svg class="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
             </svg>
@@ -264,7 +264,7 @@
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
-          Refresh
+          Actualizar
         </button>
       </div>
     </div>
@@ -273,7 +273,7 @@
               src="<%= page_part_url %>"
               class="w-full border border-gray-200 rounded bg-white"
               style="min-height: 300px; height: auto;"
-              title="Page Part Preview"
+              title="Vista previa de la sección"
               onload="resizePagePartIframe()"></iframe>
     </div>
   </div>
@@ -282,11 +282,11 @@
   <div id="preview-section" class="mt-6 bg-white rounded-lg shadow overflow-hidden hidden">
     <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
       <div>
-        <h2 class="text-lg font-semibold text-gray-900">Live Page Preview</h2>
+        <h2 class="text-lg font-semibold text-gray-900">Vista previa de la página en vivo</h2>
         <p class="text-sm text-gray-500">
-          Current state of the page on your site
+          Estado actual de la página en tu sitio
           <a href="<%= public_page_url %>" target="_blank" class="text-blue-600 hover:text-blue-800 ml-2">
-            Open in new tab
+            Abrir en una pestaña nueva
             <svg class="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
             </svg>
@@ -298,21 +298,21 @@
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
-          Refresh
+          Actualizar
         </button>
         <!-- Viewport Size Buttons -->
         <div class="flex border border-gray-300 rounded overflow-hidden">
-          <button type="button" onclick="setPreviewSize('desktop')" class="px-2 py-1 text-gray-600 hover:bg-gray-100 border-r border-gray-300" title="Desktop">
+          <button type="button" onclick="setPreviewSize('desktop')" class="px-2 py-1 text-gray-600 hover:bg-gray-100 border-r border-gray-300" title="Escritorio">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
             </svg>
           </button>
-          <button type="button" onclick="setPreviewSize('tablet')" class="px-2 py-1 text-gray-600 hover:bg-gray-100 border-r border-gray-300" title="Tablet">
+          <button type="button" onclick="setPreviewSize('tablet')" class="px-2 py-1 text-gray-600 hover:bg-gray-100 border-r border-gray-300" title="Tableta">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
             </svg>
           </button>
-          <button type="button" onclick="setPreviewSize('mobile')" class="px-2 py-1 text-gray-600 hover:bg-gray-100" title="Mobile">
+          <button type="button" onclick="setPreviewSize('mobile')" class="px-2 py-1 text-gray-600 hover:bg-gray-100" title="Móvil">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
             </svg>
@@ -326,7 +326,7 @@
                 src="<%= public_page_url %>"
                 class="w-full border-0"
                 style="height: 600px;"
-                title="Page Preview"></iframe>
+                title="Vista previa de la página"></iframe>
       </div>
     </div>
   </div>
@@ -337,8 +337,8 @@
       <details class="group">
         <summary class="px-6 py-4 bg-gray-50 border-b border-gray-200 cursor-pointer flex justify-between items-center list-none">
           <div>
-            <h2 class="text-lg font-semibold text-gray-900">Template Code</h2>
-            <p class="text-sm text-gray-500">Liquid template used to render this section (for developers)</p>
+            <h2 class="text-lg font-semibold text-gray-900">Código de plantilla</h2>
+            <p class="text-sm text-gray-500">Plantilla Liquid usada para renderizar esta sección (para desarrolladores)</p>
           </div>
           <svg class="w-5 h-5 text-gray-500 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -357,7 +357,7 @@
   <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col">
     <!-- Modal Header -->
     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-      <h3 class="text-lg font-semibold text-gray-900">Select Image</h3>
+      <h3 class="text-lg font-semibold text-gray-900">Seleccionar imagen</h3>
       <button type="button" onclick="closeImagePicker()" class="text-gray-400 hover:text-gray-600">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -376,15 +376,15 @@
         <svg class="mx-auto h-12 w-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
         </svg>
-        <p class="text-gray-600 mb-2">Drag and drop an image here, or</p>
+        <p class="text-gray-600 mb-2">Arrastra y suelta una imagen aquí, o</p>
         <label class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
           </svg>
-          Browse Files
+          Explorar archivos
           <input type="file" accept="image/*" class="hidden" onchange="uploadImageFromModal(this)">
         </label>
-        <p class="text-xs text-gray-400 mt-2">PNG, JPG, GIF up to 10MB</p>
+        <p class="text-xs text-gray-400 mt-2">PNG, JPG, GIF hasta 10 MB</p>
       </div>
 
       <!-- Upload Progress -->
@@ -393,20 +393,20 @@
           <div class="flex-1 bg-gray-200 rounded-full h-2">
             <div id="upload-progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
-          <span id="upload-progress-text" class="ml-3 text-sm text-gray-600">Uploading...</span>
+          <span id="upload-progress-text" class="ml-3 text-sm text-gray-600">Subiendo...</span>
         </div>
       </div>
 
       <!-- Image Library -->
       <div>
-        <h4 class="text-sm font-medium text-gray-700 mb-3">Image Library</h4>
+        <h4 class="text-sm font-medium text-gray-700 mb-3">Biblioteca de imágenes</h4>
         <div id="image-library-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
           <div class="col-span-full text-center py-8 text-gray-500">
             <svg class="mx-auto h-8 w-8 text-gray-300 mb-2 animate-spin" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Loading images...
+            Cargando imágenes...
           </div>
         </div>
       </div>
@@ -415,7 +415,7 @@
     <!-- Modal Footer -->
     <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
       <button type="button" onclick="closeImagePicker()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
-        Cancel
+        Cancelar
       </button>
     </div>
   </div>
@@ -505,7 +505,7 @@
             }
           }
         },
-        placeholder: 'Enter content here...'
+        placeholder: 'Escribe el contenido aquí...'
       });
 
       // Store reference for later use
@@ -574,16 +574,16 @@
               <svg class="mx-auto h-12 w-12 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
-              <p>No images in library yet</p>
-              <p class="text-sm">Upload your first image above</p>
+              <p>Aún no hay imágenes en la biblioteca</p>
+              <p class="text-sm">Sube tu primera imagen arriba</p>
             </div>
           `;
           return;
         }
 
         grid.innerHTML = images.map(img => `
-          <div class="image-grid-item" onclick="selectImage('${img.url}')" title="${img.filename || 'Image'}">
-            <img src="${img.thumb_url || img.url}" alt="${img.filename || 'Image'}" loading="lazy">
+          <div class="image-grid-item" onclick="selectImage('${img.url}')" title="${img.filename || 'Imagen'}">
+            <img src="${img.thumb_url || img.url}" alt="${img.filename || 'Imagen'}" loading="lazy">
           </div>
         `).join('');
       })
@@ -591,8 +591,8 @@
         console.error('Error loading images:', error);
         grid.innerHTML = `
           <div class="col-span-full text-center py-8 text-red-500">
-            <p>Error loading images</p>
-            <button onclick="loadImageLibrary()" class="text-blue-600 hover:text-blue-800 text-sm mt-2">Try again</button>
+            <p>Error al cargar las imágenes</p>
+            <button onclick="loadImageLibrary()" class="text-blue-600 hover:text-blue-800 text-sm mt-2">Intentar de nuevo</button>
           </div>
         `;
       });
@@ -620,7 +620,7 @@
     if (previewContainer) {
       previewContainer.innerHTML = `
         <div class="relative inline-block">
-          <img src="${url}" alt="Selected image" class="max-h-40 rounded border border-gray-200" id="preview-img-${fieldId}">
+          <img src="${url}" alt="Imagen seleccionada" class="max-h-40 rounded border border-gray-200" id="preview-img-${fieldId}">
           <button type="button" onclick="clearImage('${fieldId}')" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -638,7 +638,7 @@
     if (input) input.value = '';
 
     if (previewContainer) {
-      previewContainer.innerHTML = `<div class="text-gray-400 text-sm" id="no-image-${fieldId}">No image selected</div>`;
+      previewContainer.innerHTML = `<div class="text-gray-400 text-sm" id="no-image-${fieldId}">Ninguna imagen seleccionada</div>`;
     }
   }
 
@@ -668,7 +668,7 @@
       loadImageLibrary();
     }, function(error) {
       hideUploadProgress();
-      alert('Upload failed: ' + error);
+      alert('Error al subir: ' + error);
     });
 
     input.value = '';
@@ -690,7 +690,7 @@
       if (data.success && data.image) {
         onSuccess(data.image.url);
       } else {
-        throw new Error(data.errors?.join(', ') || 'Upload failed');
+        throw new Error(data.errors?.join(', ') || 'Error al subir');
       }
     })
     .catch(error => {
@@ -749,7 +749,7 @@
         loadImageLibrary();
       }, function(error) {
         hideUploadProgress();
-        alert('Upload failed: ' + error);
+        alert('Error al subir: ' + error);
       });
     }
   }
@@ -762,11 +762,11 @@
 
     if (isHidden) {
       section.classList.remove('hidden');
-      toggleText.textContent = 'Hide Preview';
+      toggleText.textContent = 'Ocultar vista previa';
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
       section.classList.add('hidden');
-      toggleText.textContent = 'Show Preview';
+      toggleText.textContent = 'Mostrar vista previa';
     }
   }
 

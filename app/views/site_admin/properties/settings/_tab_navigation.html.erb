@@ -4,45 +4,45 @@
 <div class="border-b border-gray-200 mb-6">
   <nav class="-mb-px flex flex-wrap gap-y-2">
     <%# Main property classification %>
-    <%= link_to "Types",
+    <%= link_to "Tipos",
         site_admin_properties_settings_category_path('property_types'),
         class: tab_link_class('property_types', current_category),
-        title: "What the property IS (Apartment, Villa, etc.)" %>
-    <%= link_to "States",
+        title: "Lo que ES la propiedad (Apartamento, Villa, etc.)" %>
+    <%= link_to "Estados",
         site_admin_properties_settings_category_path('property_states'),
         class: tab_link_class('property_states', current_category),
-        title: "Physical condition (New Build, Renovated, etc.)" %>
+        title: "Condición física (Obra nueva, Remodelado, etc.)" %>
 
     <span class="border-l border-gray-300 mx-2 h-6 self-center"></span>
 
     <%# Features and Amenities %>
-    <%= link_to "Features",
+    <%= link_to "Características",
         site_admin_properties_settings_category_path('property_features'),
         class: tab_link_class('property_features', current_category),
-        title: "Permanent physical attributes (Pool, Garden, etc.)" %>
-    <%= link_to "Amenities",
+        title: "Atributos físicos permanentes (Piscina, Jardín, etc.)" %>
+    <%= link_to "Comodidades",
         site_admin_properties_settings_category_path('property_amenities'),
         class: tab_link_class('property_amenities', current_category),
-        title: "Equipment & services (AC, Heating, etc.)" %>
+        title: "Equipos y servicios (Aire acondicionado, Calefacción, etc.)" %>
 
     <span class="border-l border-gray-300 mx-2 h-6 self-center"></span>
 
     <%# Status and Marketing %>
-    <%= link_to "Status",
+    <%= link_to "Estado",
         site_admin_properties_settings_category_path('property_status'),
         class: tab_link_class('property_status', current_category),
-        title: "Transaction status (Sold, Reserved, etc.)" %>
-    <%= link_to "Highlights",
+        title: "Estado de la transacción (Vendido, Reservado, etc.)" %>
+    <%= link_to "Destacados",
         site_admin_properties_settings_category_path('property_highlights'),
         class: tab_link_class('property_highlights', current_category),
-        title: "Marketing flags (Featured, Luxury, etc.)" %>
+        title: "Etiquetas de marketing (Destacado, Lujo, etc.)" %>
 
     <span class="border-l border-gray-300 mx-2 h-6 self-center"></span>
 
     <%# Listing metadata %>
-    <%= link_to "Origin",
+    <%= link_to "Origen",
         site_admin_properties_settings_category_path('listing_origin'),
         class: tab_link_class('listing_origin', current_category),
-        title: "Source of listing (Direct, MLS, etc.)" %>
+        title: "Fuente del anuncio (Directo, MLS, etc.)" %>
   </nav>
 </div>

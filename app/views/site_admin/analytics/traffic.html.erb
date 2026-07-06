@@ -1,57 +1,57 @@
 <div class="analytics-traffic">
   <div class="flex justify-between items-center mb-6">
     <div>
-      <h1 class="text-2xl font-bold">Traffic & Sources</h1>
-      <p class="text-gray-500">Understand where your visitors come from</p>
+      <h1 class="text-2xl font-bold">Tráfico y fuentes</h1>
+      <p class="text-gray-500">Entiende de dónde vienen tus visitantes</p>
     </div>
-    
-    <%= link_to "Back to Overview", site_admin_analytics_path, class: "text-blue-600 hover:underline" %>
+
+    <%= link_to "Volver al resumen", site_admin_analytics_path, class: "text-blue-600 hover:underline" %>
   </div>
 
   <!-- Visits Chart -->
   <div class="bg-white rounded-lg shadow p-4 mb-6">
-    <h3 class="text-lg font-semibold mb-4">Visits & Unique Visitors</h3>
+    <h3 class="text-lg font-semibold mb-4">Visitas y visitantes únicos</h3>
     <%= line_chart [
-      { name: "Visits", data: @visits_by_day },
-      { name: "Unique Visitors", data: @visitors_by_day }
-    ], xtitle: "Date", ytitle: "Count" %>
+      { name: "Visitas", data: @visits_by_day },
+      { name: "Visitantes únicos", data: @visitors_by_day }
+    ], xtitle: "Fecha", ytitle: "Cantidad" %>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
     <!-- Traffic Sources -->
     <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-lg font-semibold mb-4">Top Referrers</h3>
+      <h3 class="text-lg font-semibold mb-4">Principales referentes</h3>
       <% if @traffic_sources.any? %>
         <table class="w-full">
           <thead>
             <tr class="text-left text-gray-500 text-sm">
-              <th class="pb-2">Source</th>
-              <th class="pb-2 text-right">Visits</th>
+              <th class="pb-2">Fuente</th>
+              <th class="pb-2 text-right">Visitas</th>
             </tr>
           </thead>
           <tbody>
             <% @traffic_sources.each do |domain, count| %>
               <tr class="border-t">
-                <td class="py-2"><%= domain || "(direct)" %></td>
+                <td class="py-2"><%= domain || "(directo)" %></td>
                 <td class="py-2 text-right font-semibold"><%= number_with_delimiter(count) %></td>
               </tr>
             <% end %>
           </tbody>
         </table>
       <% else %>
-        <p class="text-gray-500">No referral data yet.</p>
+        <p class="text-gray-500">Aún no hay datos de referencia.</p>
       <% end %>
     </div>
 
     <!-- UTM Campaigns -->
     <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-lg font-semibold mb-4">Campaigns (UTM)</h3>
+      <h3 class="text-lg font-semibold mb-4">Campañas (UTM)</h3>
       <% if @utm_campaigns.any? %>
         <table class="w-full">
           <thead>
             <tr class="text-left text-gray-500 text-sm">
-              <th class="pb-2">Campaign</th>
-              <th class="pb-2 text-right">Visits</th>
+              <th class="pb-2">Campaña</th>
+              <th class="pb-2 text-right">Visitas</th>
             </tr>
           </thead>
           <tbody>
@@ -64,14 +64,14 @@
           </tbody>
         </table>
       <% else %>
-        <p class="text-gray-500">No campaign data yet. Add ?utm_campaign=name to your marketing links.</p>
+        <p class="text-gray-500">Aún no hay datos de campañas. Agrega ?utm_campaign=nombre a tus enlaces de marketing.</p>
       <% end %>
     </div>
   </div>
 
   <!-- Geographic -->
   <div class="bg-white rounded-lg shadow p-4">
-    <h3 class="text-lg font-semibold mb-4">Visitors by Country</h3>
+    <h3 class="text-lg font-semibold mb-4">Visitantes por país</h3>
     <% if @geographic.any? %>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
         <% @geographic.each do |country, count| %>
@@ -82,7 +82,7 @@
         <% end %>
       </div>
     <% else %>
-      <p class="text-gray-500">Geographic data not available. Enable geocoding in settings.</p>
+      <p class="text-gray-500">Datos geográficos no disponibles. Activa la geocodificación en la configuración.</p>
     <% end %>
   </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto">
   <!-- Breadcrumb -->
   <nav class="mb-4 text-sm">
-    <%= link_to "CMA Reports", site_admin_cma_reports_path, class: "text-blue-600 hover:text-blue-800" %> /
+    <%= link_to "Informes CMA", site_admin_cma_reports_path, class: "text-blue-600 hover:text-blue-800" %> /
     <span class="text-gray-500"><%= @report.reference_number %></span>
   </nav>
 
@@ -14,12 +14,12 @@
           <%= render 'status_badge', status: @report.status %>
         </div>
         <p class="mt-1 text-gray-500">
-          Reference: <%= @report.reference_number %>
+          Referencia: <%= @report.reference_number %>
           <% if @report.generated_at %>
-            &middot; Generated <%= time_ago_in_words(@report.generated_at) %> ago
+            &middot; Generado hace <%= time_ago_in_words(@report.generated_at) %>
           <% end %>
           <% if @report.view_count > 0 %>
-            &middot; <%= pluralize(@report.view_count, 'view') %>
+            &middot; <%= pluralize(@report.view_count, 'vista') %>
           <% end %>
         </p>
       </div>
@@ -30,7 +30,7 @@
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            Download PDF
+            Descargar PDF
           <% end %>
         <% end %>
 
@@ -39,24 +39,24 @@
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
             </svg>
-            Share
+            Compartir
           <% end %>
         <% end %>
 
         <% if @report.subject_property %>
-          <%= button_to regenerate_site_admin_cma_report_path(@report), method: :post, class: "inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors", data: { turbo_confirm: "This will generate a new report. Continue?" } do %>
+          <%= button_to regenerate_site_admin_cma_report_path(@report), method: :post, class: "inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors", data: { turbo_confirm: "Esto generará un nuevo informe. ¿Continuar?" } do %>
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
             </svg>
-            Regenerate
+            Regenerar
           <% end %>
         <% end %>
 
-        <%= button_to site_admin_cma_report_path(@report), method: :delete, class: "inline-flex items-center px-4 py-2 bg-red-100 text-red-700 font-medium rounded-lg hover:bg-red-200 transition-colors", data: { turbo_confirm: "Are you sure you want to delete this report?" } do %>
+        <%= button_to site_admin_cma_report_path(@report), method: :delete, class: "inline-flex items-center px-4 py-2 bg-red-100 text-red-700 font-medium rounded-lg hover:bg-red-200 transition-colors", data: { turbo_confirm: "¿Estás seguro de que deseas eliminar este informe?" } do %>
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
           </svg>
-          Delete
+          Eliminar
         <% end %>
       </div>
     </div>
@@ -64,10 +64,10 @@
     <% if @report.shared? && @report.share_token %>
       <div class="mt-4 p-3 bg-blue-50 rounded-lg">
         <p class="text-sm text-blue-800">
-          <strong>Share URL:</strong>
+          <strong>URL para compartir:</strong>
           <span class="font-mono ml-2"><%= public_cma_url(@report.share_token) %></span>
-          <button onclick="navigator.clipboard.writeText('<%= public_cma_url(@report.share_token) %>'); this.innerText = 'Copied!';" class="ml-2 text-blue-600 hover:text-blue-800 underline">
-            Copy
+          <button onclick="navigator.clipboard.writeText('<%= public_cma_url(@report.share_token) %>'); this.innerText = '¡Copiado!';" class="ml-2 text-blue-600 hover:text-blue-800 underline">
+            Copiar
           </button>
         </p>
       </div>
@@ -77,15 +77,15 @@
   <!-- Suggested Price Range -->
   <% if @report.suggested_price_range %>
     <div class="mb-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow p-6 text-white">
-      <h2 class="text-sm font-medium text-blue-100">Suggested List Price Range</h2>
+      <h2 class="text-sm font-medium text-blue-100">Rango de precio de lista sugerido</h2>
       <p class="mt-2 text-3xl font-bold">
         <%= @report.suggested_price_range[:formatted_low] %> - <%= @report.suggested_price_range[:formatted_high] %>
       </p>
       <% if @insights['confidence_level'] %>
         <p class="mt-2 text-sm text-blue-100">
-          Confidence: <%= @insights['confidence_level'].titleize %>
+          Confianza: <%= @insights['confidence_level'].titleize %>
           <% if @insights['time_to_sell_estimate'] %>
-            &middot; Est. time to sell: <%= @insights['time_to_sell_estimate'] %>
+            &middot; Tiempo estimado de venta: <%= @insights['time_to_sell_estimate'] %>
           <% end %>
         </p>
       <% end %>
@@ -97,7 +97,7 @@
     <div class="lg:col-span-2 space-y-6">
       <!-- Subject Property -->
       <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="text-lg font-semibold text-gray-900 mb-4">Subject Property</h2>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Propiedad objeto de análisis</h2>
 
         <% if @subject_property %>
           <div class="flex items-start space-x-4">
@@ -114,47 +114,47 @@
 
               <div class="mt-3 flex flex-wrap gap-4 text-sm text-gray-600">
                 <% if @subject_property.count_bedrooms %>
-                  <span><strong><%= @subject_property.count_bedrooms %></strong> beds</span>
+                  <span><strong><%= @subject_property.count_bedrooms %></strong> hab.</span>
                 <% end %>
                 <% if @subject_property.count_bathrooms %>
-                  <span><strong><%= @subject_property.count_bathrooms %></strong> baths</span>
+                  <span><strong><%= @subject_property.count_bathrooms %></strong> baños</span>
                 <% end %>
                 <% if @subject_property.constructed_area %>
-                  <span><strong><%= number_with_delimiter(@subject_property.constructed_area.to_i) %></strong> sqft</span>
+                  <span><strong><%= number_with_delimiter(@subject_property.constructed_area.to_i) %></strong> pies²</span>
                 <% end %>
                 <% if @subject_property.year_construction %>
-                  <span>Built <strong><%= @subject_property.year_construction %></strong></span>
+                  <span>Construido en <strong><%= @subject_property.year_construction %></strong></span>
                 <% end %>
               </div>
             </div>
           </div>
         <% else %>
-          <p class="text-gray-500">Subject property details not available.</p>
+          <p class="text-gray-500">Detalles de la propiedad objeto de análisis no disponibles.</p>
         <% end %>
       </div>
 
       <!-- AI Insights -->
       <% if @insights.present? %>
         <div class="bg-white rounded-lg shadow p-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">AI Analysis</h2>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Análisis con IA</h2>
 
           <% if @insights['executive_summary'] %>
             <div class="mb-6">
-              <h3 class="text-sm font-medium text-gray-500 mb-2">Executive Summary</h3>
+              <h3 class="text-sm font-medium text-gray-500 mb-2">Resumen ejecutivo</h3>
               <p class="text-gray-700"><%= @insights['executive_summary'] %></p>
             </div>
           <% end %>
 
           <% if @insights['market_position'] %>
             <div class="mb-6">
-              <h3 class="text-sm font-medium text-gray-500 mb-2">Market Position</h3>
+              <h3 class="text-sm font-medium text-gray-500 mb-2">Posición en el mercado</h3>
               <p class="text-gray-700"><%= @insights['market_position'] %></p>
             </div>
           <% end %>
 
           <% if @insights['pricing_rationale'] %>
             <div class="mb-6">
-              <h3 class="text-sm font-medium text-gray-500 mb-2">Pricing Rationale</h3>
+              <h3 class="text-sm font-medium text-gray-500 mb-2">Justificación del precio</h3>
               <p class="text-gray-700"><%= @insights['pricing_rationale'] %></p>
             </div>
           <% end %>
@@ -162,7 +162,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <% if @insights['strengths'].present? %>
               <div>
-                <h3 class="text-sm font-medium text-gray-500 mb-2">Strengths</h3>
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Fortalezas</h3>
                 <ul class="space-y-1">
                   <% @insights['strengths'].each do |strength| %>
                     <li class="flex items-start">
@@ -178,7 +178,7 @@
 
             <% if @insights['considerations'].present? %>
               <div>
-                <h3 class="text-sm font-medium text-gray-500 mb-2">Considerations</h3>
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Consideraciones</h3>
                 <ul class="space-y-1">
                   <% @insights['considerations'].each do |consideration| %>
                     <li class="flex items-start">
@@ -195,7 +195,7 @@
 
           <% if @insights['recommendation'] %>
             <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-              <h3 class="text-sm font-medium text-blue-800 mb-2">Recommendation</h3>
+              <h3 class="text-sm font-medium text-blue-800 mb-2">Recomendación</h3>
               <p class="text-blue-900"><%= @insights['recommendation'] %></p>
             </div>
           <% end %>
@@ -206,29 +206,29 @@
       <% if @comparables.present? %>
         <div class="bg-white rounded-lg shadow overflow-hidden">
           <div class="p-6 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900">Comparable Properties (<%= @comparables.length %>)</h2>
+            <h2 class="text-lg font-semibold text-gray-900">Propiedades comparables (<%= @comparables.length %>)</h2>
           </div>
 
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
-                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
-                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Beds/Baths</th>
-                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
-                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                  <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Price</th>
-                  <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Adjusted</th>
-                  <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Score</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dirección</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hab./Baños</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tamaño</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
+                  <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Precio</th>
+                  <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Ajustado</th>
+                  <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Puntuación</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
                 <% @comparables.each do |comp| %>
                   <tr class="hover:bg-gray-50">
                     <td class="px-4 py-3">
-                      <div class="text-sm font-medium text-gray-900"><%= comp['address'] || 'N/A' %></div>
+                      <div class="text-sm font-medium text-gray-900"><%= comp['address'] || 'N/D' %></div>
                       <% if comp['distance_km'] %>
-                        <div class="text-xs text-gray-500"><%= comp['distance_km'] %> km away</div>
+                        <div class="text-xs text-gray-500">a <%= comp['distance_km'] %> km</div>
                       <% end %>
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-600">
@@ -236,7 +236,7 @@
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-600">
                       <% if comp['constructed_area'] %>
-                        <%= number_with_delimiter(comp['constructed_area'].to_i) %> sqft
+                        <%= number_with_delimiter(comp['constructed_area'].to_i) %> pies²
                       <% else %>
                         -
                       <% end %>
@@ -288,40 +288,40 @@
       <!-- Market Statistics -->
       <% if @statistics.present? %>
         <div class="bg-white rounded-lg shadow p-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Market Statistics</h2>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Estadísticas de mercado</h2>
 
           <dl class="space-y-4">
             <% if @statistics['average_price_cents'] %>
               <div>
-                <dt class="text-sm text-gray-500">Average Price</dt>
+                <dt class="text-sm text-gray-500">Precio promedio</dt>
                 <dd class="text-lg font-semibold text-gray-900">$<%= number_with_delimiter((@statistics['average_price_cents'] / 100.0).round) %></dd>
               </div>
             <% end %>
 
             <% if @statistics['median_price_cents'] %>
               <div>
-                <dt class="text-sm text-gray-500">Median Price</dt>
+                <dt class="text-sm text-gray-500">Precio mediano</dt>
                 <dd class="text-lg font-semibold text-gray-900">$<%= number_with_delimiter((@statistics['median_price_cents'] / 100.0).round) %></dd>
               </div>
             <% end %>
 
             <% if @statistics['price_per_sqft_cents'] %>
               <div>
-                <dt class="text-sm text-gray-500">Price per Sqft</dt>
+                <dt class="text-sm text-gray-500">Precio por pie²</dt>
                 <dd class="text-lg font-semibold text-gray-900">$<%= number_with_delimiter((@statistics['price_per_sqft_cents'] / 100.0).round(2)) %></dd>
               </div>
             <% end %>
 
             <% if @statistics['days_on_market'] %>
               <div>
-                <dt class="text-sm text-gray-500">Avg Days on Market</dt>
-                <dd class="text-lg font-semibold text-gray-900"><%= @statistics['days_on_market'] %> days</dd>
+                <dt class="text-sm text-gray-500">Días promedio en el mercado</dt>
+                <dd class="text-lg font-semibold text-gray-900"><%= @statistics['days_on_market'] %> días</dd>
               </div>
             <% end %>
 
             <% if @statistics['comparable_count'] %>
               <div>
-                <dt class="text-sm text-gray-500">Comparables Analyzed</dt>
+                <dt class="text-sm text-gray-500">Comparables analizados</dt>
                 <dd class="text-lg font-semibold text-gray-900"><%= @statistics['comparable_count'] %></dd>
               </div>
             <% end %>
@@ -331,30 +331,30 @@
 
       <!-- Report Details -->
       <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="text-lg font-semibold text-gray-900 mb-4">Report Details</h2>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Detalles del informe</h2>
 
         <dl class="space-y-3 text-sm">
           <div class="flex justify-between">
-            <dt class="text-gray-500">Search Radius</dt>
+            <dt class="text-gray-500">Radio de búsqueda</dt>
             <dd class="text-gray-900"><%= @report.radius_km || 2 %> km</dd>
           </div>
           <div class="flex justify-between">
-            <dt class="text-gray-500">Location</dt>
+            <dt class="text-gray-500">Ubicación</dt>
             <dd class="text-gray-900"><%= [@report.city, @report.region].compact.join(', ') %></dd>
           </div>
           <div class="flex justify-between">
-            <dt class="text-gray-500">Created</dt>
+            <dt class="text-gray-500">Creado</dt>
             <dd class="text-gray-900"><%= @report.created_at.strftime('%b %d, %Y %H:%M') %></dd>
           </div>
           <% if @report.generated_at %>
             <div class="flex justify-between">
-              <dt class="text-gray-500">Generated</dt>
+              <dt class="text-gray-500">Generado</dt>
               <dd class="text-gray-900"><%= @report.generated_at.strftime('%b %d, %Y %H:%M') %></dd>
             </div>
           <% end %>
           <% if @report.shared_at %>
             <div class="flex justify-between">
-              <dt class="text-gray-500">Shared</dt>
+              <dt class="text-gray-500">Compartido</dt>
               <dd class="text-gray-900"><%= @report.shared_at.strftime('%b %d, %Y %H:%M') %></dd>
             </div>
           <% end %>
@@ -364,36 +364,36 @@
       <!-- Branding -->
       <% if @report.branding.present? %>
         <div class="bg-white rounded-lg shadow p-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Branding</h2>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Marca</h2>
 
           <% if @report.branding['company_logo_url'] %>
             <div class="mb-4">
-              <img src="<%= @report.branding['company_logo_url'] %>" alt="Company Logo" class="h-12 object-contain">
+              <img src="<%= @report.branding['company_logo_url'] %>" alt="Logo de la empresa" class="h-12 object-contain">
             </div>
           <% end %>
 
           <dl class="space-y-2 text-sm">
             <% if @report.branding['company_name'] %>
               <div>
-                <dt class="text-gray-500">Company</dt>
+                <dt class="text-gray-500">Empresa</dt>
                 <dd class="text-gray-900 font-medium"><%= @report.branding['company_name'] %></dd>
               </div>
             <% end %>
             <% if @report.branding['agent_name'] %>
               <div>
-                <dt class="text-gray-500">Agent</dt>
+                <dt class="text-gray-500">Agente</dt>
                 <dd class="text-gray-900"><%= @report.branding['agent_name'] %></dd>
               </div>
             <% end %>
             <% if @report.branding['agent_phone'] %>
               <div>
-                <dt class="text-gray-500">Phone</dt>
+                <dt class="text-gray-500">Teléfono</dt>
                 <dd class="text-gray-900"><%= @report.branding['agent_phone'] %></dd>
               </div>
             <% end %>
             <% if @report.branding['agent_email'] %>
               <div>
-                <dt class="text-gray-500">Email</dt>
+                <dt class="text-gray-500">Correo electrónico</dt>
                 <dd class="text-gray-900"><%= @report.branding['agent_email'] %></dd>
               </div>
             <% end %>

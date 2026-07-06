@@ -19,6 +19,7 @@ class SiteAdminController < ActionController::Base
   include SubdomainTenant
   include AdminAuthBypass
   include DevSubscriptionBypass
+  include LatamAdminLocale
   include Pagy::Method
   helper AuthHelper
   helper_method :current_user

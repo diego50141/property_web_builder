@@ -1,13 +1,13 @@
 <div class="p-6">
-  <h2 class="text-xl font-semibold text-gray-900 mb-2">Search Configuration</h2>
-  <p class="text-sm text-gray-600 mb-6">Configure how property search filters appear and behave on your website.</p>
+  <h2 class="text-xl font-semibold text-gray-900 mb-2">Configuración de búsqueda</h2>
+  <p class="text-sm text-gray-600 mb-6">Configura cómo aparecen y se comportan los filtros de búsqueda de propiedades en tu sitio web.</p>
 
   <%= form_with url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-8" do |f| %>
     <input type="hidden" name="tab" value="search">
 
     <!-- Display Options Section -->
     <div class="bg-gray-50 rounded-lg p-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-4">Display Options</h3>
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Opciones de visualización</h3>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Show Results Map -->
@@ -17,8 +17,8 @@
                  <%= 'checked' if @search_config.show_map? %>
                  class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
           <div class="ml-3">
-            <span class="text-sm font-medium text-gray-700">Show Results Map</span>
-            <p class="text-xs text-gray-500">Display a map alongside search results</p>
+            <span class="text-sm font-medium text-gray-700">Mostrar mapa de resultados</span>
+            <p class="text-xs text-gray-500">Muestra un mapa junto a los resultados de búsqueda</p>
           </div>
         </label>
 
@@ -29,8 +29,8 @@
                  <%= 'checked' if @search_config.show_active_filters? %>
                  class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
           <div class="ml-3">
-            <span class="text-sm font-medium text-gray-700">Show Active Filter Chips</span>
-            <p class="text-xs text-gray-500">Display removable chips for active filters</p>
+            <span class="text-sm font-medium text-gray-700">Mostrar fichas de filtros activos</span>
+            <p class="text-xs text-gray-500">Muestra fichas eliminables para los filtros activos</p>
           </div>
         </label>
 
@@ -41,8 +41,8 @@
                  <%= 'checked' if @search_config.show_save_search? %>
                  class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
           <div class="ml-3">
-            <span class="text-sm font-medium text-gray-700">Show Save Search</span>
-            <p class="text-xs text-gray-500">Allow users to save their search criteria</p>
+            <span class="text-sm font-medium text-gray-700">Mostrar guardar búsqueda</span>
+            <p class="text-xs text-gray-500">Permite a los usuarios guardar sus criterios de búsqueda</p>
           </div>
         </label>
 
@@ -53,8 +53,8 @@
                  <%= 'checked' if @search_config.show_favorites? %>
                  class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
           <div class="ml-3">
-            <span class="text-sm font-medium text-gray-700">Show Favorites</span>
-            <p class="text-xs text-gray-500">Allow users to save favorite properties</p>
+            <span class="text-sm font-medium text-gray-700">Mostrar favoritos</span>
+            <p class="text-xs text-gray-500">Permite a los usuarios guardar propiedades favoritas</p>
           </div>
         </label>
       </div>
@@ -62,7 +62,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <!-- Default Sort -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Default Sort Order</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Orden predeterminado</label>
           <select name="search_config[display][default_sort]"
                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
             <% @search_config.sort_options.each do |opt| %>
@@ -75,12 +75,12 @@
 
         <!-- Default Results Per Page -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Default Results Per Page</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Resultados por página predeterminados</label>
           <select name="search_config[display][default_results_per_page]"
                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
             <% @search_config.results_per_page_options.each do |count| %>
               <option value="<%= count %>" <%= 'selected' if @search_config.default_results_per_page == count %>>
-                <%= count %> results
+                <%= count %> resultados
               </option>
             <% end %>
           </select>
@@ -90,8 +90,8 @@
 
     <!-- Listing Types Section -->
     <div class="bg-gray-50 rounded-lg p-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-4">Listing Types</h3>
-      <p class="text-sm text-gray-500 mb-4">Configure which listing types are available and which is the default.</p>
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Tipos de publicación</h3>
+      <p class="text-sm text-gray-500 mb-4">Configura qué tipos de publicación están disponibles y cuál es el predeterminado.</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <% [:sale, :rental].each do |type| %>
@@ -103,7 +103,7 @@
                        <%= 'checked' if @search_config.listing_type_enabled?(type) %>
                        class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                 <span class="ml-2 text-sm font-medium text-gray-700">
-                  <%= type == :sale ? 'For Sale' : 'For Rent' %>
+                  <%= type == :sale ? 'En venta' : 'En arriendo' %>
                 </span>
               </label>
               <label class="flex items-center text-sm text-gray-600">
@@ -111,7 +111,7 @@
                        <%= 'checked' if @search_config.default_listing_type == type %>
                        onchange="document.querySelector('input[name=\\'search_config[listing_types][<%= type %>][is_default]\\']').value = '1'; document.querySelector('input[name=\\'search_config[listing_types][<%= type == :sale ? :rental : :sale %>][is_default]\\']').value = '0';"
                        class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                <span class="ml-1">Default</span>
+                <span class="ml-1">Predeterminado</span>
               </label>
             </div>
             <input type="hidden" name="search_config[listing_types][<%= type %>][is_default]"
@@ -124,13 +124,13 @@
     <!-- Price Filter Section -->
     <div class="bg-gray-50 rounded-lg p-6">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Price Filter</h3>
+        <h3 class="text-lg font-medium text-gray-900">Filtro de precio</h3>
         <label class="flex items-center">
           <input type="hidden" name="search_config[filters][price][enabled]" value="0">
           <input type="checkbox" name="search_config[filters][price][enabled]" value="1"
                  <%= 'checked' if @search_config.filter_enabled?(:price) %>
                  class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-          <span class="ml-2 text-sm text-gray-700">Enabled</span>
+          <span class="ml-2 text-sm text-gray-700">Activado</span>
         </label>
       </div>
 
@@ -138,7 +138,7 @@
 
       <!-- Input Type -->
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Input Type</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de entrada</label>
         <div class="flex flex-wrap gap-3">
           <% %w[dropdown manual dropdown_with_manual].each do |input_type| %>
             <label class="flex items-center">
@@ -146,7 +146,7 @@
                      <%= 'checked' if @search_config.price_input_type == input_type %>
                      class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
               <span class="ml-2 text-sm text-gray-700">
-                <%= input_type == 'dropdown' ? 'Dropdown Only' : input_type == 'manual' ? 'Manual Entry Only' : 'Dropdown + Manual' %>
+                <%= input_type == 'dropdown' ? 'Solo lista desplegable' : input_type == 'manual' ? 'Solo entrada manual' : 'Lista desplegable + manual' %>
               </span>
             </label>
           <% end %>
@@ -155,24 +155,24 @@
 
       <!-- Sale Price Config -->
       <div class="bg-white rounded-lg border border-gray-200 p-4 mb-4">
-        <h4 class="text-sm font-medium text-gray-900 mb-3">For Sale Prices</h4>
+        <h4 class="text-sm font-medium text-gray-900 mb-3">Precios en venta</h4>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Default Min</label>
+            <label class="block text-xs text-gray-600 mb-1">Mín. predeterminado</label>
             <input type="text" name="search_config[filters][price][sale][default_min]"
                    value="<%= @search_config.price_config&.dig(:default_min) %>"
-                   placeholder="None"
+                   placeholder="Ninguno"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Default Max</label>
+            <label class="block text-xs text-gray-600 mb-1">Máx. predeterminado</label>
             <input type="text" name="search_config[filters][price][sale][default_max]"
                    value="<%= @search_config.price_config&.dig(:default_max) %>"
-                   placeholder="None"
+                   placeholder="Ninguno"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Step</label>
+            <label class="block text-xs text-gray-600 mb-1">Incremento</label>
             <input type="text" name="search_config[filters][price][sale][step]"
                    value="<%= @search_config.price_config&.dig(:step) || 50000 %>"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
@@ -180,20 +180,20 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Min Price Options (comma-separated)</label>
+            <label class="block text-xs text-gray-600 mb-1">Opciones de precio mínimo (separadas por comas)</label>
             <input type="text" name="search_config[filters][price][sale][min_presets]"
                    value="<%= @search_config.price_min_presets.join(', ') %>"
                    placeholder="No min, 50000, 100000, 200000, 500000"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
-            <p class="mt-1 text-xs text-gray-500">Use "No min" for no minimum option</p>
+            <p class="mt-1 text-xs text-gray-500">Usa "No min" para la opción sin mínimo</p>
           </div>
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Max Price Options (comma-separated)</label>
+            <label class="block text-xs text-gray-600 mb-1">Opciones de precio máximo (separadas por comas)</label>
             <input type="text" name="search_config[filters][price][sale][max_presets]"
                    value="<%= @search_config.price_max_presets.join(', ') %>"
                    placeholder="100000, 200000, 500000, 1000000, No max"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
-            <p class="mt-1 text-xs text-gray-500">Use "No max" for no maximum option</p>
+            <p class="mt-1 text-xs text-gray-500">Usa "No max" para la opción sin máximo</p>
           </div>
         </div>
       </div>
@@ -201,24 +201,24 @@
       <!-- Rental Price Config -->
       <% rental_config = Pwb::SearchConfig.new(@website, listing_type: :rental) %>
       <div class="bg-white rounded-lg border border-gray-200 p-4">
-        <h4 class="text-sm font-medium text-gray-900 mb-3">For Rent Prices</h4>
+        <h4 class="text-sm font-medium text-gray-900 mb-3">Precios en arriendo</h4>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Default Min</label>
+            <label class="block text-xs text-gray-600 mb-1">Mín. predeterminado</label>
             <input type="text" name="search_config[filters][price][rental][default_min]"
                    value="<%= rental_config.price_config&.dig(:default_min) %>"
-                   placeholder="None"
+                   placeholder="Ninguno"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Default Max</label>
+            <label class="block text-xs text-gray-600 mb-1">Máx. predeterminado</label>
             <input type="text" name="search_config[filters][price][rental][default_max]"
                    value="<%= rental_config.price_config&.dig(:default_max) %>"
-                   placeholder="None"
+                   placeholder="Ninguno"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Step</label>
+            <label class="block text-xs text-gray-600 mb-1">Incremento</label>
             <input type="text" name="search_config[filters][price][rental][step]"
                    value="<%= rental_config.price_config&.dig(:step) || 100 %>"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
@@ -226,20 +226,20 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Min Price Options (comma-separated)</label>
+            <label class="block text-xs text-gray-600 mb-1">Opciones de precio mínimo (separadas por comas)</label>
             <input type="text" name="search_config[filters][price][rental][min_presets]"
                    value="<%= rental_config.price_min_presets.join(', ') %>"
                    placeholder="No min, 500, 1000, 1500, 2000"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
-            <p class="mt-1 text-xs text-gray-500">Use "No min" for no minimum option</p>
+            <p class="mt-1 text-xs text-gray-500">Usa "No min" para la opción sin mínimo</p>
           </div>
           <div>
-            <label class="block text-xs text-gray-600 mb-1">Max Price Options (comma-separated)</label>
+            <label class="block text-xs text-gray-600 mb-1">Opciones de precio máximo (separadas por comas)</label>
             <input type="text" name="search_config[filters][price][rental][max_presets]"
                    value="<%= rental_config.price_max_presets.join(', ') %>"
                    placeholder="1000, 1500, 2000, 3000, No max"
                    class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
-            <p class="mt-1 text-xs text-gray-500">Use "No max" for no maximum option</p>
+            <p class="mt-1 text-xs text-gray-500">Usa "No max" para la opción sin máximo</p>
           </div>
         </div>
       </div>
@@ -248,13 +248,13 @@
     <!-- Bedrooms Filter Section -->
     <div class="bg-gray-50 rounded-lg p-6">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Bedrooms Filter</h3>
+        <h3 class="text-lg font-medium text-gray-900">Filtro de habitaciones</h3>
         <label class="flex items-center">
           <input type="hidden" name="search_config[filters][bedrooms][enabled]" value="0">
           <input type="checkbox" name="search_config[filters][bedrooms][enabled]" value="1"
                  <%= 'checked' if @search_config.filter_enabled?(:bedrooms) %>
                  class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-          <span class="ml-2 text-sm text-gray-700">Enabled</span>
+          <span class="ml-2 text-sm text-gray-700">Activado</span>
         </label>
       </div>
 
@@ -262,36 +262,36 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Min Options (comma-separated)</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Opciones de mínimo (separadas por comas)</label>
           <input type="text" name="search_config[filters][bedrooms][min_options]"
                  value="<%= @search_config.bedroom_min_options.join(', ') %>"
                  placeholder="Any, 1, 2, 3, 4, 5, 6+"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
-          <p class="mt-1 text-xs text-gray-500">Use "Any" for no minimum, "6+" for open-ended</p>
+          <p class="mt-1 text-xs text-gray-500">Usa "Any" para sin mínimo, "6+" para sin límite superior</p>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Max Options (comma-separated)</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Opciones de máximo (separadas por comas)</label>
           <input type="text" name="search_config[filters][bedrooms][max_options]"
                  value="<%= @search_config.bedroom_max_options.join(', ') %>"
                  placeholder="1, 2, 3, 4, 5, 6, No max"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
-          <p class="mt-1 text-xs text-gray-500">Use "No max" for unlimited</p>
+          <p class="mt-1 text-xs text-gray-500">Usa "No max" para sin límite</p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Default Minimum</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Mínimo predeterminado</label>
           <input type="text" name="search_config[filters][bedrooms][default_min]"
                  value="<%= @search_config.default_min_bedrooms %>"
-                 placeholder="None"
+                 placeholder="Ninguno"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Default Maximum</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Máximo predeterminado</label>
           <input type="text" name="search_config[filters][bedrooms][default_max]"
                  value="<%= @search_config.default_max_bedrooms %>"
-                 placeholder="None"
+                 placeholder="Ninguno"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
       </div>
@@ -301,20 +301,20 @@
         <input type="checkbox" name="search_config[filters][bedrooms][show_max_filter]" value="1"
                <%= 'checked' if @search_config.show_max_bedrooms? %>
                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-        <span class="ml-2 text-sm text-gray-700">Show separate max bedrooms filter</span>
+        <span class="ml-2 text-sm text-gray-700">Mostrar filtro de máximo de habitaciones por separado</span>
       </label>
     </div>
 
     <!-- Bathrooms Filter Section -->
     <div class="bg-gray-50 rounded-lg p-6">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Bathrooms Filter</h3>
+        <h3 class="text-lg font-medium text-gray-900">Filtro de baños</h3>
         <label class="flex items-center">
           <input type="hidden" name="search_config[filters][bathrooms][enabled]" value="0">
           <input type="checkbox" name="search_config[filters][bathrooms][enabled]" value="1"
                  <%= 'checked' if @search_config.filter_enabled?(:bathrooms) %>
                  class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-          <span class="ml-2 text-sm text-gray-700">Enabled</span>
+          <span class="ml-2 text-sm text-gray-700">Activado</span>
         </label>
       </div>
 
@@ -322,36 +322,36 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Min Options (comma-separated)</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Opciones de mínimo (separadas por comas)</label>
           <input type="text" name="search_config[filters][bathrooms][min_options]"
                  value="<%= @search_config.bathroom_min_options.join(', ') %>"
                  placeholder="Any, 1, 2, 3, 4, 5+"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
-          <p class="mt-1 text-xs text-gray-500">Use "Any" for no minimum</p>
+          <p class="mt-1 text-xs text-gray-500">Usa "Any" para sin mínimo</p>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Max Options (comma-separated)</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Opciones de máximo (separadas por comas)</label>
           <input type="text" name="search_config[filters][bathrooms][max_options]"
                  value="<%= @search_config.bathroom_max_options.join(', ') %>"
                  placeholder="1, 2, 3, 4, 5, No max"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
-          <p class="mt-1 text-xs text-gray-500">Use "No max" for unlimited</p>
+          <p class="mt-1 text-xs text-gray-500">Usa "No max" para sin límite</p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Default Minimum</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Mínimo predeterminado</label>
           <input type="text" name="search_config[filters][bathrooms][default_min]"
                  value="<%= @search_config.default_min_bathrooms %>"
-                 placeholder="None"
+                 placeholder="Ninguno"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Default Maximum</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Máximo predeterminado</label>
           <input type="text" name="search_config[filters][bathrooms][default_max]"
                  value="<%= @search_config.default_max_bathrooms %>"
-                 placeholder="None"
+                 placeholder="Ninguno"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
       </div>
@@ -361,20 +361,20 @@
         <input type="checkbox" name="search_config[filters][bathrooms][show_max_filter]" value="1"
                <%= 'checked' if @search_config.show_max_bathrooms? %>
                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-        <span class="ml-2 text-sm text-gray-700">Show separate max bathrooms filter</span>
+        <span class="ml-2 text-sm text-gray-700">Mostrar filtro de máximo de baños por separado</span>
       </label>
     </div>
 
     <!-- Area Filter Section -->
     <div class="bg-gray-50 rounded-lg p-6">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Area Filter</h3>
+        <h3 class="text-lg font-medium text-gray-900">Filtro de área</h3>
         <label class="flex items-center">
           <input type="hidden" name="search_config[filters][area][enabled]" value="0">
           <input type="checkbox" name="search_config[filters][area][enabled]" value="1"
                  <%= 'checked' if @search_config.filter_enabled?(:area) %>
                  class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-          <span class="ml-2 text-sm text-gray-700">Enabled</span>
+          <span class="ml-2 text-sm text-gray-700">Activado</span>
         </label>
       </div>
 
@@ -382,31 +382,31 @@
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Unit</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Unidad</label>
           <select name="search_config[filters][area][unit]"
                   class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
-            <option value="sqm" <%= 'selected' if @search_config.area_unit == 'sqm' %>>Square Meters (m&sup2;)</option>
-            <option value="sqft" <%= 'selected' if @search_config.area_unit == 'sqft' %>>Square Feet (ft&sup2;)</option>
+            <option value="sqm" <%= 'selected' if @search_config.area_unit == 'sqm' %>>Metros cuadrados (m&sup2;)</option>
+            <option value="sqft" <%= 'selected' if @search_config.area_unit == 'sqft' %>>Pies cuadrados (ft&sup2;)</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Default Min</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Mín. predeterminado</label>
           <input type="text" name="search_config[filters][area][default_min]"
                  value="<%= @search_config.default_min_area %>"
-                 placeholder="None"
+                 placeholder="Ninguno"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Default Max</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Máx. predeterminado</label>
           <input type="text" name="search_config[filters][area][default_max]"
                  value="<%= @search_config.default_max_area %>"
-                 placeholder="None"
+                 placeholder="Ninguno"
                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
       </div>
 
       <div class="mt-3">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Area Presets (comma-separated)</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Valores predefinidos de área (separados por comas)</label>
         <input type="text" name="search_config[filters][area][presets]"
                value="<%= @search_config.area_presets.join(', ') %>"
                placeholder="50, 100, 150, 200, 300, 500"
@@ -416,14 +416,14 @@
 
     <!-- Other Filters Section -->
     <div class="bg-gray-50 rounded-lg p-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-4">Other Filters</h3>
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Otros filtros</h3>
 
       <div class="space-y-3">
         <!-- Reference Search -->
         <label class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
           <div>
-            <span class="text-sm font-medium text-gray-700">Reference Search</span>
-            <p class="text-xs text-gray-500">Allow searching by property reference number</p>
+            <span class="text-sm font-medium text-gray-700">Búsqueda por referencia</span>
+            <p class="text-xs text-gray-500">Permite buscar por el número de referencia de la propiedad</p>
           </div>
           <div class="flex items-center">
             <input type="hidden" name="search_config[filters][reference][enabled]" value="0">
@@ -438,8 +438,8 @@
         <!-- Property Type -->
         <label class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
           <div>
-            <span class="text-sm font-medium text-gray-700">Property Type</span>
-            <p class="text-xs text-gray-500">Filter by apartment, villa, etc.</p>
+            <span class="text-sm font-medium text-gray-700">Tipo de propiedad</span>
+            <p class="text-xs text-gray-500">Filtra por apartamento, casa, etc.</p>
           </div>
           <div class="flex items-center">
             <input type="hidden" name="search_config[filters][property_type][enabled]" value="0">
@@ -453,8 +453,8 @@
         <!-- Location -->
         <label class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
           <div>
-            <span class="text-sm font-medium text-gray-700">Location</span>
-            <p class="text-xs text-gray-500">Filter by location/area</p>
+            <span class="text-sm font-medium text-gray-700">Ubicación</span>
+            <p class="text-xs text-gray-500">Filtra por ubicación/zona</p>
           </div>
           <div class="flex items-center">
             <input type="hidden" name="search_config[filters][location][enabled]" value="0">
@@ -468,8 +468,8 @@
         <!-- Features -->
         <label class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
           <div>
-            <span class="text-sm font-medium text-gray-700">Features</span>
-            <p class="text-xs text-gray-500">Filter by amenities (pool, parking, etc.)</p>
+            <span class="text-sm font-medium text-gray-700">Características</span>
+            <p class="text-xs text-gray-500">Filtra por comodidades (piscina, parqueadero, etc.)</p>
           </div>
           <div class="flex items-center">
             <input type="hidden" name="search_config[filters][features][enabled]" value="0">
@@ -485,14 +485,14 @@
     <!-- Reset to Defaults -->
     <div class="flex items-center justify-between pt-4 border-t border-gray-200">
       <div>
-        <%= link_to "Reset to Defaults",
+        <%= link_to "Restablecer valores predeterminados",
             site_admin_website_reset_search_config_path,
             method: :delete,
-            data: { confirm: "Are you sure you want to reset all search settings to defaults?" },
+            data: { confirm: "¿Estás seguro de que quieres restablecer toda la configuración de búsqueda a los valores predeterminados?" },
             class: "text-sm text-red-600 hover:text-red-700" %>
       </div>
       <div>
-        <%= f.submit "Save Search Configuration",
+        <%= f.submit "Guardar configuración de búsqueda",
             class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
       </div>
     </div>

@@ -14,7 +14,7 @@
             class: "block text-sm font-medium text-gray-700" %>
         <%= text_field_tag "field_key[translations][#{locale}]",
             field_key.persisted? ? Mobility.with_locale(locale) { field_key.label } : '',
-            placeholder: "Name in #{locale}",
+            placeholder: "Nombre en #{locale}",
             required: locale == I18n.default_locale,
             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
       </div>
@@ -23,11 +23,11 @@
 
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <%= f.label :sort_order, "Display Order", class: "block text-sm font-medium text-gray-700" %>
-      <%= f.number_field :sort_order, 
+      <%= f.label :sort_order, "Orden de visualización", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :sort_order,
           value: field_key.sort_order || 0,
           class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-      <p class="mt-1 text-xs text-gray-500">Lower numbers appear first</p>
+      <p class="mt-1 text-xs text-gray-500">Los números más bajos aparecen primero</p>
     </div>
     <div class="flex items-start pt-6">
       <div class="flex items-center h-5">
@@ -38,7 +38,7 @@
       <div class="ml-3">
         <%= f.label :visible, class: "text-sm font-medium text-gray-700" do %>
           Visible
-          <p class="text-xs text-gray-500 font-normal">Show in dropdowns and forms</p>
+          <p class="text-xs text-gray-500 font-normal">Mostrar en listas desplegables y formularios</p>
         <% end %>
       </div>
     </div>
@@ -48,9 +48,9 @@
     <button type="button" 
             onclick="this.closest('form').reset(); this.closest('tr')?.classList.add('hidden'); document.getElementById('new-entry-form')?.classList.add('hidden');"
             class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-      Cancel
+      Cancelar
     </button>
-    <%= f.submit field_key.persisted? ? 'Update' : 'Create',
+    <%= f.submit field_key.persisted? ? 'Actualizar' : 'Crear',
         class: "px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
   </div>
 <% end %>

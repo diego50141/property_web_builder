@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Site Admin - <%= current_website&.subdomain || 'PWB' %></title>
+  <title>Administración del sitio - <%= current_website&.subdomain || 'PWB' %></title>
   <%= favicon_tags %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -143,14 +143,14 @@
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
           </svg>
-          <span class="text-xs mt-1">Home</span>
+          <span class="text-xs mt-1">Inicio</span>
         <% end %>
 
         <%= link_to site_admin_props_path, class: "flex flex-col items-center justify-center flex-1 py-2 #{current_page?(site_admin_props_path) ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}" do %>
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
           </svg>
-          <span class="text-xs mt-1">Properties</span>
+          <span class="text-xs mt-1">Propiedades</span>
         <% end %>
 
         <%= link_to site_admin_messages_path, class: "flex flex-col items-center justify-center flex-1 py-2 relative #{current_page?(site_admin_messages_path) ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}" do %>
@@ -165,21 +165,21 @@
               </span>
             <% end %>
           </div>
-          <span class="text-xs mt-1">Messages</span>
+          <span class="text-xs mt-1">Mensajes</span>
         <% end %>
 
         <%= link_to site_admin_pages_path, class: "flex flex-col items-center justify-center flex-1 py-2 #{current_page?(site_admin_pages_path) ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}" do %>
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
           </svg>
-          <span class="text-xs mt-1">Pages</span>
+          <span class="text-xs mt-1">Páginas</span>
         <% end %>
 
         <button @click="sidebarOpen = true" class="flex flex-col items-center justify-center flex-1 py-2 text-gray-500 hover:text-gray-700">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
-          <span class="text-xs mt-1">More</span>
+          <span class="text-xs mt-1">Más</span>
         </button>
       </div>
     </nav>
@@ -191,19 +191,19 @@
           <svg class="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4z" clip-rule="evenodd"></path>
           </svg>
-          <span>New Property</span>
+          <span>Nueva propiedad</span>
         <% end %>
         <%= link_to site_admin_media_library_index_path, class: "flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg" do %>
           <svg class="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
           </svg>
-          <span>Upload Media</span>
+          <span>Subir medios</span>
         <% end %>
         <%= link_to site_admin_pages_path, class: "flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg" do %>
           <svg class="w-5 h-5 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
           </svg>
-          <span>Edit Pages</span>
+          <span>Editar páginas</span>
         <% end %>
       </div>
       <button @click="open = !open" class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-transform" :class="{ 'rotate-45': open }">
@@ -239,16 +239,16 @@
       const tourSteps = [
         {
           id: 'welcome',
-          title: 'Welcome to Site Admin!',
-          text: 'Let me show you around your website management dashboard. This quick tour will help you get familiar with all the features.',
+          title: '¡Bienvenido a la Administración del sitio!',
+          text: 'Permíteme mostrarte tu panel de gestión del sitio web. Este recorrido rápido te ayudará a familiarizarte con todas las funciones.',
           buttons: [
             {
-              text: 'Skip Tour',
+              text: 'Omitir tour',
               action: tour.cancel,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Let\'s Go!',
+              text: '¡Vamos!',
               action: tour.next
             }
           ]
@@ -259,16 +259,16 @@
             element: '#tour-dashboard',
             on: 'right'
           },
-          title: 'Dashboard',
-          text: 'Your dashboard gives you a quick overview of your website\'s activity, including visitor stats, recent messages, and property listings.',
+          title: 'Panel',
+          text: 'Tu panel te ofrece un resumen rápido de la actividad de tu sitio web, incluyendo estadísticas de visitantes, mensajes recientes y anuncios de propiedades.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -279,16 +279,16 @@
             element: '#tour-listings',
             on: 'right'
           },
-          title: 'Listings',
-          text: 'Manage all your property listings here. Add new listings, edit existing ones, upload photos, and control visibility.',
+          title: 'Anuncios',
+          text: 'Gestiona todos tus anuncios de propiedades aquí. Agrega nuevos anuncios, edita los existentes, sube fotos y controla la visibilidad.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -299,16 +299,16 @@
             element: '#tour-labels',
             on: 'right'
           },
-          title: 'Labels & Categories',
-          text: 'Customize listing labels, categories, and field names. This helps organize your listings and match your local market terminology.',
+          title: 'Etiquetas y categorías',
+          text: 'Personaliza las etiquetas, categorías y nombres de campos de los anuncios. Esto ayuda a organizar tus anuncios y a adaptarlos a la terminología de tu mercado local.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -319,16 +319,16 @@
             element: '#tour-pages',
             on: 'right'
           },
-          title: 'Pages',
-          text: 'Create and edit pages for your website like About Us, Services, Contact, and more. Build your site content with an easy-to-use editor.',
+          title: 'Páginas',
+          text: 'Crea y edita páginas para tu sitio web como Acerca de, Servicios, Contacto y más. Construye el contenido de tu sitio con un editor fácil de usar.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -339,16 +339,16 @@
             element: '#tour-messages',
             on: 'right'
           },
-          title: 'Message History',
-          text: 'View and respond to inquiries from potential clients who have contacted you through your website\'s forms.',
+          title: 'Historial de mensajes',
+          text: 'Consulta y responde las consultas de clientes potenciales que te han contactado a través de los formularios de tu sitio web.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -359,16 +359,16 @@
             element: '#tour-contacts',
             on: 'right'
           },
-          title: 'Contacts',
-          text: 'Manage your contact database. Keep track of leads and clients who have interacted with your website.',
+          title: 'Contactos',
+          text: 'Gestiona tu base de datos de contactos. Haz seguimiento de los prospectos y clientes que han interactuado con tu sitio web.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -379,16 +379,16 @@
             element: '#tour-users',
             on: 'right'
           },
-          title: 'Team & Users',
-          text: 'Manage team members and their access levels. Add colleagues, assign roles, and control who can edit what.',
+          title: 'Equipo y usuarios',
+          text: 'Gestiona los miembros del equipo y sus niveles de acceso. Agrega colegas, asigna roles y controla quién puede editar qué.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -399,16 +399,16 @@
             element: '#tour-website-settings',
             on: 'right'
           },
-          title: 'Website Settings',
-          text: 'Configure your website\'s core settings including name, logo, contact information, social media links, and SEO options.',
+          title: 'Configuración del sitio web',
+          text: 'Configura los ajustes principales de tu sitio web, incluyendo nombre, logo, información de contacto, enlaces a redes sociales y opciones de SEO.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -419,16 +419,16 @@
             element: '#tour-domain',
             on: 'right'
           },
-          title: 'Domain',
-          text: 'Set up your custom domain name. Connect your own domain to make your website truly yours.',
+          title: 'Dominio',
+          text: 'Configura tu nombre de dominio personalizado. Conecta tu propio dominio para que tu sitio web sea realmente tuyo.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -439,16 +439,16 @@
             element: '#tour-view-site',
             on: 'right'
           },
-          title: 'View Your Site',
-          text: 'Click here anytime to preview your live website and see how it looks to your visitors.',
+          title: 'Ver tu sitio',
+          text: 'Haz clic aquí en cualquier momento para previsualizar tu sitio web en vivo y ver cómo lo ven tus visitantes.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Next',
+              text: 'Siguiente',
               action: tour.next
             }
           ]
@@ -459,16 +459,16 @@
             element: '#start-tour-btn',
             on: 'right'
           },
-          title: 'Take the Tour Again',
-          text: 'You can always restart this tour by clicking this button. That\'s it! You\'re ready to start building your website.',
+          title: 'Repetir el recorrido',
+          text: 'Siempre puedes reiniciar este recorrido haciendo clic en este botón. ¡Eso es todo! Ya estás listo para empezar a construir tu sitio web.',
           buttons: [
             {
-              text: 'Back',
+              text: 'Volver',
               action: tour.back,
               classes: 'shepherd-button-secondary'
             },
             {
-              text: 'Finish Tour',
+              text: 'Finalizar recorrido',
               action: function() {
                 localStorage.setItem('siteAdminTourCompleted', 'true');
                 // Also notify server of tour completion

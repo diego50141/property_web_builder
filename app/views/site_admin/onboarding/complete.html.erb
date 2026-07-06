@@ -9,9 +9,9 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">You're All Set!</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">¡Todo listo!</h1>
       <p class="text-lg text-gray-600">
-        Your website <strong class="text-blue-600"><%= @website.subdomain %></strong> is ready to go.
+        Tu sitio web <strong class="text-blue-600"><%= @website.subdomain %></strong> está listo.
       </p>
     </div>
 
@@ -19,21 +19,21 @@
     <div class="grid grid-cols-3 gap-4 mb-8">
       <div class="bg-gray-50 rounded-lg p-4 text-center">
         <div class="text-2xl font-bold text-gray-900"><%= @stats[:properties] %></div>
-        <div class="text-sm text-gray-600">Properties</div>
+        <div class="text-sm text-gray-600">Propiedades</div>
       </div>
       <div class="bg-gray-50 rounded-lg p-4 text-center">
         <div class="text-2xl font-bold text-gray-900"><%= @stats[:pages] %></div>
-        <div class="text-sm text-gray-600">Pages</div>
+        <div class="text-sm text-gray-600">Páginas</div>
       </div>
       <div class="bg-gray-50 rounded-lg p-4 text-center">
         <div class="text-2xl font-bold text-gray-900"><%= @stats[:theme] %></div>
-        <div class="text-sm text-gray-600">Theme</div>
+        <div class="text-sm text-gray-600">Tema</div>
       </div>
     </div>
 
     <!-- Quick Actions -->
     <div class="mb-8">
-      <h2 class="text-lg font-semibold text-gray-900 mb-4">What's Next?</h2>
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">¿Qué sigue?</h2>
       
       <div class="space-y-4">
         <a href="<%= site_admin_props_path %>" class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors group">
@@ -43,8 +43,8 @@
             </svg>
           </div>
           <div class="flex-1">
-            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">Add More Properties</h3>
-            <p class="text-sm text-gray-500">List more properties to showcase your inventory</p>
+            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">Añadir más propiedades</h3>
+            <p class="text-sm text-gray-500">Publica más propiedades para mostrar tu inventario</p>
           </div>
           <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -58,8 +58,8 @@
             </svg>
           </div>
           <div class="flex-1">
-            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">Customize Your Pages</h3>
-            <p class="text-sm text-gray-500">Edit content on your home, about, and contact pages</p>
+            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">Personaliza tus páginas</h3>
+            <p class="text-sm text-gray-500">Edita el contenido de tus páginas de inicio, acerca de y contacto</p>
           </div>
           <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -74,8 +74,8 @@
             </svg>
           </div>
           <div class="flex-1">
-            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">View Your Website</h3>
-            <p class="text-sm text-gray-500">See how your site looks to visitors</p>
+            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">Ver tu sitio web</h3>
+            <p class="text-sm text-gray-500">Mira cómo se ve tu sitio para los visitantes</p>
           </div>
           <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -86,19 +86,19 @@
 
     <!-- Help Resources -->
     <div class="bg-gray-50 rounded-lg p-6 mb-8">
-      <h3 class="font-medium text-gray-900 mb-3">Need Help?</h3>
+      <h3 class="font-medium text-gray-900 mb-3">¿Necesitas ayuda?</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div class="flex items-start">
           <svg class="w-5 h-5 text-gray-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
-          <span class="text-gray-600">Check out our documentation for tutorials and guides</span>
+          <span class="text-gray-600">Consulta nuestra documentación para tutoriales y guías</span>
         </div>
         <div class="flex items-start">
           <svg class="w-5 h-5 text-gray-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
-          <span class="text-gray-600">Contact support if you have any questions</span>
+          <span class="text-gray-600">Contacta a soporte si tienes alguna pregunta</span>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
     <!-- Go to Dashboard -->
     <div class="text-center">
       <%= link_to site_admin_dashboard_path, class: "inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
-        Go to Dashboard
+        Ir al panel
         <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
         </svg>

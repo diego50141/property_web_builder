@@ -4,12 +4,12 @@
     <%= render 'navigation', current_tab: 'photos' %>
     <div class="p-6">
       <div class="mb-6">
-        <p class="text-sm text-gray-600">Manage photos for this property. Drag and drop to reorder. Click on a photo to edit its alt text for SEO.</p>
+        <p class="text-sm text-gray-600">Administra las fotos de esta propiedad. Arrastra y suelta para reordenar. Haz clic en una foto para editar su texto alternativo para SEO.</p>
       </div>
       <!-- Current Photos -->
       <% if @prop.respond_to?(:prop_photos) && @prop.prop_photos.any? %>
         <div class="mb-8">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Current Photos (<%= @prop.prop_photos.count %>)</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Fotos actuales (<%= @prop.prop_photos.count %>)</h3>
 
           <!-- Alt-text warning banner if missing -->
           <% missing_alt_count = @prop.prop_photos.where(description: [nil, '']).count %>
@@ -20,9 +20,9 @@
               </svg>
               <div>
                 <p class="text-sm font-medium text-yellow-800">
-                  <%= missing_alt_count %> photo<%= missing_alt_count > 1 ? 's are' : ' is' %> missing alt text
+                  <%= missing_alt_count %> foto<%= missing_alt_count > 1 ? 's no tienen' : ' no tiene' %> texto alternativo
                 </p>
-                <p class="text-xs text-yellow-700 mt-1">Alt text improves accessibility and SEO. Click on a photo to add descriptive text.</p>
+                <p class="text-xs text-yellow-700 mt-1">El texto alternativo mejora la accesibilidad y el SEO. Haz clic en una foto para agregar texto descriptivo.</p>
               </div>
             </div>
           <% end %>
@@ -32,15 +32,15 @@
               <div class="relative group photo-item bg-gray-50 rounded-lg p-2" data-photo-id="<%= photo.id %>">
                 <div class="relative">
                   <% if photo_has_image?(photo) %>
-                    <%= photo_image_tag photo, variant_options: { resize_to_limit: [200, 200] }, class: "w-full h-32 object-cover rounded cursor-move", alt: photo.description.presence || "Photo #{index + 1}" %>
+                    <%= photo_image_tag photo, variant_options: { resize_to_limit: [200, 200] }, class: "w-full h-32 object-cover rounded cursor-move", alt: photo.description.presence || "Foto #{index + 1}" %>
                     <% if photo.external? %>
-                      <div class="absolute top-1 right-1 bg-blue-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="External URL">
+                      <div class="absolute top-1 right-1 bg-blue-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="URL externa">
                         ext
                       </div>
                     <% end %>
                   <% else %>
                     <div class="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
-                      <span class="text-gray-400 text-sm">No image</span>
+                      <span class="text-gray-400 text-sm">Sin imagen</span>
                     </div>
                   <% end %>
                   <div class="absolute top-1 left-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
@@ -49,12 +49,12 @@
                   <!-- Alt text status indicator -->
                   <div class="absolute bottom-1 right-1">
                     <% if photo.description.present? %>
-                      <span class="bg-green-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Has alt text">
+                      <span class="bg-green-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Tiene texto alternativo">
                         <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
                         ALT
                       </span>
                     <% else %>
-                      <span class="bg-yellow-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Missing alt text">
+                      <span class="bg-yellow-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Falta texto alternativo">
                         <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                       </span>
                     <% end %>
@@ -63,13 +63,13 @@
                     <button type="button"
                             onclick="openAltTextModal('<%= photo.id %>', '<%= j(photo.description.to_s) %>')"
                             class="text-white text-xs hover:underline bg-blue-600 px-2 py-1 rounded">
-                      Edit Alt
+                      Editar Alt
                     </button>
-                    <%= button_to 'Remove',
+                    <%= button_to 'Eliminar',
                         remove_photo_site_admin_prop_path(@prop, photo_id: photo.id),
                         method: :delete,
                         class: 'text-white text-xs hover:underline bg-red-600 px-2 py-1 rounded',
-                        data: { turbo_confirm: 'Are you sure you want to remove this photo?' } %>
+                        data: { turbo_confirm: '¿Estás seguro de que deseas eliminar esta foto?' } %>
                   </div>
                 </div>
                 <!-- Inline alt text display -->
@@ -77,7 +77,7 @@
                   <p class="text-xs text-gray-500 truncate" title="<%= photo.description %>">
                     <span class="font-medium">Alt:</span>
                     <span class="alt-text-display" data-photo-id="<%= photo.id %>">
-                      <%= photo.description.present? ? photo.description : '<em class="text-yellow-600">Not set</em>'.html_safe %>
+                      <%= photo.description.present? ? photo.description : '<em class="text-yellow-600">Sin definir</em>'.html_safe %>
                     </span>
                   </p>
                 </div>
@@ -89,7 +89,7 @@
           <%= form_with url: reorder_photos_site_admin_prop_path(@prop), method: :patch, local: true, id: "reorder-form", class: "mt-4" do |f| %>
             <%= f.hidden_field :photo_order, id: "photo-order-input", value: @prop.prop_photos.order(:sort_order).pluck(:id).join(',') %>
             <button type="submit" id="save-order-btn" class="hidden px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-              Save New Order
+              Guardar nuevo orden
             </button>
           <% end %>
         </div>
@@ -98,7 +98,7 @@
           <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          <p class="mt-2 text-sm text-gray-600">No photos uploaded yet</p>
+          <p class="mt-2 text-sm text-gray-600">Aún no se han subido fotos</p>
         </div>
       <% end %>
       <!-- Upload Form -->
@@ -110,7 +110,7 @@
               <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"></path>
               </svg>
-              External Image Mode
+              Modo de imagen externa
             </span>
           </div>
           <%= form_with url: upload_photos_site_admin_prop_path(@prop), method: :post, local: true, id: "external-url-form" do |f| %>
@@ -118,8 +118,8 @@
               <svg class="mx-auto h-12 w-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
               </svg>
-              <p class="mt-2 text-sm text-gray-700">Add photos by entering image URLs</p>
-              <p class="mt-1 text-xs text-gray-500">Enter one URL per line. Images must be publicly accessible.</p>
+              <p class="mt-2 text-sm text-gray-700">Agrega fotos ingresando URLs de imágenes</p>
+              <p class="mt-1 text-xs text-gray-500">Ingresa una URL por línea. Las imágenes deben ser de acceso público.</p>
             </div>
             <div class="max-w-xl mx-auto">
               <%= f.text_area :external_urls,
@@ -127,7 +127,7 @@
                   class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm",
                   placeholder: "https://example.com/image1.jpg\nhttps://example.com/image2.jpg" %>
               <div class="mt-4 text-center">
-                <%= f.submit 'Add Photos from URLs', class: 'px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer' %>
+                <%= f.submit 'Añadir fotos desde URLs', class: 'px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer' %>
               </div>
             </div>
           <% end %>
@@ -139,17 +139,17 @@
             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
-            <p class="mt-2 text-sm text-gray-600">Drag and drop photos here, or click to select</p>
-            <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+            <p class="mt-2 text-sm text-gray-600">Arrastra y suelta fotos aquí, o haz clic para seleccionar</p>
+            <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
             <div class="mt-4">
               <%= f.file_field :photos, multiple: true, class: "hidden", id: "photo-upload", accept: "image/*" %>
               <label for="photo-upload" class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block">
-                Select Photos
+                Seleccionar fotos
               </label>
             </div>
             <div id="selected-files" class="mt-4 text-sm text-gray-600 hidden">
-              <p>Selected: <span id="file-count">0</span> file(s)</p>
-              <%= f.submit 'Upload Photos', class: 'mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700' %>
+              <p>Seleccionados: <span id="file-count">0</span> archivo(s)</p>
+              <%= f.submit 'Subir fotos', class: 'mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700' %>
             </div>
           <% end %>
         </div>
@@ -242,7 +242,7 @@
       <!-- Form Actions -->
       <div class="flex justify-end items-center mt-8 pt-6 border-t border-gray-200">
         <div class="flex space-x-3">
-          <%= link_to 'Back to Property', site_admin_prop_path(@prop), class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
+          <%= link_to 'Volver a la propiedad', site_admin_prop_path(@prop), class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
         </div>
       </div>
     </div>
@@ -253,27 +253,27 @@
 <div id="alt-text-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" onclick="closeAltTextModal(event)">
   <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4" onclick="event.stopPropagation()">
     <div class="p-4 border-b border-gray-200">
-      <h3 class="text-lg font-semibold text-gray-900">Edit Alt Text</h3>
-      <p class="text-sm text-gray-500 mt-1">Describe this image for accessibility and SEO</p>
+      <h3 class="text-lg font-semibold text-gray-900">Editar texto alternativo</h3>
+      <p class="text-sm text-gray-500 mt-1">Describe esta imagen para la accesibilidad y el SEO</p>
     </div>
     <div class="p-4">
       <label for="alt-text-input" class="block text-sm font-medium text-gray-700 mb-2">
-        Alt Text (Image Description)
+        Texto alternativo (descripción de la imagen)
       </label>
       <textarea id="alt-text-input"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                placeholder="e.g., Spacious living room with hardwood floors and large windows overlooking the garden"></textarea>
+                placeholder="ej., Amplia sala con pisos de madera y grandes ventanas con vista al jardín"></textarea>
       <p class="text-xs text-gray-500 mt-2">
-        <span id="alt-char-count">0</span>/125 characters recommended
+        <span id="alt-char-count">0</span>/125 caracteres recomendados
       </p>
       <div class="mt-3 p-3 bg-gray-50 rounded-lg">
-        <p class="text-xs text-gray-600 font-medium">Tips for good alt text:</p>
+        <p class="text-xs text-gray-600 font-medium">Consejos para un buen texto alternativo:</p>
         <ul class="text-xs text-gray-500 mt-1 space-y-1">
-          <li>• Be descriptive but concise</li>
-          <li>• Describe what's in the image, not just "photo of..."</li>
-          <li>• Include key features visible in the image</li>
-          <li>• Don't repeat property title - add unique details</li>
+          <li>• Sé descriptivo pero conciso</li>
+          <li>• Describe lo que hay en la imagen, no solo "foto de..."</li>
+          <li>• Incluye las características clave visibles en la imagen</li>
+          <li>• No repitas el título de la propiedad; agrega detalles únicos</li>
         </ul>
       </div>
     </div>
@@ -281,13 +281,13 @@
       <button type="button"
               onclick="closeAltTextModal()"
               class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-        Cancel
+        Cancelar
       </button>
       <button type="button"
               id="save-alt-text-btn"
               onclick="saveAltText()"
               class="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm text-sm font-medium hover:bg-blue-700">
-        Save Alt Text
+        Guardar texto alternativo
       </button>
     </div>
   </div>
@@ -339,7 +339,7 @@
 
     const description = altTextInput.value.trim();
     saveBtn.disabled = true;
-    saveBtn.textContent = 'Saving...';
+    saveBtn.textContent = 'Guardando...';
 
     fetch('<%= update_photo_alt_site_admin_prop_path(@prop) %>', {
       method: 'PATCH',
@@ -356,7 +356,7 @@
         // Update the display
         const displayEl = document.querySelector(`.alt-text-display[data-photo-id="${currentPhotoId}"]`);
         if (displayEl) {
-          displayEl.innerHTML = description || '<em class="text-yellow-600">Not set</em>';
+          displayEl.innerHTML = description || '<em class="text-yellow-600">Sin definir</em>';
         }
 
         // Update the status indicator
@@ -365,12 +365,12 @@
           const indicator = photoItem.querySelector('.absolute.bottom-1.right-1');
           if (indicator) {
             if (description) {
-              indicator.innerHTML = `<span class="bg-green-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Has alt text">
+              indicator.innerHTML = `<span class="bg-green-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Tiene texto alternativo">
                 <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
                 ALT
               </span>`;
             } else {
-              indicator.innerHTML = `<span class="bg-yellow-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Missing alt text">
+              indicator.innerHTML = `<span class="bg-yellow-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Falta texto alternativo">
                 <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
               </span>`;
             }
@@ -379,16 +379,16 @@
 
         closeAltTextModal();
       } else {
-        alert('Failed to save alt text: ' + (data.errors || ['Unknown error']).join(', '));
+        alert('No se pudo guardar el texto alternativo: ' + (data.errors || ['Error desconocido']).join(', '));
       }
     })
     .catch(error => {
       console.error('Error:', error);
-      alert('Failed to save alt text. Please try again.');
+      alert('No se pudo guardar el texto alternativo. Inténtalo de nuevo.');
     })
     .finally(() => {
       saveBtn.disabled = false;
-      saveBtn.textContent = 'Save Alt Text';
+      saveBtn.textContent = 'Guardar texto alternativo';
     });
   }
 </script>

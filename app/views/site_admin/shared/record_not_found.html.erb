@@ -7,23 +7,23 @@
     </div>
 
     <h1 class="text-2xl font-bold text-gray-900 mb-2">
-      <%= @resource_type || 'Record' %> Not Found
+      <%= @resource_type || 'Registro' %> no encontrado
     </h1>
 
     <p class="text-gray-600 mb-6">
-      The <%= @resource_type&.downcase || 'record' %> you're looking for doesn't exist or you don't have permission to view it.
-      It may have been deleted or moved.
+      El <%= @resource_type&.downcase || 'registro' %> que buscas no existe o no tienes permiso para verlo.
+      Es posible que se haya eliminado o movido.
     </p>
 
     <div class="space-x-4">
       <% begin %>
         <% index_path = url_for(controller: controller_name, action: :index, only_path: true) %>
-        <%= link_to "Back to #{controller_name.titleize}", index_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <%= link_to "Volver a #{controller_name.titleize}", index_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
       <% rescue ActionController::UrlGenerationError %>
         <%# No index route available %>
       <% end %>
 
-      <%= link_to "Go to Dashboard", site_admin_root_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      <%= link_to "Ir al panel", site_admin_root_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
     </div>
   </div>
 </div>

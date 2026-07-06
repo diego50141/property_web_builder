@@ -1,10 +1,10 @@
-<% content_for :title, "Batch Import Properties" %>
+<% content_for :title, "Importar propiedades en bloque" %>
 
 <div class="max-w-4xl mx-auto">
   <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">Batch Import Properties</h1>
+    <h1 class="text-2xl font-bold text-gray-900">Importar propiedades en bloque</h1>
     <p class="mt-1 text-sm text-gray-500">
-      Import multiple properties at once by pasting URLs or uploading a CSV file.
+      Importa varias propiedades a la vez pegando URLs o subiendo un archivo CSV.
     </p>
   </div>
 
@@ -14,7 +14,7 @@
         <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
-        <p class="text-sm font-medium text-green-800">Enhanced extraction is active</p>
+        <p class="text-sm font-medium text-green-800">La extracción mejorada está activa</p>
       </div>
     </div>
   <% elsif @pws_status == :unhealthy %>
@@ -23,7 +23,7 @@
         <svg class="w-5 h-5 text-yellow-600 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
         </svg>
-        <p class="text-sm font-medium text-yellow-800">External extraction service is unreachable &mdash; will use local parsing</p>
+        <p class="text-sm font-medium text-yellow-800">El servicio de extracción externo no está disponible &mdash; se usará el análisis local</p>
       </div>
     </div>
   <% end %>
@@ -40,8 +40,8 @@
             <thead>
               <tr>
                 <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">URL</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acción</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -53,21 +53,21 @@
                   <td class="px-3 py-2">
                     <% if result.success %>
                       <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
-                        Success
+                        Exitoso
                       </span>
                     <% else %>
                       <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800" title="<%= result.error %>">
-                        Failed
+                        Fallido
                       </span>
                     <% end %>
                   </td>
                   <td class="px-3 py-2 text-sm">
                     <% if result.scraped_property %>
                       <% if result.scraped_property.can_preview? %>
-                        <%= link_to "Preview", site_admin_property_url_import_preview_path(result.scraped_property),
+                        <%= link_to "Vista previa", site_admin_property_url_import_preview_path(result.scraped_property),
                             class: "text-blue-600 hover:text-blue-800" %>
                       <% elsif result.scraped_property.already_imported? %>
-                        <%= link_to "View", site_admin_prop_path(result.scraped_property.realty_asset),
+                        <%= link_to "Ver", site_admin_prop_path(result.scraped_property.realty_asset),
                             class: "text-gray-600 hover:text-gray-800" %>
                       <% end %>
                     <% end %>
@@ -86,9 +86,9 @@
 
     <!-- URL List Input -->
     <div class="bg-white shadow rounded-lg p-6">
-      <h2 class="text-lg font-medium text-gray-900 mb-4">Option 1: Paste URLs</h2>
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Opción 1: Pegar URLs</h2>
       <p class="text-sm text-gray-500 mb-4">
-        Enter one property URL per line (maximum 50 URLs).
+        Ingresa una URL de propiedad por línea (máximo 50 URLs).
       </p>
 
       <div>
@@ -100,16 +100,16 @@
 
     <!-- CSV Upload -->
     <div class="bg-white shadow rounded-lg p-6">
-      <h2 class="text-lg font-medium text-gray-900 mb-4">Option 2: Upload CSV</h2>
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Opción 2: Subir CSV</h2>
       <p class="text-sm text-gray-500 mb-4">
-        Upload a CSV file with URLs and optional property data.
+        Sube un archivo CSV con URLs y datos opcionales de la propiedad.
         <a href="#" class="text-blue-600 hover:text-blue-800" onclick="document.getElementById('csv-format-help').classList.toggle('hidden'); return false;">
-          View format
+          Ver formato
         </a>
       </p>
 
       <div id="csv-format-help" class="hidden mb-4 p-3 bg-gray-50 rounded text-sm font-mono">
-        <p class="text-gray-700 mb-2">CSV columns (first row is header):</p>
+        <p class="text-gray-700 mb-2">Columnas del CSV (la primera fila es el encabezado):</p>
         <code class="text-xs text-gray-600">
           url,bedrooms,bathrooms,city,price,property_type,notes<br>
           https://...,3,2,London,450000,apartment,Main property
@@ -125,13 +125,13 @@
     <!-- Submit -->
     <div class="flex items-center justify-between">
       <div class="text-sm text-gray-500">
-        <span class="font-medium">Note:</span> Large batches (>10 URLs) will be processed in the background.
+        <span class="font-medium">Nota:</span> Los lotes grandes (>10 URLs) se procesarán en segundo plano.
       </div>
 
       <div class="flex space-x-3">
-        <%= link_to "Cancel", site_admin_property_url_import_path,
+        <%= link_to "Cancelar", site_admin_property_url_import_path,
             class: "px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50" %>
-        <%= f.submit "Start Import",
+        <%= f.submit "Iniciar importación",
             class: "px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 cursor-pointer" %>
       </div>
     </div>
@@ -139,9 +139,9 @@
 
   <!-- Navigation -->
   <div class="mt-6 flex space-x-4">
-    <%= link_to "Single URL Import", site_admin_property_url_import_path,
+    <%= link_to "Importar una sola URL", site_admin_property_url_import_path,
         class: "text-sm text-gray-600 hover:text-gray-900" %>
-    <%= link_to "Import History", site_admin_property_url_import_history_path,
+    <%= link_to "Historial de importaciones", site_admin_property_url_import_history_path,
         class: "text-sm text-gray-600 hover:text-gray-900" %>
   </div>
 </div>

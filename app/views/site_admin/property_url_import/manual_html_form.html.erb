@@ -1,7 +1,7 @@
 <div class="max-w-4xl mx-auto px-4 py-8">
-  <h1 class="text-2xl font-bold text-gray-900 mb-2">Manual HTML Entry</h1>
+  <h1 class="text-2xl font-bold text-gray-900 mb-2">Entrada manual de HTML</h1>
   <p class="text-gray-600 mb-6">
-    Automatic scraping was not possible. You can manually paste the HTML source of the property page.
+    No fue posible la extracción automática. Puedes pegar manualmente el código fuente HTML de la página de la propiedad.
   </p>
 
   <!-- Error Alert -->
@@ -15,7 +15,7 @@
         </div>
         <div class="ml-3">
           <p class="text-sm text-yellow-700">
-            <strong>Scraping failed:</strong> <%= @scraped_property.scrape_error_message %>
+            <strong>La extracción falló:</strong> <%= @scraped_property.scrape_error_message %>
           </p>
         </div>
       </div>
@@ -25,13 +25,13 @@
   <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
     <!-- Instructions -->
     <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-900 mb-3">How to get the HTML source</h2>
+      <h2 class="text-lg font-semibold text-gray-900 mb-3">Cómo obtener el código fuente HTML</h2>
       <ol class="list-decimal list-inside space-y-2 text-sm text-gray-600">
-        <li>Open the property page in your browser: <code class="bg-gray-100 px-2 py-0.5 rounded text-xs"><%= @scraped_property&.source_url || params[:url] %></code></li>
-        <li>Right-click anywhere on the page</li>
-        <li>Select <strong>"View Page Source"</strong> (or press <kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">U</kbd> on Windows, <kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Option</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">U</kbd> on Mac)</li>
-        <li>Select all (<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>/<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">A</kbd>) and copy (<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>/<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">C</kbd>)</li>
-        <li>Paste the HTML below</li>
+        <li>Abre la página de la propiedad en tu navegador: <code class="bg-gray-100 px-2 py-0.5 rounded text-xs"><%= @scraped_property&.source_url || params[:url] %></code></li>
+        <li>Haz clic derecho en cualquier parte de la página</li>
+        <li>Selecciona <strong>"Ver código fuente de la página"</strong> (o presiona <kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">U</kbd> en Windows, <kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Option</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">U</kbd> en Mac)</li>
+        <li>Selecciona todo (<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>/<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">A</kbd>) y copia (<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>/<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">C</kbd>)</li>
+        <li>Pega el HTML a continuación</li>
       </ol>
     </div>
 
@@ -39,22 +39,22 @@
       <%= hidden_field_tag :url, @scraped_property&.source_url || params[:url] %>
 
       <div>
-        <label for="raw_html" class="block text-sm font-medium text-gray-700 mb-1">HTML Source</label>
+        <label for="raw_html" class="block text-sm font-medium text-gray-700 mb-1">Código fuente HTML</label>
         <%= text_area_tag :raw_html, nil,
             rows: 15,
             class: "block w-full font-mono text-xs rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
             placeholder: "<!DOCTYPE html>\n<html>\n...",
             required: true %>
         <p class="mt-1 text-sm text-gray-500">
-          Paste the complete HTML source code of the property page.
+          Pega el código fuente HTML completo de la página de la propiedad.
         </p>
       </div>
 
       <div class="flex items-center gap-3 pt-4">
         <button type="submit" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-          Parse HTML
+          Analizar HTML
         </button>
-        <%= link_to "Cancel", site_admin_property_url_import_path,
+        <%= link_to "Cancelar", site_admin_property_url_import_path,
             class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200" %>
       </div>
     <% end %>
@@ -62,11 +62,11 @@
 
   <!-- Tips -->
   <div class="mt-6 bg-gray-50 rounded-lg p-4">
-    <h3 class="text-sm font-medium text-gray-700 mb-2">Tips</h3>
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Consejos</h3>
     <ul class="text-sm text-gray-600 space-y-1">
-      <li>Make sure to copy the <strong>entire</strong> page source, including the <code class="bg-gray-200 px-1 rounded">&lt;html&gt;</code> tags.</li>
-      <li>The HTML should be at least a few thousand characters long for a valid property page.</li>
-      <li>If the page uses JavaScript to load content, the extracted data may be incomplete.</li>
+      <li>Asegúrate de copiar el código fuente <strong>completo</strong> de la página, incluidas las etiquetas <code class="bg-gray-200 px-1 rounded">&lt;html&gt;</code>.</li>
+      <li>El HTML debe tener al menos unos miles de caracteres para una página de propiedad válida.</li>
+      <li>Si la página usa JavaScript para cargar el contenido, los datos extraídos pueden estar incompletos.</li>
     </ul>
   </div>
 </div>

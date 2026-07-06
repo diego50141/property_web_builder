@@ -1,6 +1,6 @@
 <div class="max-w-6xl mx-auto">
   <div class="mb-6">
-    <%= link_to '&larr; Back to Widgets'.html_safe, site_admin_widgets_path, class: 'text-blue-600 hover:text-blue-800' %>
+    <%= link_to '&larr; Volver a los widgets'.html_safe, site_admin_widgets_path, class: 'text-blue-600 hover:text-blue-800' %>
   </div>
 
   <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -10,8 +10,8 @@
         <p class="text-sm text-gray-500 font-mono">ID: <%= @widget.widget_key %></p>
       </div>
       <div class="flex gap-2">
-        <%= link_to 'Edit', edit_site_admin_widget_path(@widget), class: 'px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50' %>
-        <%= link_to 'Preview', preview_site_admin_widget_path(@widget), target: '_blank', class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700' %>
+        <%= link_to 'Editar', edit_site_admin_widget_path(@widget), class: 'px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50' %>
+        <%= link_to 'Vista previa', preview_site_admin_widget_path(@widget), target: '_blank', class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700' %>
       </div>
     </div>
 
@@ -20,11 +20,11 @@
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="bg-gray-50 rounded-lg p-4 text-center">
           <div class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@widget.impressions_count) %></div>
-          <div class="text-sm text-gray-500">Impressions</div>
+          <div class="text-sm text-gray-500">Impresiones</div>
         </div>
         <div class="bg-gray-50 rounded-lg p-4 text-center">
           <div class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@widget.clicks_count) %></div>
-          <div class="text-sm text-gray-500">Clicks</div>
+          <div class="text-sm text-gray-500">Clics</div>
         </div>
         <div class="bg-gray-50 rounded-lg p-4 text-center">
           <div class="text-2xl font-bold text-gray-900">
@@ -34,38 +34,38 @@
         </div>
         <div class="bg-gray-50 rounded-lg p-4 text-center">
           <div class="text-2xl font-bold text-gray-900"><%= @widget.properties_query.count %></div>
-          <div class="text-sm text-gray-500">Properties</div>
+          <div class="text-sm text-gray-500">Propiedades</div>
         </div>
       </div>
 
       <!-- Embed Code -->
       <div class="mb-8">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">Embed Code</h2>
-        <p class="text-sm text-gray-600 mb-4">Copy and paste this code into any HTML page to display your properties:</p>
+        <h2 class="text-lg font-medium text-gray-900 mb-4">Código de inserción</h2>
+        <p class="text-sm text-gray-600 mb-4">Copia y pega este código en cualquier página HTML para mostrar tus propiedades:</p>
 
         <div class="space-y-4">
           <!-- Script Embed -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">JavaScript Embed (Recommended)</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Inserción con JavaScript (recomendado)</label>
             <div class="relative">
               <pre class="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto font-mono" id="script-embed-code"><%= @widget.embed_code(host: request.host_with_port) %></pre>
               <button type="button"
                       onclick="copyToClipboard('script-embed-code')"
                       class="absolute top-2 right-2 px-3 py-1 bg-gray-700 text-white text-xs rounded hover:bg-gray-600">
-                Copy
+                Copiar
               </button>
             </div>
           </div>
 
           <!-- Iframe Embed -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Iframe Embed (Alternative)</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Inserción con iframe (alternativa)</label>
             <div class="relative">
               <pre class="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto font-mono" id="iframe-embed-code"><%= @widget.iframe_embed_code(host: request.host_with_port) %></pre>
               <button type="button"
                       onclick="copyToClipboard('iframe-embed-code')"
                       class="absolute top-2 right-2 px-3 py-1 bg-gray-700 text-white text-xs rounded hover:bg-gray-600">
-                Copy
+                Copiar
               </button>
             </div>
           </div>
@@ -75,60 +75,60 @@
       <!-- Configuration Summary -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <h2 class="text-lg font-medium text-gray-900 mb-4">Display Settings</h2>
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Configuración de visualización</h2>
           <dl class="space-y-2 text-sm">
             <div class="flex justify-between">
-              <dt class="text-gray-500">Layout</dt>
+              <dt class="text-gray-500">Diseño</dt>
               <dd class="text-gray-900 font-medium"><%= @widget.layout.capitalize %></dd>
             </div>
             <% if @widget.layout == 'grid' %>
               <div class="flex justify-between">
-                <dt class="text-gray-500">Columns</dt>
+                <dt class="text-gray-500">Columnas</dt>
                 <dd class="text-gray-900 font-medium"><%= @widget.columns %></dd>
               </div>
             <% end %>
             <div class="flex justify-between">
-              <dt class="text-gray-500">Max Properties</dt>
+              <dt class="text-gray-500">Máx. de propiedades</dt>
               <dd class="text-gray-900 font-medium"><%= @widget.max_properties %></dd>
             </div>
             <div class="flex justify-between">
-              <dt class="text-gray-500">Show Search</dt>
-              <dd class="text-gray-900 font-medium"><%= @widget.show_search ? 'Yes' : 'No' %></dd>
+              <dt class="text-gray-500">Mostrar búsqueda</dt>
+              <dd class="text-gray-900 font-medium"><%= @widget.show_search ? 'Sí' : 'No' %></dd>
             </div>
             <div class="flex justify-between">
-              <dt class="text-gray-500">Show Pagination</dt>
-              <dd class="text-gray-900 font-medium"><%= @widget.show_pagination ? 'Yes' : 'No' %></dd>
+              <dt class="text-gray-500">Mostrar paginación</dt>
+              <dd class="text-gray-900 font-medium"><%= @widget.show_pagination ? 'Sí' : 'No' %></dd>
             </div>
           </dl>
         </div>
 
         <div>
-          <h2 class="text-lg font-medium text-gray-900 mb-4">Filters</h2>
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Filtros</h2>
           <dl class="space-y-2 text-sm">
             <div class="flex justify-between">
-              <dt class="text-gray-500">Listing Type</dt>
-              <dd class="text-gray-900 font-medium"><%= @widget.listing_type&.capitalize || 'All' %></dd>
+              <dt class="text-gray-500">Tipo de anuncio</dt>
+              <dd class="text-gray-900 font-medium"><%= @widget.listing_type&.capitalize || 'Todos' %></dd>
             </div>
             <% if @widget.min_bedrooms.present? || @widget.max_bedrooms.present? %>
               <div class="flex justify-between">
-                <dt class="text-gray-500">Bedrooms</dt>
+                <dt class="text-gray-500">Habitaciones</dt>
                 <dd class="text-gray-900 font-medium">
                   <%= @widget.min_bedrooms.present? ? "#{@widget.min_bedrooms}+" : '' %>
-                  <%= @widget.max_bedrooms.present? ? "up to #{@widget.max_bedrooms}" : '' %>
+                  <%= @widget.max_bedrooms.present? ? "hasta #{@widget.max_bedrooms}" : '' %>
                 </dd>
               </div>
             <% end %>
             <div class="flex justify-between">
-              <dt class="text-gray-500">Highlighted Only</dt>
-              <dd class="text-gray-900 font-medium"><%= @widget.highlighted_only ? 'Yes' : 'No' %></dd>
+              <dt class="text-gray-500">Solo destacadas</dt>
+              <dd class="text-gray-900 font-medium"><%= @widget.highlighted_only ? 'Sí' : 'No' %></dd>
             </div>
             <div class="flex justify-between">
-              <dt class="text-gray-500">Status</dt>
+              <dt class="text-gray-500">Estado</dt>
               <dd>
                 <% if @widget.active %>
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Activo</span>
                 <% else %>
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Inactive</span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Inactivo</span>
                 <% end %>
               </dd>
             </div>
@@ -138,7 +138,7 @@
 
       <% if @widget.allowed_domains.present? %>
         <div class="mt-8 pt-8 border-t">
-          <h2 class="text-lg font-medium text-gray-900 mb-4">Allowed Domains</h2>
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Dominios permitidos</h2>
           <div class="flex flex-wrap gap-2">
             <% @widget.allowed_domains.each do |domain| %>
               <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700 font-mono">
@@ -151,24 +151,24 @@
 
       <!-- Theme Preview -->
       <div class="mt-8 pt-8 border-t">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">Theme Colors</h2>
+        <h2 class="text-lg font-medium text-gray-900 mb-4">Colores del tema</h2>
         <div class="flex flex-wrap gap-4">
           <% theme = @widget.effective_theme %>
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded border" style="background-color: <%= theme['primary_color'] %>"></div>
-            <span class="text-sm text-gray-600">Primary</span>
+            <span class="text-sm text-gray-600">Principal</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded border" style="background-color: <%= theme['secondary_color'] %>"></div>
-            <span class="text-sm text-gray-600">Secondary</span>
+            <span class="text-sm text-gray-600">Secundario</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded border" style="background-color: <%= theme['background_color'] %>"></div>
-            <span class="text-sm text-gray-600">Background</span>
+            <span class="text-sm text-gray-600">Fondo</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded border" style="background-color: <%= theme['card_background'] %>"></div>
-            <span class="text-sm text-gray-600">Card</span>
+            <span class="text-sm text-gray-600">Tarjeta</span>
           </div>
         </div>
       </div>
@@ -177,11 +177,11 @@
 
   <!-- Danger Zone -->
   <div class="mt-8 bg-red-50 rounded-lg p-6">
-    <h3 class="text-lg font-medium text-red-900 mb-2">Danger Zone</h3>
-    <p class="text-sm text-red-700 mb-4">Deleting this widget will break any embeds using this widget key.</p>
-    <%= button_to 'Delete Widget', site_admin_widget_path(@widget),
+    <h3 class="text-lg font-medium text-red-900 mb-2">Zona de peligro</h3>
+    <p class="text-sm text-red-700 mb-4">Eliminar este widget romperá cualquier inserción que use esta clave de widget.</p>
+    <%= button_to 'Eliminar widget', site_admin_widget_path(@widget),
         method: :delete,
-        data: { turbo_confirm: 'Are you sure you want to delete this widget? This cannot be undone.' },
+        data: { turbo_confirm: '¿Estás seguro de que deseas eliminar este widget? Esta acción no se puede deshacer.' },
         class: 'px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700' %>
   </div>
 </div>
@@ -193,7 +193,7 @@ function copyToClipboard(elementId) {
   navigator.clipboard.writeText(text).then(() => {
     const button = element.parentElement.querySelector('button');
     const originalText = button.textContent;
-    button.textContent = 'Copied!';
+    button.textContent = '¡Copiado!';
     setTimeout(() => { button.textContent = originalText; }, 2000);
   });
 }

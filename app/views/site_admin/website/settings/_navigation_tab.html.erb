@@ -1,17 +1,17 @@
 <div class="p-4 md:p-6">
-  <h2 class="text-xl font-semibold text-gray-900 mb-6">Navigation Settings</h2>
+  <h2 class="text-xl font-semibold text-gray-900 mb-6">Configuración de navegación</h2>
 
   <%= form_with url: site_admin_website_update_links_path, method: :patch, local: true, data: { turbo: false }, id: 'navigation-form' do |f| %>
     <!-- Top Navigation Links -->
     <div class="mb-8">
-      <h3 class="text-lg font-medium text-gray-900 mb-2">Top Navigation Links</h3>
-      <p class="text-sm text-gray-500 mb-4">Drag to reorder. Edit titles in each supported language.</p>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Enlaces de navegación superior</h3>
+      <p class="text-sm text-gray-500 mb-4">Arrastra para reordenar. Edita los títulos en cada idioma admitido.</p>
 
       <% if @top_nav_links.any? %>
         <div id="top-nav-links" class="space-y-3">
           <% @top_nav_links.each_with_index do |link, index| %>
             <%
-              english_title = Mobility.with_locale(:en) { link.link_title } || link.page_slug&.titleize || 'Untitled'
+              english_title = Mobility.with_locale(:en) { link.link_title } || link.page_slug&.titleize || 'Sin título'
             %>
             <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden link-row"
                  data-link-id="<%= link.id %>"
@@ -29,7 +29,7 @@
                   <!-- Visibility Toggle -->
                   <div class="flex-shrink-0 mr-3">
                     <input type="hidden" name="links[][visible]" value="false" class="mobile-visible-hidden">
-                    <label class="relative inline-flex items-center cursor-pointer" title="<%= link.visible? ? 'Visible - click to hide' : 'Hidden - click to show' %>">
+                    <label class="relative inline-flex items-center cursor-pointer" title="<%= link.visible? ? 'Visible - clic para ocultar' : 'Oculto - clic para mostrar' %>">
                       <input type="checkbox" name="links[][visible]" value="true"
                              <%= 'checked' if link.visible? %>
                              class="sr-only peer mobile-visible-checkbox">
@@ -73,7 +73,7 @@
                 <!-- Visibility Toggle (prominent, at extreme left) -->
                 <div class="flex-shrink-0 w-14 px-2 py-2 bg-gray-50 border-r border-gray-200 flex items-center justify-center">
                   <input type="hidden" name="links[][visible]" value="false" class="desktop-visible-hidden">
-                  <label class="relative inline-flex items-center cursor-pointer" title="<%= link.visible? ? 'Visible - click to hide' : 'Hidden - click to show' %>">
+                  <label class="relative inline-flex items-center cursor-pointer" title="<%= link.visible? ? 'Visible - clic para ocultar' : 'Oculto - clic para mostrar' %>">
                     <input type="checkbox" name="links[][visible]" value="true"
                            <%= 'checked' if link.visible? %>
                            class="sr-only peer desktop-visible-checkbox">
@@ -117,21 +117,21 @@
         </div>
       <% else %>
         <div class="bg-gray-50 rounded-lg p-8 text-center text-gray-500">
-          No top navigation links configured
+          No hay enlaces de navegación superior configurados
         </div>
       <% end %>
     </div>
 
     <!-- Footer Links -->
     <div class="border-t border-gray-200 pt-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-2">Footer Links</h3>
-      <p class="text-sm text-gray-500 mb-4">Drag to reorder. Edit titles in each supported language.</p>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Enlaces del pie de página</h3>
+      <p class="text-sm text-gray-500 mb-4">Arrastra para reordenar. Edita los títulos en cada idioma admitido.</p>
 
       <% if @footer_links.any? %>
         <div id="footer-links" class="space-y-3">
           <% @footer_links.each_with_index do |link, index| %>
             <%
-              english_title = Mobility.with_locale(:en) { link.link_title } || link.page_slug&.titleize || 'Untitled'
+              english_title = Mobility.with_locale(:en) { link.link_title } || link.page_slug&.titleize || 'Sin título'
             %>
             <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden link-row"
                  data-link-id="<%= link.id %>"
@@ -149,7 +149,7 @@
                   <!-- Visibility Toggle -->
                   <div class="flex-shrink-0 mr-3">
                     <input type="hidden" name="links[][visible]" value="false" class="mobile-visible-hidden">
-                    <label class="relative inline-flex items-center cursor-pointer" title="<%= link.visible? ? 'Visible - click to hide' : 'Hidden - click to show' %>">
+                    <label class="relative inline-flex items-center cursor-pointer" title="<%= link.visible? ? 'Visible - clic para ocultar' : 'Oculto - clic para mostrar' %>">
                       <input type="checkbox" name="links[][visible]" value="true"
                              <%= 'checked' if link.visible? %>
                              class="sr-only peer mobile-visible-checkbox">
@@ -193,7 +193,7 @@
                 <!-- Visibility Toggle (prominent, at extreme left) -->
                 <div class="flex-shrink-0 w-14 px-2 py-2 bg-gray-50 border-r border-gray-200 flex items-center justify-center">
                   <input type="hidden" name="links[][visible]" value="false" class="desktop-visible-hidden">
-                  <label class="relative inline-flex items-center cursor-pointer" title="<%= link.visible? ? 'Visible - click to hide' : 'Hidden - click to show' %>">
+                  <label class="relative inline-flex items-center cursor-pointer" title="<%= link.visible? ? 'Visible - clic para ocultar' : 'Oculto - clic para mostrar' %>">
                     <input type="checkbox" name="links[][visible]" value="true"
                            <%= 'checked' if link.visible? %>
                            class="sr-only peer desktop-visible-checkbox">
@@ -237,14 +237,14 @@
         </div>
       <% else %>
         <div class="bg-gray-50 rounded-lg p-8 text-center text-gray-500">
-          No footer links configured
+          No hay enlaces del pie de página configurados
         </div>
       <% end %>
     </div>
 
     <!-- Submit Button -->
     <div class="pt-6 border-t border-gray-200 mt-6">
-      <%= f.submit "Save Navigation Settings",
+      <%= f.submit "Guardar configuración de navegación",
           class: "w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
     </div>
   <% end %>

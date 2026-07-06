@@ -16,7 +16,7 @@
 <div class="p-6" data-controller="theme-palette"
      data-theme-palette-palettes-value="<%= all_theme_palettes.to_json %>"
      data-theme-palette-current-theme-value="<%= @website.theme_name %>">
-  <h2 class="text-xl font-semibold text-gray-900 mb-6">Appearance Settings</h2>
+  <h2 class="text-xl font-semibold text-gray-900 mb-6">Configuración de apariencia</h2>
 
   <%= form_with model: @website, url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
     <input type="hidden" name="tab" value="appearance">
@@ -24,7 +24,7 @@
     <!-- Theme Selection -->
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-3">
-        Theme
+        Tema
       </label>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <% @themes.each do |theme| %>
@@ -54,8 +54,8 @@
 
     <!-- Color Palette Selection -->
     <div class="border-t border-gray-200 pt-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-4">Color Palette</h3>
-      <p class="text-sm text-gray-600 mb-4">Choose a curated color palette for your theme. This will set harmonious colors for your entire site.</p>
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Paleta de colores</h3>
+      <p class="text-sm text-gray-600 mb-4">Elige una paleta de colores curada para tu tema. Esto establecerá colores armoniosos para todo tu sitio.</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-theme-palette-target="paletteContainer">
         <% if @website.current_theme&.palettes&.any? %>
@@ -88,7 +88,7 @@
             </label>
           <% end %>
         <% else %>
-          <p class="text-gray-500 col-span-full">No palettes available for this theme.</p>
+          <p class="text-gray-500 col-span-full">No hay paletas disponibles para este tema.</p>
         <% end %>
       </div>
     </div>
@@ -107,14 +107,14 @@
     %>
     <% if false # HIDDEN: Dark Mode Setting - change to 'true' to re-enable %>
     <div class="border-t border-gray-200 pt-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-4">Dark Mode</h3>
-      <p class="text-sm text-gray-600 mb-4">Control how your website appears in dark mode. Dark mode colors are automatically generated from your selected palette.</p>
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Modo oscuro</h3>
+      <p class="text-sm text-gray-600 mb-4">Controla cómo se ve tu sitio web en modo oscuro. Los colores del modo oscuro se generan automáticamente a partir de la paleta que selecciones.</p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <% [
-          ['light_only', 'Light Only', 'sun', 'Only show light mode colors. Visitors will always see the light theme.'],
-          ['auto', 'Auto (System)', 'desktop-computer', 'Respect visitor\'s system preference. Shows dark mode if their device is set to dark.'],
-          ['dark', 'Always Dark', 'moon', 'Force dark mode for all visitors regardless of their system preference.']
+          ['light_only', 'Solo claro', 'sun', 'Mostrar solo los colores del modo claro. Los visitantes siempre verán el tema claro.'],
+          ['auto', 'Automático (sistema)', 'desktop-computer', 'Respeta la preferencia del sistema del visitante. Muestra el modo oscuro si su dispositivo está configurado en oscuro.'],
+          ['dark', 'Siempre oscuro', 'moon', 'Forzar el modo oscuro para todos los visitantes sin importar la preferencia de su sistema.']
         ].each do |value, label, icon, description| %>
           <label class="relative cursor-pointer group">
             <input type="radio" name="website[dark_mode_setting]" value="<%= value %>"
@@ -154,7 +154,7 @@
             <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
             </svg>
-            <span class="text-sm text-green-800">This palette has custom-designed dark mode colors.</span>
+            <span class="text-sm text-green-800">Esta paleta tiene colores de modo oscuro diseñados a medida.</span>
           </div>
         </div>
       <% elsif @website.dark_mode_enabled? %>
@@ -163,7 +163,7 @@
             <svg class="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
             </svg>
-            <span class="text-sm text-blue-800">Dark mode colors will be automatically generated from your palette.</span>
+            <span class="text-sm text-blue-800">Los colores del modo oscuro se generarán automáticamente a partir de tu paleta.</span>
           </div>
         </div>
       <% end %>
@@ -185,20 +185,20 @@
     <div class="border-t border-gray-200 pt-6">
       <details class="group">
         <summary class="flex items-center justify-between cursor-pointer list-none">
-          <h3 class="text-lg font-medium text-gray-900">Advanced Color Settings</h3>
+          <h3 class="text-lg font-medium text-gray-900">Configuración avanzada de colores</h3>
           <span class="text-gray-500 group-open:rotate-180 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </span>
         </summary>
-        <p class="text-sm text-gray-600 mt-2 mb-4">Override individual colors. Note: These settings override the selected palette.</p>
+        <p class="text-sm text-gray-600 mt-2 mb-4">Reemplaza colores individuales. Nota: estos ajustes anulan la paleta seleccionada.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
         <!-- Primary Color -->
         <div>
           <label for="primary_color" class="block text-sm font-medium text-gray-700 mb-1">
-            Primary Color
+            Color primario
           </label>
           <div class="flex items-center space-x-3">
             <input type="color" name="website[style_variables][primary_color]"
@@ -210,13 +210,13 @@
                    pattern="^#[0-9A-Fa-f]{6}$"
                    placeholder="#e91b23">
           </div>
-          <p class="mt-1 text-sm text-gray-500">Main brand color</p>
+          <p class="mt-1 text-sm text-gray-500">Color principal de la marca</p>
         </div>
 
         <!-- Secondary Color -->
         <div>
           <label for="secondary_color" class="block text-sm font-medium text-gray-700 mb-1">
-            Secondary Color
+            Color secundario
           </label>
           <div class="flex items-center space-x-3">
             <input type="color" name="website[style_variables][secondary_color]"
@@ -228,13 +228,13 @@
                    pattern="^#[0-9A-Fa-f]{6}$"
                    placeholder="#3498db">
           </div>
-          <p class="mt-1 text-sm text-gray-500">Accent color for highlights</p>
+          <p class="mt-1 text-sm text-gray-500">Color de acento para los destacados</p>
         </div>
 
         <!-- Action Color -->
         <div>
           <label for="action_color" class="block text-sm font-medium text-gray-700 mb-1">
-            Action Color
+            Color de acción
           </label>
           <div class="flex items-center space-x-3">
             <input type="color" name="website[style_variables][action_color]"
@@ -243,9 +243,9 @@
             <input type="text" name="website[style_variables][action_color]"
                    value="<%= @style_variables['action_color'] || 'green' %>"
                    class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                   placeholder="green or #22c55e">
+                   placeholder="verde o #22c55e">
           </div>
-          <p class="mt-1 text-sm text-gray-500">Color for buttons and CTAs</p>
+          <p class="mt-1 text-sm text-gray-500">Color para botones y llamados a la acción</p>
         </div>
       </div>
       </details>
@@ -255,18 +255,18 @@
     <!-- Custom CSS -->
     <div class="border-t border-gray-200 pt-6">
       <label for="raw_css" class="block text-sm font-medium text-gray-700 mb-1">
-        Custom CSS
+        CSS personalizado
       </label>
       <%= f.text_area :raw_css,
           rows: 10,
           class: "w-full px-4 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-          placeholder: "/* Add your custom CSS here */\n.my-class {\n  color: #333;\n}" %>
-      <p class="mt-1 text-sm text-gray-500">Add custom CSS to override theme styles. Changes apply site-wide.</p>
+          placeholder: "/* Añade tu CSS personalizado aquí */\n.my-class {\n  color: #333;\n}" %>
+      <p class="mt-1 text-sm text-gray-500">Añade CSS personalizado para anular los estilos del tema. Los cambios se aplican en todo el sitio.</p>
     </div>
 
     <!-- Submit Button -->
     <div class="pt-4 border-t border-gray-200">
-      <%= f.submit "Save Appearance Settings",
+      <%= f.submit "Guardar configuración de apariencia",
           class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
     </div>
   <% end %>

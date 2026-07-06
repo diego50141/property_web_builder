@@ -3,41 +3,41 @@
     <h1 class="text-3xl font-bold text-gray-900">
       <% case @tab %>
       <% when 'general' %>
-        General Settings
+        Configuración general
       <% when 'appearance' %>
-        Theme & Appearance
+        Tema y apariencia
       <% when 'navigation' %>
-        Site Navigation
+        Navegación del sitio
       <% when 'notifications' %>
-        Notification Settings
+        Configuración de notificaciones
       <% when 'seo' %>
-        SEO Settings
+        Configuración de SEO
       <% when 'social' %>
-        Social Links
+        Enlaces sociales
       <% when 'search' %>
-        Search Settings
+        Configuración de búsqueda
       <% else %>
-        <%= @tab.titleize %> Settings
+        Configuración de <%= @tab.titleize %>
       <% end %>
     </h1>
     <p class="mt-2 text-gray-600">
       <% case @tab %>
       <% when 'general' %>
-        Configure basic website settings
+        Configura los ajustes básicos del sitio web
       <% when 'appearance' %>
-        Customize your site's look and feel
+        Personaliza el aspecto y el estilo de tu sitio
       <% when 'navigation' %>
-        Manage your site's navigation menus
+        Gestiona los menús de navegación de tu sitio
       <% when 'notifications' %>
-        Configure email and notification preferences
+        Configura las preferencias de correo y notificaciones
       <% when 'seo' %>
-        Optimize your site for search engines
+        Optimiza tu sitio para los motores de búsqueda
       <% when 'social' %>
-        Add links to your social media profiles
+        Añade enlaces a tus perfiles de redes sociales
       <% when 'search' %>
-        Configure property search options and filters
+        Configura las opciones y filtros de búsqueda de propiedades
       <% else %>
-        Configure settings for <%= current_website.subdomain %>
+        Configura los ajustes de <%= current_website.subdomain %>
       <% end %>
     </p>
   </div>
