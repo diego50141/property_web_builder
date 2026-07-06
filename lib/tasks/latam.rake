@@ -76,4 +76,65 @@ namespace :latam do
            "(city=#{asset.city}, visible=#{sale.visible})"
     end
   end
+
+  # Upstream demo seeds ship US/EU sample properties. For a LATAM client demo we
+  # only want local (Colombian) listings on the public site, so this unpublishes
+  # every listing whose property is not in Colombia. Idempotent and reversible
+  # (run latam:show_all_demo_props to re-publish everything).
+  COLOMBIA_COUNTRY_VALUES = ["co", "col", "colombia"].freeze
+
+  def latam_colombian_asset?(asset)
+    COLOMBIA_COUNTRY_VALUES.include?(asset.country.to_s.strip.downcase)
+  end
+
+  def latam_set_listing_visibility(website, visible:, only_foreign:)
+    changed = 0
+    ActsAsTenant.with_tenant(website) do
+      Pwb::RealtyAsset.where(website: website).find_each do |asset|
+        next if only_foreign && latam_colombian_asset?(asset)
+
+        listing_sets = [:sale_listings, :rental_listings, :spp_listings].filter_map do |assoc|
+          asset.public_send(assoc) if asset.respond_to?(assoc)
+        end
+        listing_sets.flatten.each do |listing|
+          attrs = {}
+          attrs[:visible] = visible if listing.respond_to?(:visible)
+          attrs[:active] = visible if listing.respond_to?(:active)
+          listing.update_columns(attrs) if attrs.any?
+        end
+        changed += 1
+      end
+
+      begin
+        Pwb::ListedProperty.refresh if defined?(Pwb::ListedProperty) && Pwb::ListedProperty.respond_to?(:refresh)
+      rescue StandardError => e
+        puts "[latam] ListedProperty.refresh skipped: #{e.message}"
+      end
+    end
+    changed
+  end
+
+  desc "Unpublish non-Colombian demo properties so the demo shows only local listings (idempotent)"
+  task hide_foreign_demo_props: :environment do
+    website = Pwb::Website.first
+    if website.nil?
+      warn "[latam] No Pwb::Website found; run db:seed first."
+      next
+    end
+
+    n = latam_set_listing_visibility(website, visible: false, only_foreign: true)
+    puts "[latam] unpublished listings for #{n} non-Colombian demo properties"
+  end
+
+  desc "Re-publish ALL demo properties (undo hide_foreign_demo_props)"
+  task show_all_demo_props: :environment do
+    website = Pwb::Website.first
+    if website.nil?
+      warn "[latam] No Pwb::Website found; run db:seed first."
+      next
+    end
+
+    n = latam_set_listing_visibility(website, visible: true, only_foreign: false)
+    puts "[latam] re-published listings for #{n} demo properties"
+  end
 end
