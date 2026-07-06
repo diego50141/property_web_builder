@@ -89,5 +89,31 @@ module SiteAdmin
         end
       end
     end
+
+    # Spanish labels for integration categories. Pwb::WebsiteIntegration::CATEGORIES
+    # is hardcoded in English upstream; we translate at the view layer (consistent
+    # with the rest of the LATAM site_admin) and fall back to the English value for
+    # anything not mapped here, so upstream additions never break.
+    INTEGRATION_CATEGORY_ES = {
+      'ai'              => { name: 'Inteligencia artificial', description: 'Generación de contenido y asistencia con IA' },
+      'crm'             => { name: 'CRM', description: 'Gestión de relación con clientes' },
+      'email_marketing' => { name: 'Email marketing', description: 'Campañas y automatización de correo' },
+      'analytics'       => { name: 'Analítica', description: 'Analítica del sitio web y del negocio' },
+      'payment'         => { name: 'Pagos', description: 'Procesamiento de pagos' },
+      'maps'            => { name: 'Mapas', description: 'Servicios de mapas y geocodificación' },
+      'storage'         => { name: 'Almacenamiento', description: 'Almacenamiento de archivos y medios' },
+      'communication'   => { name: 'Comunicación', description: 'Mensajería y notificaciones' },
+      'video'           => { name: 'Generación de video', description: 'Creación y renderizado automático de video' },
+      'spp'             => { name: 'Páginas de propiedad individual', description: 'Alojamiento de páginas de propiedad vía SPP' },
+      'hpg'             => { name: 'Juego de adivinar el precio', description: 'Integración del juego de estimación de precios (HPG)' }
+    }.freeze
+
+    def integration_category_name(category, info)
+      INTEGRATION_CATEGORY_ES.dig(category.to_s, :name) || info[:name]
+    end
+
+    def integration_category_description(category, info)
+      INTEGRATION_CATEGORY_ES.dig(category.to_s, :description) || info[:description]
+    end
   end
 end

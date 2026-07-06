@@ -13,8 +13,8 @@
           <%= render_category_icon(data[:info][:icon]) %>
         </div>
         <div>
-          <h2 class="text-xl font-semibold text-gray-900"><%= data[:info][:name] %></h2>
-          <p class="text-sm text-gray-500"><%= data[:info][:description] %></p>
+          <h2 class="text-xl font-semibold text-gray-900"><%= integration_category_name(category, data[:info]) %></h2>
+          <p class="text-sm text-gray-500"><%= integration_category_description(category, data[:info]) %></p>
         </div>
       </div>
 
