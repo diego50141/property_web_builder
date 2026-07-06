@@ -139,6 +139,19 @@ module SiteAdminHelper
     nil
   end
 
+  # Demo mode: advanced/experimental admin modules that are hidden from the
+  # sidebar so client demos stay focused on the core website builder. This only
+  # hides the navigation links (routes/controllers stay intact). Hidden by
+  # default; set PWB_DEMO_HIDE_ADVANCED=false to show every module again without
+  # editing the views.
+  DEMO_HIDDEN_MODULES = %w[external_feeds widgets cma_reports listing_videos].freeze
+
+  def demo_module_hidden?(module_key)
+    return false if ENV['PWB_DEMO_HIDE_ADVANCED'] == 'false'
+
+    DEMO_HIDDEN_MODULES.include?(module_key.to_s)
+  end
+
   # Breadcrumb helpers
   # Set breadcrumbs for current page
   # @param breadcrumbs [Array<Hash>] Array of {label: String, url: String}
