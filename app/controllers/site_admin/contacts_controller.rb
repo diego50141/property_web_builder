@@ -25,11 +25,34 @@ module SiteAdmin
 
       if @contact.save
         link_properties(@contact)
-        redirect_to site_admin_contacts_path,
+        redirect_to site_admin_contact_path(@contact),
                     notice: "Cliente \"#{[@contact.first_name, @contact.last_name].join(' ').strip.presence || @contact.primary_email}\" creado."
       else
         load_form_collections
         render :new, status: :unprocessable_entity
+      end
+    end
+
+    def edit
+      @contact = current_website.contacts.find(params[:id])
+      load_form_collections
+    end
+
+    def update
+      @contact = current_website.contacts.find(params[:id])
+      @contact.assign_attributes(contact_params)
+      @contact.source = @contact.source.presence || 'manual'
+      if address_filled?
+        (@contact.primary_address || @contact.build_primary_address).assign_attributes(address_params)
+      end
+      @contact.details = (@contact.details || {}).merge(detail_params)
+
+      if @contact.save
+        sync_linked_properties(@contact)
+        redirect_to site_admin_contact_path(@contact), notice: 'Cliente actualizado.'
+      else
+        load_form_collections
+        render :edit, status: :unprocessable_entity
       end
     end
 
@@ -47,6 +70,18 @@ module SiteAdmin
 
     def link_properties(contact)
       Array(params[:linked_property_ids]).reject(&:blank?).uniq.each do |asset_id|
+        contact.contact_realty_assets.create(realty_asset_id: asset_id, website_id: current_website.id)
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+        next
+      end
+    end
+
+    # Reemplaza el conjunto de inmuebles enlazados por los enviados en el form.
+    def sync_linked_properties(contact)
+      ids = Array(params[:linked_property_ids]).reject(&:blank?).uniq
+      contact.contact_realty_assets.where.not(realty_asset_id: ids).destroy_all
+      existing = contact.contact_realty_assets.pluck(:realty_asset_id).map(&:to_s)
+      (ids - existing).each do |asset_id|
         contact.contact_realty_assets.create(realty_asset_id: asset_id, website_id: current_website.id)
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
         next

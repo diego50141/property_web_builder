@@ -1,0 +1,210 @@
+<%
+  d = @contact.details || {}
+  input = "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+  label = "block text-sm font-medium text-gray-700 mb-1"
+  persisted = @contact.persisted?
+  form_url = persisted ? site_admin_actualizar_cliente_path(@contact) : site_admin_clientes_path
+  form_method = persisted ? :patch : :post
+%>
+
+<% if @contact.errors.any? %>
+  <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+    <ul class="list-disc list-inside text-red-700 text-sm">
+      <% @contact.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with url: form_url, method: form_method, local: true do %>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Datos personales -->
+    <div class="lg:col-span-2 bg-white rounded-lg shadow border-t-4 border-blue-500 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Datos personales</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="md:col-span-2">
+          <label class="<%= label %>">Encargado del cliente</label>
+          <select name="contact[assigned_user_id]" class="<%= input %>">
+            <option value="">— Sin asignar —</option>
+            <% @agents.each do |a| %>
+              <option value="<%= a.id %>" <%= 'selected' if @contact.assigned_user_id == a.id %>><%= a.email %></option>
+            <% end %>
+          </select>
+        </div>
+
+        <div>
+          <label class="<%= label %>">Nombre</label>
+          <input type="text" name="contact[first_name]" value="<%= @contact.first_name %>" class="<%= input %>">
+        </div>
+        <div>
+          <label class="<%= label %>">Apellidos</label>
+          <input type="text" name="contact[last_name]" value="<%= @contact.last_name %>" class="<%= input %>">
+        </div>
+
+        <div>
+          <label class="<%= label %>">Tipo de cliente</label>
+          <select name="details[tipo_cliente]" class="<%= input %>">
+            <% ['', 'Comprador', 'Arrendatario', 'Propietario', 'Inversionista', 'Otro'].each do |t| %>
+              <option value="<%= t %>" <%= 'selected' if d['tipo_cliente'] == t %>><%= t.presence || 'Selecciona una opción' %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <label class="<%= label %>">Nº de identificación</label>
+          <input type="text" name="contact[documentation_id]" value="<%= @contact.documentation_id %>" class="<%= input %>">
+        </div>
+
+        <div>
+          <label class="<%= label %>">Correo electrónico</label>
+          <input type="email" name="contact[primary_email]" value="<%= @contact.primary_email %>" class="<%= input %>">
+        </div>
+        <div class="flex items-end pb-2">
+          <label class="inline-flex items-center text-sm text-gray-700">
+            <input type="hidden" name="details[acepta_correos]" value="0">
+            <input type="checkbox" name="details[acepta_correos]" value="1" <%= 'checked' if d['acepta_correos'].to_s == '1' %> class="mr-2 rounded border-gray-300">
+            Acepta recibir correos
+          </label>
+        </div>
+
+        <div>
+          <label class="<%= label %>">Teléfono fijo</label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">+57</span>
+            <input type="tel" name="contact[other_phone_number]" value="<%= @contact.other_phone_number %>" class="<%= input %> rounded-l-none">
+          </div>
+        </div>
+        <div>
+          <label class="<%= label %>">Teléfono móvil</label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">+57</span>
+            <input type="tel" name="contact[primary_phone_number]" value="<%= @contact.primary_phone_number %>" class="<%= input %> rounded-l-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="<%= label %>">Fecha de nacimiento</label>
+          <input type="date" name="details[fecha_nacimiento]" value="<%= d['fecha_nacimiento'] %>" class="<%= input %>">
+        </div>
+        <div>
+          <label class="<%= label %>">Medio de captación</label>
+          <select name="contact[source]" class="<%= input %>">
+            <% { '' => 'Ningún medio', 'web' => 'Sitio web', 'whatsapp' => 'WhatsApp', 'metrocuadrado' => 'Metrocuadrado', 'referido' => 'Referido', 'redes' => 'Redes sociales', 'manual' => 'Carga manual' }.each do |val, txt| %>
+              <option value="<%= val %>" <%= 'selected' if @contact.source == val %>><%= txt %></option>
+            <% end %>
+          </select>
+        </div>
+
+        <div>
+          <label class="<%= label %>">Referido por</label>
+          <input type="text" name="details[referido]" value="<%= d['referido'] %>" class="<%= input %>">
+        </div>
+        <div>
+          <label class="<%= label %>">Etiqueta</label>
+          <input type="text" name="details[etiqueta]" value="<%= d['etiqueta'] %>" placeholder="Sin etiqueta" class="<%= input %>">
+        </div>
+
+        <div>
+          <label class="<%= label %>">Embudo</label>
+          <input type="text" name="details[embudo]" value="<%= d['embudo'].presence || 'Clientes' %>" class="<%= input %> bg-gray-50" readonly>
+        </div>
+        <div>
+          <label class="<%= label %>">Estado</label>
+          <input type="text" value="<%= @contact.stage_label %>" class="<%= input %> bg-gray-50" readonly>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="<%= label %>">Datos adicionales del cliente</label>
+          <textarea name="details[datos_adicionales]" rows="2" class="<%= input %>"><%= d['datos_adicionales'] %></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ubicación -->
+    <div class="bg-white rounded-lg shadow border-t-4 border-blue-500 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Ubicación</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="<%= label %>">País</label>
+          <select name="address[country]" class="<%= input %>">
+            <% ['Colombia', 'México', 'Perú', 'Ecuador', 'Chile', 'Argentina'].each do |c| %>
+              <option value="<%= c %>" <%= 'selected' if (@contact.primary_address&.country || 'Colombia') == c %>><%= c %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <label class="<%= label %>">Departamento</label>
+          <input type="text" name="address[region]" value="<%= @contact.primary_address&.region || 'Meta' %>" class="<%= input %>">
+        </div>
+        <div>
+          <label class="<%= label %>">Ciudad</label>
+          <input type="text" name="address[city]" value="<%= @contact.primary_address&.city || 'Villavicencio' %>" class="<%= input %>">
+        </div>
+        <div>
+          <label class="<%= label %>">Dirección</label>
+          <textarea name="address[street_address]" rows="3" class="<%= input %>"><%= @contact.primary_address&.street_address %></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Observaciones (editor con formato) -->
+  <div class="mt-6 bg-white rounded-lg shadow p-6" data-controller="rich-text">
+    <h2 class="text-lg font-semibold text-gray-900 mb-3">Observaciones</h2>
+    <div class="flex items-center gap-1 border border-gray-200 rounded-t-lg px-2 py-1.5 bg-gray-50">
+      <button type="button" data-command="bold" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200 font-bold" title="Negrita">B</button>
+      <button type="button" data-command="italic" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200 italic" title="Cursiva">I</button>
+      <button type="button" data-command="underline" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200 underline" title="Subrayado">U</button>
+      <span class="w-px h-5 bg-gray-300 mx-1"></span>
+      <button type="button" data-command="insertUnorderedList" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200" title="Lista con viñetas">•</button>
+      <button type="button" data-command="insertOrderedList" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200" title="Lista numerada">1.</button>
+      <span class="w-px h-5 bg-gray-300 mx-1"></span>
+      <select data-action="change->rich-text#size" class="text-sm border border-gray-200 rounded px-1 py-1" title="Tamaño de fuente">
+        <option value="">Tamaño</option>
+        <option value="2">Pequeño</option>
+        <option value="3">Normal</option>
+        <option value="5">Grande</option>
+      </select>
+    </div>
+    <div contenteditable="true" data-rich-text-target="editor" data-action="input->rich-text#sync"
+         class="min-h-[120px] border border-gray-200 border-t-0 rounded-b-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"></div>
+    <input type="hidden" name="details[observaciones]" data-rich-text-target="input" value="<%= d['observaciones'] %>">
+  </div>
+
+  <!-- Inmuebles enlazados -->
+  <div class="mt-6 bg-white rounded-lg shadow p-6" data-controller="property-linker">
+    <h2 class="text-lg font-semibold text-gray-900 mb-3">Inmuebles enlazados</h2>
+    <div class="flex items-center gap-2 mb-3">
+      <select data-property-linker-target="select" class="<%= input %> flex-1">
+        <option value="">Selecciona un inmueble…</option>
+        <% @property_options.each do |title, id| %>
+          <option value="<%= id %>"><%= title %></option>
+        <% end %>
+      </select>
+      <button type="button" data-action="property-linker#add"
+              class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 whitespace-nowrap">Enlazar inmueble</button>
+    </div>
+    <div class="border border-gray-200 rounded-lg overflow-hidden">
+      <table class="min-w-full text-sm">
+        <thead class="bg-gray-50 text-left text-gray-500">
+          <tr><th class="px-4 py-2">Inmueble</th><th class="px-4 py-2 text-right">Vínculo</th></tr>
+        </thead>
+        <tbody data-property-linker-target="list">
+          <% @contact.linked_properties.each do |p| %>
+            <% ptitle = p.sale_listings.first&.title_es || p.rental_listings.first&.title_es || p.reference %>
+            <tr data-asset-id="<%= p.id %>" class="border-t border-gray-100">
+              <td class="px-4 py-2 text-sm"><%= ptitle %><input type="hidden" name="linked_property_ids[]" value="<%= p.id %>"></td>
+              <td class="px-4 py-2 text-right"><button type="button" data-action="property-linker#remove" class="text-red-600 hover:text-red-800 text-xs font-medium">Quitar</button></td>
+            </tr>
+          <% end %>
+          <% if @contact.linked_properties.empty? %>
+            <tr data-property-linker-target="empty"><td colspan="2" class="px-4 py-6 text-center text-gray-400">Ningún inmueble enlazado</td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="mt-6 flex justify-between items-center">
+    <%= link_to "Cancelar", (persisted ? site_admin_contact_path(@contact) : site_admin_contacts_path), class: "text-gray-600 hover:text-gray-800" %>
+    <%= submit_tag (persisted ? "Guardar cambios" : "Crear cliente"), class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+  </div>
+<% end %>

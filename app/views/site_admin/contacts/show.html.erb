@@ -1,35 +1,126 @@
-<div class="max-w-4xl mx-auto">
-  <div class="mb-6">
-    <%= link_to '← Volver a Contactos', site_admin_contacts_path, class: 'text-blue-600 hover:text-blue-800' %>
+<%
+  c = @contact
+  d = c.details || {}
+  name = [c.first_name, c.last_name].map(&:presence).compact.join(' ').presence || c.primary_email.presence || "Cliente ##{c.id}"
+  stage_colors = {
+    'nuevo' => 'bg-gray-100 text-gray-700', 'contactado' => 'bg-blue-100 text-blue-700',
+    'calificado' => 'bg-indigo-100 text-indigo-700', 'visita' => 'bg-purple-100 text-purple-700',
+    'negociacion' => 'bg-amber-100 text-amber-700', 'ganado' => 'bg-green-100 text-green-700',
+    'perdido' => 'bg-red-100 text-red-700'
+  }
+%>
+
+<div class="max-w-5xl mx-auto">
+  <div class="mb-4">
+    <%= link_to '← Lista de clientes', site_admin_contacts_path, class: 'text-blue-600 hover:text-blue-800 text-sm' %>
   </div>
 
-  <div class="bg-white rounded-lg shadow overflow-hidden">
-    <div class="px-6 py-4 border-b border-gray-200">
-      <h1 class="text-2xl font-bold text-gray-900">Detalles del contacto</h1>
+  <!-- Encabezado -->
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-lg font-bold">
+          <%= name[0]&.upcase %>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900"><%= name %></h1>
+          <div class="flex items-center gap-2 mt-1">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold <%= stage_colors[c.stage] %>"><%= c.stage_label %></span>
+            <% if c.source.present? %><span class="text-xs text-gray-400">· <%= c.source %></span><% end %>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <%= link_to 'Editar', site_admin_editar_cliente_path(c), class: 'px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700' %>
+        <%= link_to 'Ver en pipeline', site_admin_pipeline_path, class: 'px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50' %>
+      </div>
     </div>
+  </div>
 
-    <div class="p-6">
-      <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Correo</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= @contact.primary_email.presence || 'N/A' %></dd>
-        </div>
-
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Nombre</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= [@contact.first_name, @contact.last_name].compact.join(' ').presence || 'N/A' %></dd>
-        </div>
-
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Creado</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= format_date(@contact.created_at) %></dd>
-        </div>
-
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Actualizado</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= format_date(@contact.updated_at) %></dd>
-        </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Datos -->
+    <div class="lg:col-span-2 bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Datos personales</h2>
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+        <% {
+          'Correo electrónico' => c.primary_email,
+          'Teléfono móvil' => c.primary_phone_number,
+          'Teléfono fijo' => c.other_phone_number,
+          'Nº de identificación' => c.documentation_id,
+          'Tipo de cliente' => d['tipo_cliente'],
+          'Medio de captación' => c.source,
+          'Encargado' => c.assigned_user&.email,
+          'Referido por' => d['referido'],
+          'Etiqueta' => d['etiqueta'].presence || 'Sin etiqueta',
+          'Fecha de nacimiento' => d['fecha_nacimiento'],
+          'Acepta correos' => (d['acepta_correos'].to_s == '1' ? 'Sí' : 'No')
+        }.each do |k, v| %>
+          <div>
+            <dt class="text-gray-500"><%= k %></dt>
+            <dd class="mt-0.5 text-gray-900"><%= v.presence || '—' %></dd>
+          </div>
+        <% end %>
       </dl>
+      <% if d['datos_adicionales'].present? %>
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <dt class="text-gray-500 text-sm">Datos adicionales</dt>
+          <dd class="mt-1 text-gray-900 text-sm whitespace-pre-line"><%= d['datos_adicionales'] %></dd>
+        </div>
+      <% end %>
     </div>
+
+    <!-- Ubicación -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Ubicación</h2>
+      <% addr = c.primary_address %>
+      <% if addr %>
+        <dl class="space-y-3 text-sm">
+          <div><dt class="text-gray-500">País</dt><dd class="text-gray-900"><%= addr.country.presence || '—' %></dd></div>
+          <div><dt class="text-gray-500">Departamento</dt><dd class="text-gray-900"><%= addr.region.presence || '—' %></dd></div>
+          <div><dt class="text-gray-500">Ciudad</dt><dd class="text-gray-900"><%= addr.city.presence || '—' %></dd></div>
+          <div><dt class="text-gray-500">Dirección</dt><dd class="text-gray-900 whitespace-pre-line"><%= addr.street_address.presence || '—' %></dd></div>
+        </dl>
+      <% else %>
+        <p class="text-sm text-gray-400">Sin ubicación registrada.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Observaciones -->
+  <div class="mt-6 bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-3">Observaciones</h2>
+    <% if d['observaciones'].present? %>
+      <div class="prose prose-sm max-w-none text-gray-800"><%= sanitize d['observaciones'] %></div>
+    <% else %>
+      <p class="text-sm text-gray-400">Sin observaciones.</p>
+    <% end %>
+  </div>
+
+  <!-- Inmuebles enlazados -->
+  <div class="mt-6 bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-3">Inmuebles enlazados</h2>
+    <% props = c.linked_properties.to_a %>
+    <% if props.any? %>
+      <div class="border border-gray-200 rounded-lg overflow-hidden">
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-50 text-left text-gray-500">
+            <tr><th class="px-4 py-2">Inmueble</th><th class="px-4 py-2">Referencia</th></tr>
+          </thead>
+          <tbody>
+            <% props.each do |p| %>
+              <% ptitle = p.sale_listings.first&.title_es || p.rental_listings.first&.title_es || p.reference %>
+              <tr class="border-t border-gray-100">
+                <td class="px-4 py-2">
+                  <%= link_to ptitle, site_admin_prop_path(p), class: 'text-blue-600 hover:text-blue-800' %>
+                </td>
+                <td class="px-4 py-2 text-gray-500 font-mono text-xs"><%= p.reference %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-sm text-gray-400">Ningún inmueble enlazado.</p>
+    <% end %>
   </div>
 </div>
