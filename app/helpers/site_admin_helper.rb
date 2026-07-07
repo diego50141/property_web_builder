@@ -196,7 +196,7 @@ module SiteAdminHelper
       'widgets' => { label: 'Widgets', url: :site_admin_widgets_path },
       'inbox' => { label: 'Bandeja de entrada', url: :site_admin_inbox_index_path },
       'messages' => { label: 'Mensajes', url: :site_admin_messages_path },
-      'contacts' => { label: 'Contactos', url: :site_admin_contacts_path },
+      'contacts' => { label: 'Clientes', url: :site_admin_contacts_path },
       'email_templates' => { label: 'Plantillas de correo', url: :site_admin_email_templates_path },
       'support_tickets' => { label: 'Soporte', url: :site_admin_support_tickets_path },
       'analytics' => { label: 'Analítica', url: :site_admin_analytics_path },
