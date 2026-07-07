@@ -287,6 +287,12 @@ Rails.application.routes.draw do
       post '/', action: :create
     end
 
+    # Pipeline de prospectos/leads (CRM Fase 2)
+    scope :pipeline, controller: 'pipeline', as: 'pipeline' do
+      get '/', action: :index
+      patch ':id', action: :update, as: :update
+    end
+
     # SEO Audit Dashboard
     resource :seo_audit, only: [:show], controller: 'seo_audit', as: 'seo_audit' do
       get '/', action: :index, on: :collection

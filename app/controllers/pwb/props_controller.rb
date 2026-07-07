@@ -85,6 +85,8 @@ module Pwb
         primary_phone_number: params[:contact][:tel],
         first_name: params[:contact][:name],
       }
+      # CRM: fuente del lead cuando entra por "solicitar info" de una propiedad.
+      @contact.source = 'web' if @contact.new_record? && @contact.source.blank?
 
       title = I18n.t "mailers.property_enquiry_targeting_agency.title"
       @enquiry = Message.new({

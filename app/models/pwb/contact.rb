@@ -72,6 +72,28 @@ module Pwb
     belongs_to :primary_address, optional: true, class_name: 'Pwb::Address', foreign_key: 'primary_address_id'
     belongs_to :secondary_address, optional: true, class_name: 'Pwb::Address', foreign_key: 'secondary_address_id'
     belongs_to :user, optional: true, class_name: 'Pwb::User'
+    # Agente asignado al lead (CRM Fase 2)
+    belongs_to :assigned_user, optional: true, class_name: 'Pwb::User', foreign_key: 'assigned_user_id'
+
+    # --- CRM: pipeline de leads (Fase 2) ---
+    STAGES = %w[nuevo contactado calificado visita negociacion ganado perdido].freeze
+    # Etapas activas del tablero; ganado/perdido son terminales.
+    ACTIVE_STAGES = %w[nuevo contactado calificado visita negociacion].freeze
+    STAGE_LABELS = {
+      'nuevo' => 'Nuevo',
+      'contactado' => 'Contactado',
+      'calificado' => 'Calificado',
+      'visita' => 'Visita',
+      'negociacion' => 'Negociación',
+      'ganado' => 'Ganado',
+      'perdido' => 'Perdido'
+    }.freeze
+
+    scope :in_stage, ->(value) { where(stage: value) }
+
+    def stage_label
+      STAGE_LABELS[stage] || stage.to_s.humanize
+    end
 
     # Scopes
     # Use exists subquery instead of DISTINCT to avoid PostgreSQL JSON column comparison issues

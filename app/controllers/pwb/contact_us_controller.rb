@@ -64,6 +64,8 @@ module Pwb
         primary_phone_number: params[:contact][:tel],
         first_name: params[:contact][:name]
       }
+      # CRM: marca la fuente del lead cuando entra por el formulario web.
+      @contact.source = 'web' if @contact.new_record? && @contact.source.blank?
 
       @enquiry = Message.new(
         {
