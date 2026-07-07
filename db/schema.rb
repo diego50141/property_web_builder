@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_07_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -258,6 +258,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
   end
 
   create_table "pwb_contacts", force: :cascade do |t|
+    t.integer "assigned_user_id"
     t.datetime "created_at", precision: nil, null: false
     t.json "details", default: {}
     t.string "documentation_id"
@@ -277,6 +278,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
     t.string "primary_phone_number"
     t.integer "secondary_address_id"
     t.string "skype_id"
+    t.string "source"
+    t.string "stage", default: "nuevo", null: false
     t.integer "title", default: 0
     t.string "twitter_id"
     t.integer "unread_messages_count", default: 0, null: false
@@ -284,13 +287,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
     t.integer "user_id"
     t.bigint "website_id"
     t.string "website_url"
+    t.index ["assigned_user_id"], name: "index_pwb_contacts_on_assigned_user_id"
     t.index ["documentation_id"], name: "index_pwb_contacts_on_documentation_id"
     t.index ["first_name", "last_name"], name: "index_pwb_contacts_on_first_name_and_last_name"
     t.index ["first_name"], name: "index_pwb_contacts_on_first_name"
     t.index ["last_name"], name: "index_pwb_contacts_on_last_name"
     t.index ["primary_email"], name: "index_pwb_contacts_on_primary_email"
     t.index ["primary_phone_number"], name: "index_pwb_contacts_on_primary_phone_number"
+    t.index ["stage"], name: "index_pwb_contacts_on_stage"
     t.index ["title"], name: "index_pwb_contacts_on_title"
+    t.index ["website_id", "stage"], name: "index_pwb_contacts_on_website_id_and_stage"
     t.index ["website_id"], name: "index_pwb_contacts_on_website_id"
   end
 
@@ -1494,7 +1500,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
     t.index ["site_type"], name: "index_pwb_websites_on_site_type"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true
-    t.check_constraint "rendering_mode::text = ANY (ARRAY['rails'::character varying, 'client'::character varying]::text[])", name: "rendering_mode_valid"
+    t.check_constraint "rendering_mode::text = ANY (ARRAY['rails'::character varying::text, 'client'::character varying::text])", name: "rendering_mode_valid"
   end
 
   create_table "pwb_widget_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
