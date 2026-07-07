@@ -165,6 +165,22 @@ module Pwb
       expect(website.theme_name).to eq("brisbane")
     end
 
+    describe '#logo_url' do
+      it 'returns nil when there is no logo content nor main_logo_url' do
+        expect(website.logo_url).to be_nil
+      end
+
+      it 'falls back to the main_logo_url column when no logo content exists' do
+        website.update!(main_logo_url: 'https://example.com/logo.png')
+        expect(website.logo_url).to eq('https://example.com/logo.png')
+      end
+
+      it 'returns nil when main_logo_url is blank' do
+        website.update!(main_logo_url: '')
+        expect(website.logo_url).to be_nil
+      end
+    end
+
     describe 'default_locale_in_supported_locales validation' do
       it 'is valid when default locale is in supported locales' do
         website.supported_locales = %w[en es fr]

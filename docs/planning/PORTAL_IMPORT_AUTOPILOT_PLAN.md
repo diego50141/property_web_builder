@@ -98,11 +98,25 @@ estabilidad del formato RSC ante cambios de Metrocuadrado.
   paginación) → alimentar el batch import existente.
 - Esfuerzo: 2–3 días. (Los links ya se demostraron extraíbles.)
 
-### Fase C — Auto-provisión del sitio
+### Fase C — Auto-provisión del sitio ✅ (implementada, julio 2026)
 
 - Extraer datos de la agencia (nombre, logo, teléfono, ciudad) → crear el
   tenant/website + branding básico → disparar B+A → importar fotos.
-- Esfuerzo: 3–4 días.
+- **Hallazgo:** la ficha de cualquier propiedad incrusta el bloque completo de
+  la empresa en el payload RSC: `companyName`, `companyImage` (logo),
+  `companyAddress`, `companySeoUrl` (candidato a subdominio), `contactPhone` y
+  `whatsapp`. La ciudad se infiere por mayoría de `mciudad` en los listados de
+  la página de agencia. Sin Playwright.
+- **Implementación:**
+  - `Pwb::Metrocuadrado::AgencyExtractor` — datos de la agencia.
+  - `Pwb::Metrocuadrado::AutoProvisioner` — subdominio (slug del portal, con
+    validación), website live con defaults LATAM (es/COP), seed pack `base`
+    (sin propiedades/usuarios demo), `Pwb::Agency` + dirección, logo vía
+    `main_logo_url` (con fallback nuevo en `Website#logo_url`), e import
+    completo. Idempotente: re-ejecutar actualiza el mismo tenant.
+  - UI: panel super-admin → "Crear desde Metrocuadrado"
+    (`tenant_admin/metrocuadrado_provision`).
+  - Rake: `rake 'latam:provision_metrocuadrado[URL,subdominio]'`.
 
 ### Fase D — Pulido
 

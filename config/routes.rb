@@ -175,6 +175,9 @@ Rails.application.routes.draw do
       end
     end
 
+    # Auto-provisión de sitio desde una agencia de Metrocuadrado (Fase C)
+    resource :metrocuadrado_provision, only: %i[new create], controller: 'metrocuadrado_provisions'
+
     # Shard Management
     resources :shards, only: %i[index show] do
       member do

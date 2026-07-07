@@ -207,12 +207,15 @@ module Pwb
       end
     end
 
-    # Get logo URL from content photos
+    # Get logo URL from content photos, falling back to the main_logo_url
+    # column (settable from site_admin settings or auto-provisioning).
     def logo_url
       logo_content = contents.find_by_key("logo")
-      return unless logo_content && !logo_content.content_photos.empty?
+      if logo_content && !logo_content.content_photos.empty?
+        return logo_content.content_photos.first.image_url
+      end
 
-      logo_content.content_photos.first.image_url
+      main_logo_url.presence
     end
 
     # Set theme name with validation

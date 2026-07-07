@@ -26,4 +26,33 @@ namespace :latam do
     end
     puts "[metrocuadrado] #{imported} importada(s), #{errored} con error, sobre website ##{website.id}"
   end
+
+  desc "Crear un sitio nuevo desde una agencia de Metrocuadrado (Fase C). " \
+       "Uso: rake 'latam:provision_metrocuadrado[URL_AGENCIA,subdominio_opcional]'"
+  task :provision_metrocuadrado, [:url, :subdomain] => :environment do |_t, args|
+    url = args[:url].to_s.strip
+    if url.empty?
+      warn "Uso: rake 'latam:provision_metrocuadrado[https://www.metrocuadrado.com/inmobiliaria/<slug>/<id>,subdominio]'"
+      next
+    end
+
+    result = Pwb::Metrocuadrado::AutoProvisioner.provision(
+      agency_url: url,
+      subdomain: args[:subdomain].to_s.strip.presence
+    )
+
+    if result.success?
+      imported = result.import_results.count { |r| r.action == "imported" }
+      errored = result.import_results.count { |r| r.action == "error" }
+      result.import_results.each do |r|
+        puts "  [#{r.action}] #{r.reference} fotos=#{r.photos} #{r.error}"
+      end
+      puts "[metrocuadrado] website ##{result.website.id} (#{result.website.subdomain}) " \
+           "#{result.created ? 'creado' : 'reutilizado'}: agencia '#{result.agency_data[:name]}', " \
+           "#{imported} propiedad(es) importada(s), #{errored} con error"
+    else
+      warn "[metrocuadrado] auto-provisión falló: #{result.error}"
+      exit 1
+    end
+  end
 end

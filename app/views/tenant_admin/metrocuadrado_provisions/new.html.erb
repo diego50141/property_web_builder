@@ -1,0 +1,141 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+          <li class="inline-flex items-center">
+            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-blue-600" do %>
+              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+              Dashboard
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page">Crear sitio desde Metrocuadrado</span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">Crear sitio desde Metrocuadrado</h1>
+      <p class="mt-1 text-sm text-gray-500">
+        Pega el link de una agencia en Metrocuadrado: se crea su sitio (subdominio, nombre, logo,
+        teléfono) y se importan todas sus propiedades.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="p-4 space-y-6">
+  <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
+    <%= form_with url: tenant_admin_metrocuadrado_provision_path, method: :post, local: true, class: "space-y-6" do %>
+      <div>
+        <label for="url" class="block text-sm font-medium text-gray-700">URL de la agencia <span class="text-red-500">*</span></label>
+        <div class="mt-1">
+          <input type="url" name="url" id="url" required
+                 placeholder="https://www.metrocuadrado.com/inmobiliaria/llanocasa/7157"
+                 value="<%= @url %>"
+                 class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <p class="mt-1 text-sm text-gray-500">Debe ser la página de la inmobiliaria (…/inmobiliaria/…), no la de un inmueble.</p>
+      </div>
+
+      <div>
+        <label for="subdomain" class="block text-sm font-medium text-gray-700">Subdominio</label>
+        <div class="mt-1">
+          <input type="text" name="subdomain" id="subdomain"
+                 placeholder="(opcional — se toma del slug de la agencia)"
+                 value="<%= @subdomain %>"
+                 pattern="[a-z0-9][a-z0-9\-]*[a-z0-9]"
+                 class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <p class="mt-1 text-sm text-gray-500">Minúsculas, números y guiones. Si se deja vacío se usa el slug del portal (p. ej. <code>llanocasa</code>).</p>
+      </div>
+
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <p class="text-sm text-yellow-700">
+          Usar solo con autorización de la agencia (importa <em>sus propios</em> anuncios).
+          La importación corre en el momento y puede tardar ~1 min para ~20 inmuebles.
+          Re-ejecutar con la misma agencia actualiza el sitio existente, no crea otro.
+        </p>
+      </div>
+
+      <div class="flex justify-end">
+        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200">
+          Crear sitio e importar
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @result&.success? %>
+    <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">
+        <%= @result.created ? "Sitio creado" : "Sitio existente actualizado" %>
+      </h2>
+
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm mb-6">
+        <div>
+          <dt class="font-medium text-gray-500">Agencia</dt>
+          <dd class="text-gray-900"><%= @result.agency_data[:name] %></dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-500">Subdominio</dt>
+          <dd class="text-gray-900"><code><%= @result.website.subdomain %></code></dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-500">Teléfono / WhatsApp</dt>
+          <dd class="text-gray-900"><%= @result.agency_data[:phone] || "—" %> / <%= @result.agency_data[:whatsapp] || "—" %></dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-500">Ciudad</dt>
+          <dd class="text-gray-900"><%= @result.agency_data[:city] || "—" %></dd>
+        </div>
+        <% if @result.agency_data[:logo_url] %>
+          <div class="sm:col-span-2">
+            <dt class="font-medium text-gray-500 mb-1">Logo</dt>
+            <dd><img src="<%= @result.agency_data[:logo_url] %>" alt="Logo" class="h-12 border border-gray-200 rounded bg-white p-1"></dd>
+          </div>
+        <% end %>
+      </dl>
+
+      <div class="mb-6">
+        <%= link_to "Ver sitio en el panel →", tenant_admin_website_path(@result.website),
+                    class: "text-blue-600 hover:underline text-sm font-medium" %>
+      </div>
+
+      <h3 class="text-sm font-semibold text-gray-900 mb-2">
+        Propiedades (<%= @result.import_results.count { |r| r.action == "imported" } %> importadas,
+        <%= @result.import_results.count { |r| r.action != "imported" } %> con problemas)
+      </h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b border-gray-200">
+              <th class="py-2 pr-4 font-medium">Referencia</th>
+              <th class="py-2 pr-4 font-medium">Estado</th>
+              <th class="py-2 pr-4 font-medium">Fotos</th>
+              <th class="py-2 font-medium">Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @result.import_results.each do |r| %>
+              <tr class="border-b border-gray-100">
+                <td class="py-2 pr-4"><code><%= r.reference || "—" %></code></td>
+                <td class="py-2 pr-4">
+                  <% if r.action == "imported" %>
+                    <span class="px-2 py-0.5 rounded text-xs bg-green-100 text-green-800">importada</span>
+                  <% else %>
+                    <span class="px-2 py-0.5 rounded text-xs bg-red-100 text-red-800"><%= r.action %></span>
+                  <% end %>
+                </td>
+                <td class="py-2 pr-4"><%= r.photos || 0 %></td>
+                <td class="py-2 text-gray-500"><%= r.error || r.title %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
