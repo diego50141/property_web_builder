@@ -68,3 +68,7 @@ application.register("ai-description", AiDescriptionController)
 // Keyboard shortcuts
 import KeyboardController from "controllers/keyboard_controller"
 application.register("keyboard", KeyboardController)
+
+// CRM: kanban de prospectos (drag & drop)
+import PipelineController from "controllers/pipeline_controller"
+application.register("pipeline", PipelineController)

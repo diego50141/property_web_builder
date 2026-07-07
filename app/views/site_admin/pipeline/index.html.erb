@@ -8,30 +8,38 @@
     'ganado' => 'bg-green-100 text-green-700 border-green-300',
     'perdido' => 'bg-red-100 text-red-700 border-red-300'
   }
+  url_template = site_admin_pipeline_update_path('CONTACT_ID').sub('CONTACT_ID', ':id')
 %>
 
-<div class="max-w-full">
+<div class="max-w-full"
+     data-controller="pipeline"
+     data-pipeline-url-template-value="<%= url_template %>">
   <div class="mb-6">
     <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Pipeline de prospectos</h1>
-    <p class="mt-1 text-gray-600"><%= @total %> prospecto(s). Arrastra la vista para ver todas las etapas; usa los menús de cada tarjeta para mover de etapa o asignar un agente.</p>
+    <p class="mt-1 text-gray-600"><%= @total %> prospecto(s). <span class="text-gray-400">Arrastra las tarjetas entre etapas para moverlas.</span></p>
   </div>
 
   <div class="overflow-x-auto pb-4">
     <div class="flex gap-4 min-w-max">
       <% Pwb::Contact::STAGES.each do |stage| %>
         <% cards = @contacts_by_stage[stage] %>
-        <div class="w-72 flex-shrink-0">
+        <div class="w-72 flex-shrink-0" data-column>
           <div class="flex items-center justify-between mb-3 px-1">
             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border <%= stage_colors[stage] %>">
               <%= Pwb::Contact::STAGE_LABELS[stage] %>
             </span>
-            <span class="text-xs font-medium text-gray-400"><%= cards.size %></span>
+            <span class="text-xs font-medium text-gray-400" data-count><%= cards.size %></span>
           </div>
 
-          <div class="space-y-3 min-h-[60px]">
+          <div class="space-y-3 min-h-[80px] rounded-lg p-1 transition-colors"
+               data-stage="<%= stage %>"
+               data-action="dragover->pipeline#dragOver dragleave->pipeline#dragLeave drop->pipeline#drop">
             <% cards.each do |c| %>
               <% name = [c.first_name, c.last_name].map(&:presence).compact.join(' ').presence || c.primary_email.presence || "Contacto ##{c.id}" %>
-              <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3">
+              <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3 cursor-grab active:cursor-grabbing"
+                   draggable="true"
+                   data-contact-id="<%= c.id %>"
+                   data-action="dragstart->pipeline#dragStart dragend->pipeline#dragEnd">
                 <p class="font-medium text-gray-900 text-sm truncate" title="<%= name %>"><%= name %></p>
                 <% if c.primary_email.present? %>
                   <p class="text-xs text-gray-500 truncate"><%= c.primary_email %></p>
@@ -39,30 +47,36 @@
                 <% if c.primary_phone_number.present? %>
                   <p class="text-xs text-gray-500"><%= c.primary_phone_number %></p>
                 <% end %>
-                <% if c.source.present? %>
-                  <span class="inline-block mt-1 text-[10px] uppercase tracking-wide text-gray-400">Fuente: <%= c.source %></span>
+
+                <% if @interest_label[c.id].present? %>
+                  <div class="mt-2 flex items-start gap-1.5 text-xs text-gray-600 bg-gray-50 rounded px-2 py-1">
+                    <svg class="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4z" clip-rule="evenodd"></path></svg>
+                    <span class="truncate" title="<%= @interest_label[c.id] %>"><%= @interest_label[c.id] %></span>
+                  </div>
                 <% end %>
 
-                <%= form_with url: site_admin_pipeline_update_path(c.id), method: :patch, local: true, class: "mt-2 space-y-1.5" do %>
-                  <select name="stage" onchange="this.form.requestSubmit()"
-                          class="w-full text-xs border border-gray-200 rounded px-2 py-1 focus:ring-1 focus:ring-blue-500">
-                    <% Pwb::Contact::STAGES.each do |s| %>
-                      <option value="<%= s %>" <%= 'selected' if c.stage == s %>><%= Pwb::Contact::STAGE_LABELS[s] %></option>
-                    <% end %>
-                  </select>
-                  <select name="assigned_user_id" onchange="this.form.requestSubmit()"
-                          class="w-full text-xs border border-gray-200 rounded px-2 py-1 text-gray-600 focus:ring-1 focus:ring-blue-500">
-                    <option value="">— Sin asignar —</option>
-                    <% @agents.each do |a| %>
-                      <option value="<%= a.id %>" <%= 'selected' if c.assigned_user_id == a.id %>><%= a.email %></option>
-                    <% end %>
-                  </select>
-                <% end %>
+                <div class="mt-2 flex items-center justify-between gap-2">
+                  <% if c.source.present? %>
+                    <span class="text-[10px] uppercase tracking-wide text-gray-400">Fuente: <%= c.source %></span>
+                  <% else %>
+                    <span></span>
+                  <% end %>
+                  <%= form_with url: site_admin_pipeline_update_path(c.id), method: :patch, local: true, class: "flex-shrink-0" do %>
+                    <select name="assigned_user_id" onchange="this.form.requestSubmit()"
+                            class="text-xs border border-gray-200 rounded px-1.5 py-1 text-gray-600 focus:ring-1 focus:ring-blue-500 max-w-[7.5rem]"
+                            title="Asignar agente">
+                      <option value="">Sin agente</option>
+                      <% @agents.each do |a| %>
+                        <option value="<%= a.id %>" <%= 'selected' if c.assigned_user_id == a.id %>><%= a.email.split('@').first %></option>
+                      <% end %>
+                    </select>
+                  <% end %>
+                </div>
               </div>
             <% end %>
 
             <% if cards.empty? %>
-              <div class="text-center text-xs text-gray-300 py-6 border-2 border-dashed border-gray-100 rounded-lg">Sin prospectos</div>
+              <div class="text-center text-xs text-gray-300 py-6 border-2 border-dashed border-gray-100 rounded-lg" data-empty-hint>Suelta aquí</div>
             <% end %>
           </div>
         </div>
