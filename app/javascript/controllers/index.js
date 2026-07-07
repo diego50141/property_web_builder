@@ -72,3 +72,10 @@ application.register("keyboard", KeyboardController)
 // CRM: kanban de prospectos (drag & drop)
 import PipelineController from "controllers/pipeline_controller"
 application.register("pipeline", PipelineController)
+
+// CRM: editor de texto y enlazado de inmuebles (formulario de cliente)
+import RichTextController from "controllers/rich_text_controller"
+application.register("rich-text", RichTextController)
+
+import PropertyLinkerController from "controllers/property_linker_controller"
+application.register("property-linker", PropertyLinkerController)

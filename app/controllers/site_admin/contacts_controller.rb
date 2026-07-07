@@ -13,7 +13,7 @@ module SiteAdmin
     def new
       @contact = current_website.contacts.new(stage: 'nuevo')
       @contact.assigned_user_id ||= current_user&.id
-      @agents = current_website.users.order(:email)
+      load_form_collections
     end
 
     def create
@@ -24,15 +24,34 @@ module SiteAdmin
       @contact.details = (@contact.details || {}).merge(detail_params)
 
       if @contact.save
+        link_properties(@contact)
         redirect_to site_admin_contacts_path,
                     notice: "Cliente \"#{[@contact.first_name, @contact.last_name].join(' ').strip.presence || @contact.primary_email}\" creado."
       else
-        @agents = current_website.users.order(:email)
+        load_form_collections
         render :new, status: :unprocessable_entity
       end
     end
 
     private
+
+    def load_form_collections
+      @agents = current_website.users.order(:email)
+      @property_options = current_website.realty_assets
+                                         .includes(:sale_listings, :rental_listings)
+                                         .map do |a|
+        title = a.sale_listings.first&.title_es || a.rental_listings.first&.title_es || a.reference
+        [title, a.id]
+      end
+    end
+
+    def link_properties(contact)
+      Array(params[:linked_property_ids]).reject(&:blank?).uniq.each do |asset_id|
+        contact.contact_realty_assets.create(realty_asset_id: asset_id, website_id: current_website.id)
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+        next
+      end
+    end
 
     def contact_params
       params.require(:contact).permit(:first_name, :last_name, :primary_email,

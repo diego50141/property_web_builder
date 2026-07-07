@@ -149,25 +149,49 @@
       </div>
     </div>
 
-    <!-- Observaciones -->
-    <div class="mt-6 bg-white rounded-lg shadow p-6">
+    <!-- Observaciones (editor con formato) -->
+    <div class="mt-6 bg-white rounded-lg shadow p-6" data-controller="rich-text">
       <h2 class="text-lg font-semibold text-gray-900 mb-3">Observaciones</h2>
-      <textarea name="details[observaciones]" rows="4" class="<%= input %>" placeholder="Notas internas sobre el cliente..."><%= d['observaciones'] %></textarea>
+      <div class="flex items-center gap-1 border border-gray-200 rounded-t-lg px-2 py-1.5 bg-gray-50">
+        <button type="button" data-command="bold" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200 font-bold" title="Negrita">B</button>
+        <button type="button" data-command="italic" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200 italic" title="Cursiva">I</button>
+        <button type="button" data-command="underline" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200 underline" title="Subrayado">U</button>
+        <span class="w-px h-5 bg-gray-300 mx-1"></span>
+        <button type="button" data-command="insertUnorderedList" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200" title="Lista con viñetas">•</button>
+        <button type="button" data-command="insertOrderedList" data-action="rich-text#cmd" class="w-8 h-8 rounded hover:bg-gray-200" title="Lista numerada">1.</button>
+        <span class="w-px h-5 bg-gray-300 mx-1"></span>
+        <select data-action="change->rich-text#size" class="text-sm border border-gray-200 rounded px-1 py-1" title="Tamaño de fuente">
+          <option value="">Tamaño</option>
+          <option value="2">Pequeño</option>
+          <option value="3">Normal</option>
+          <option value="5">Grande</option>
+        </select>
+      </div>
+      <div contenteditable="true" data-rich-text-target="editor" data-action="input->rich-text#sync"
+           class="min-h-[120px] border border-gray-200 border-t-0 rounded-b-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"></div>
+      <input type="hidden" name="details[observaciones]" data-rich-text-target="input" value="<%= d['observaciones'] %>">
     </div>
 
-    <!-- Inmuebles enlazados (placeholder) -->
-    <div class="mt-6 bg-white rounded-lg shadow p-6">
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="text-lg font-semibold text-gray-900">Inmuebles enlazados</h2>
-        <span class="text-xs text-gray-400">Disponible tras crear el cliente</span>
+    <!-- Inmuebles enlazados -->
+    <div class="mt-6 bg-white rounded-lg shadow p-6" data-controller="property-linker">
+      <h2 class="text-lg font-semibold text-gray-900 mb-3">Inmuebles enlazados</h2>
+      <div class="flex items-center gap-2 mb-3">
+        <select data-property-linker-target="select" class="<%= input %> flex-1">
+          <option value="">Selecciona un inmueble…</option>
+          <% @property_options.each do |title, id| %>
+            <option value="<%= id %>"><%= title %></option>
+          <% end %>
+        </select>
+        <button type="button" data-action="property-linker#add"
+                class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 whitespace-nowrap">Enlazar inmueble</button>
       </div>
       <div class="border border-gray-200 rounded-lg overflow-hidden">
         <table class="min-w-full text-sm">
           <thead class="bg-gray-50 text-left text-gray-500">
-            <tr><th class="px-4 py-2">Inmueble</th><th class="px-4 py-2">Vínculo</th></tr>
+            <tr><th class="px-4 py-2">Inmueble</th><th class="px-4 py-2 text-right">Vínculo</th></tr>
           </thead>
-          <tbody>
-            <tr><td colspan="2" class="px-4 py-6 text-center text-gray-400">Ningún dato disponible en esta tabla</td></tr>
+          <tbody data-property-linker-target="list">
+            <tr data-property-linker-target="empty"><td colspan="2" class="px-4 py-6 text-center text-gray-400">Ningún inmueble enlazado</td></tr>
           </tbody>
         </table>
       </div>

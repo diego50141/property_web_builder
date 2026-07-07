@@ -75,6 +75,11 @@ module Pwb
     # Agente asignado al lead (CRM Fase 2)
     belongs_to :assigned_user, optional: true, class_name: 'Pwb::User', foreign_key: 'assigned_user_id'
 
+    # Inmuebles enlazados al cliente (CRM)
+    has_many :contact_realty_assets, class_name: 'Pwb::ContactRealtyAsset',
+             foreign_key: :contact_id, dependent: :destroy
+    has_many :linked_properties, through: :contact_realty_assets, source: :realty_asset
+
     # --- CRM: pipeline de leads (Fase 2) ---
     STAGES = %w[nuevo contactado calificado visita negociacion ganado perdido].freeze
     # Etapas activas del tablero; ganado/perdido son terminales.
