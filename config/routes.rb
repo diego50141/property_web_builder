@@ -281,6 +281,12 @@ Rails.application.routes.draw do
       post :batch_process, action: :batch_process
     end
 
+    # Importar propiedades desde Metrocuadrado (agencia o propiedad individual)
+    scope :metrocuadrado_import, controller: 'metrocuadrado_import', as: 'metrocuadrado_import' do
+      get '/', action: :new
+      post '/', action: :create
+    end
+
     # SEO Audit Dashboard
     resource :seo_audit, only: [:show], controller: 'seo_audit', as: 'seo_audit' do
       get '/', action: :index, on: :collection
