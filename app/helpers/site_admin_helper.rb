@@ -188,35 +188,34 @@ module SiteAdminHelper
 
     crumbs = []
 
-    # Map controller names to section info
+    # Map controller names to breadcrumb label (en español)
     section_map = {
-      'props' => { section: 'Listings', label: 'Properties', url: :site_admin_props_path },
-      'property_import_export' => { section: 'Listings', label: 'Import/Export', url: :site_admin_property_import_export_path },
-      'external_feeds' => { section: 'Listings', label: 'External Feeds', url: :site_admin_external_feed_path },
-      'widgets' => { section: 'Listings', label: 'Embed Widgets', url: :site_admin_widgets_path },
-      'inbox' => { section: 'Leads & Messages', label: 'Inbox', url: :site_admin_inbox_index_path },
-      'messages' => { section: 'Leads & Messages', label: 'Messages', url: :site_admin_messages_path },
-      'contacts' => { section: 'Leads & Messages', label: 'Contacts', url: :site_admin_contacts_path },
-      'email_templates' => { section: 'Leads & Messages', label: 'Email Templates', url: :site_admin_email_templates_path },
-      'support_tickets' => { section: 'Settings', label: 'Support', url: :site_admin_support_tickets_path },
-      'analytics' => { section: 'Analytics', label: 'Analytics', url: :site_admin_analytics_path },
-      'activity_logs' => { section: 'Analytics', label: 'Activity Logs', url: :site_admin_activity_logs_path },
-      'users' => { section: 'Settings', label: 'Team & Users', url: :site_admin_users_path },
-      'agency' => { section: 'Settings', label: 'Agency Profile', url: :edit_site_admin_agency_path },
-      'billing' => { section: 'Settings', label: 'Billing', url: :site_admin_billing_path },
-      'domains' => { section: 'Settings', label: 'Domain', url: :site_admin_domain_path },
-      'onboarding' => { section: 'Settings', label: 'Setup Wizard', url: :site_admin_onboarding_path },
-      'storage_stats' => { section: 'Settings', label: 'Storage Stats', url: :site_admin_storage_stats_path },
-      'pages' => { section: 'Site Design', label: 'Pages', url: :site_admin_pages_path },
-      'media_library' => { section: 'Site Design', label: 'Media Library', url: :site_admin_media_library_index_path },
-      'seo_audit' => { section: 'Site Design', label: 'SEO Audit', url: :site_admin_seo_audit_path }
+      'props' => { label: 'Inmuebles', url: :site_admin_props_path },
+      'property_import_export' => { label: 'Importar/Exportar', url: :site_admin_property_import_export_path },
+      'external_feeds' => { label: 'Fuentes externas', url: :site_admin_external_feed_path },
+      'widgets' => { label: 'Widgets', url: :site_admin_widgets_path },
+      'inbox' => { label: 'Bandeja de entrada', url: :site_admin_inbox_index_path },
+      'messages' => { label: 'Mensajes', url: :site_admin_messages_path },
+      'contacts' => { label: 'Contactos', url: :site_admin_contacts_path },
+      'email_templates' => { label: 'Plantillas de correo', url: :site_admin_email_templates_path },
+      'support_tickets' => { label: 'Soporte', url: :site_admin_support_tickets_path },
+      'analytics' => { label: 'Analítica', url: :site_admin_analytics_path },
+      'activity_logs' => { label: 'Registro de actividad', url: :site_admin_activity_logs_path },
+      'users' => { label: 'Equipo y usuarios', url: :site_admin_users_path },
+      'agency' => { label: 'Perfil', url: :edit_site_admin_agency_path },
+      'billing' => { label: 'Facturación', url: :site_admin_billing_path },
+      'domains' => { label: 'Dominio', url: :site_admin_domain_path },
+      'onboarding' => { label: 'Asistente de configuración', url: :site_admin_onboarding_path },
+      'storage_stats' => { label: 'Almacenamiento', url: :site_admin_storage_stats_path },
+      'pages' => { label: 'Páginas', url: :site_admin_pages_path },
+      'media_library' => { label: 'Biblioteca de medios', url: :site_admin_media_library_index_path },
+      'seo_audit' => { label: 'Auditoría SEO', url: :site_admin_seo_audit_path }
     }
 
     info = section_map[controller_name]
     return [] unless info
 
-    # Add section breadcrumb
-    crumbs << { label: info[:section], url: nil }
+    # (Sin miga de sección para un breadcrumb más simple: Inicio > Recurso > Acción)
 
     # Add controller-level breadcrumb for index
     if action_name == 'index'
@@ -227,9 +226,9 @@ module SiteAdminHelper
 
       # Add action-level breadcrumb
       action_labels = {
-        'show' => 'View',
-        'edit' => 'Edit',
-        'new' => 'New'
+        'show' => 'Ver',
+        'edit' => 'Editar',
+        'new' => 'Nuevo'
       }
       if action_labels[action_name]
         crumbs << { label: action_labels[action_name], url: nil }
