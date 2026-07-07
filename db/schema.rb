@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_07_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_07_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -255,6 +255,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_000000) do
     t.index ["documentation_id"], name: "index_pwb_clients_on_documentation_id", unique: true
     t.index ["email"], name: "index_pwb_clients_on_email", unique: true
     t.index ["first_names", "last_names"], name: "index_pwb_clients_on_first_names_and_last_names"
+  end
+
+  create_table "pwb_contact_realty_assets", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.datetime "created_at", null: false
+    t.uuid "realty_asset_id", null: false
+    t.string "relationship", default: "interes"
+    t.datetime "updated_at", null: false
+    t.bigint "website_id"
+    t.index ["contact_id", "realty_asset_id"], name: "idx_contact_realty_unique", unique: true
+    t.index ["contact_id"], name: "index_pwb_contact_realty_assets_on_contact_id"
+    t.index ["realty_asset_id"], name: "index_pwb_contact_realty_assets_on_realty_asset_id"
   end
 
   create_table "pwb_contacts", force: :cascade do |t|
