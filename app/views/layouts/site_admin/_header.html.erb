@@ -35,6 +35,27 @@
         <kbd class="hidden md:inline ml-2 px-1.5 py-0.5 text-xs bg-white border border-gray-300 rounded">⌘K</kbd>
       </button>
 
+      <% if simple_admin_nav? && current_website %>
+        <div class="relative" x-data="{ acc: false }">
+          <button type="button" @click="acc = !acc" @click.outside="acc = false"
+                  class="flex items-center px-3 py-1.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <svg class="w-4 h-4 md:mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="hidden md:inline text-sm">Mi cuenta</span>
+            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+          <div x-show="acc" x-cloak x-transition
+               class="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-gray-200 z-20 py-1 text-sm text-gray-700">
+            <%= link_to 'Perfil', edit_site_admin_agency_path, class: 'block px-4 py-2 hover:bg-gray-100' %>
+            <%= link_to 'Diseño del sitio', site_admin_website_settings_tab_path('appearance'), class: 'block px-4 py-2 hover:bg-gray-100' %>
+            <%= link_to 'Dominio', site_admin_domain_path, class: 'block px-4 py-2 hover:bg-gray-100' %>
+          </div>
+        </div>
+      <% end %>
+
       <% if current_user %>
         <div class="relative">
           <button type="button" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900" data-dropdown-toggle="user-dropdown">

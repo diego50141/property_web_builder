@@ -152,6 +152,13 @@ module SiteAdminHelper
     DEMO_HIDDEN_MODULES.include?(module_key.to_s)
   end
 
+  # Simplified admin sidebar: only Inmuebles, Prospectos and Mi cuenta, so the
+  # panel stays approachable for agencies (progressive disclosure). On by
+  # default; set PWB_SIMPLE_ADMIN_NAV=false to restore the full navigation.
+  def simple_admin_nav?
+    ENV['PWB_SIMPLE_ADMIN_NAV'] != 'false'
+  end
+
   # Breadcrumb helpers
   # Set breadcrumbs for current page
   # @param breadcrumbs [Array<Hash>] Array of {label: String, url: String}

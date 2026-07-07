@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto" x-data="{ showGettingStarted: <%= @show_getting_started %> }">
+<div class="max-w-7xl mx-auto">
   <div class="mb-4 md:mb-6">
     <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Panel</h1>
     <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600">
@@ -73,171 +73,7 @@
     </div>
   </div>
 
-  <!-- Getting Started Guide (dismissible) -->
-  <% if @show_getting_started %>
-    <div x-show="showGettingStarted" x-transition class="mb-6 md:mb-8">
-      <div class="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg shadow-lg p-4 md:p-6 text-white relative">
-        <button @click="showGettingStarted = false; document.cookie = 'dismiss_getting_started=true; path=/; max-age=2592000'"
-                class="absolute top-3 right-3 text-white/70 hover:text-white">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-        <h2 class="text-lg font-semibold mb-4">Primeros pasos</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <% @website_health[:checks].select { |c| !c[:complete] }.first(4).each_with_index do |check, index| %>
-            <%= link_to check[:path], class: "flex items-start p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors" do %>
-              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold mr-3">
-                <%= index + 1 %>
-              </span>
-              <div>
-                <p class="font-medium"><%= check[:name] %></p>
-                <p class="text-sm text-white/70 mt-1">Haz clic para completar</p>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-        <% if @website_health[:checks].all? { |c| c[:complete] } %>
-          <p class="text-center py-4">¡Todo listo! Tu sitio web está totalmente configurado.</p>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-
-  <!-- Website Health + Subscription Row -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
-    <!-- Website Health Widget -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-      <div class="p-4 md:p-6 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <h3 class="text-base md:text-lg font-semibold text-gray-900">Estado del sitio web</h3>
-          <span class="text-2xl font-bold <%= @website_health[:percentage] >= 80 ? 'text-green-600' : @website_health[:percentage] >= 50 ? 'text-yellow-600' : 'text-red-600' %>">
-            <%= @website_health[:percentage] %>%
-          </span>
-        </div>
-        <!-- Progress bar -->
-        <div class="mt-3 w-full bg-gray-200 rounded-full h-2">
-          <div class="h-2 rounded-full transition-all duration-500 <%= @website_health[:percentage] >= 80 ? 'bg-green-500' : @website_health[:percentage] >= 50 ? 'bg-yellow-500' : 'bg-red-500' %>"
-               style="width: <%= @website_health[:percentage] %>%"></div>
-        </div>
-      </div>
-      <div class="p-4 md:p-6">
-        <div class="space-y-3">
-          <% @website_health[:checks].each do |check| %>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <% if check[:complete] %>
-                  <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                  </svg>
-                <% else %>
-                  <svg class="w-5 h-5 text-gray-300 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"></path>
-                  </svg>
-                <% end %>
-                <span class="text-sm <%= check[:complete] ? 'text-gray-600' : 'text-gray-900 font-medium' %>">
-                  <%= check[:name] %>
-                </span>
-              </div>
-              <% unless check[:complete] %>
-                <%= link_to 'Corregir', check[:path], class: 'text-xs text-blue-600 hover:text-blue-800 font-medium' %>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-    <!-- Subscription Status Card -->
-    <% if @subscription %>
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="p-4 md:p-6 border-b border-gray-200">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex items-center space-x-3">
-              <h3 class="text-base md:text-lg font-semibold text-gray-900">Suscripción</h3>
-              <% case @subscription_info[:status] %>
-              <% when 'active' %>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Activa</span>
-              <% when 'trialing' %>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Prueba</span>
-              <% when 'past_due' %>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">Vencido</span>
-              <% when 'canceled' %>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>
-              <% when 'expired' %>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Vencida</span>
-              <% end %>
-            </div>
-            <div class="mt-2 sm:mt-0">
-              <span class="font-semibold text-gray-900"><%= @subscription_info[:plan_name] %></span>
-              <span class="text-sm text-gray-500 ml-2">(<%= @subscription_info[:plan_price] %>)</span>
-            </div>
-          </div>
-        </div>
-
-        <% if @subscription_info[:status] == 'trialing' && @subscription_info[:trial_days_remaining] %>
-          <div class="px-4 md:px-6 py-3 <%= @subscription_info[:trial_ending_soon] ? 'bg-yellow-50' : 'bg-blue-50' %>">
-            <div class="flex items-center">
-              <% if @subscription_info[:trial_ending_soon] %>
-                <svg class="h-5 w-5 text-yellow-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm font-medium text-yellow-800">¡La prueba termina pronto!</span>
-              <% else %>
-                <svg class="h-5 w-5 text-blue-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm font-medium text-blue-800">Periodo de prueba</span>
-              <% end %>
-              <span class="ml-2 text-sm <%= @subscription_info[:trial_ending_soon] ? 'text-yellow-700' : 'text-blue-700' %>">
-                <% if @subscription_info[:trial_days_remaining] == 0 %>
-                  Vence hoy
-                <% elsif @subscription_info[:trial_days_remaining] == 1 %>
-                  1 día restante
-                <% else %>
-                  <%= @subscription_info[:trial_days_remaining] %> días restantes
-                <% end %>
-              </span>
-            </div>
-          </div>
-        <% end %>
-
-        <div class="px-4 md:px-6 py-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wide">Propiedades</p>
-              <p class="mt-1 text-lg font-semibold text-gray-900">
-                <%= @stats[:total_properties] %>
-                <% if @subscription_info[:property_limit] %>
-                  <span class="text-sm font-normal text-gray-500">/ <%= @subscription_info[:property_limit] %></span>
-                <% else %>
-                  <span class="text-sm font-normal text-gray-500">/ Ilimitado</span>
-                <% end %>
-              </p>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wide">Acceso</p>
-              <p class="mt-1 text-sm font-medium <%= @subscription_info[:in_good_standing] ? 'text-green-600' : 'text-red-600' %>">
-                <%= @subscription_info[:in_good_standing] ? 'Acceso completo' : 'Limitado' %>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% else %>
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 md:p-6 flex items-center">
-        <svg class="h-6 w-6 text-gray-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <div>
-          <h3 class="text-sm font-medium text-gray-900">Sin suscripción activa</h3>
-          <p class="text-sm text-gray-500 mt-1">Este sitio web no tiene un plan de suscripción activo.</p>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-  <!-- This Week's Activity + Statistics -->
+  <!-- Statistics -->
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-6 md:mb-8">
     <!-- Total Properties -->
     <div class="bg-white rounded-lg shadow p-4">
@@ -344,140 +180,46 @@
     </div>
   </div>
 
-  <!-- Recent Activity Timeline -->
+  <!-- Website Health -->
   <div class="mb-6 md:mb-8">
-    <div class="bg-white rounded-lg shadow">
-      <div class="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200">
-        <h2 class="text-base md:text-lg font-semibold text-gray-900">Actividad reciente</h2>
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="p-4 md:p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base md:text-lg font-semibold text-gray-900">Estado del sitio web</h3>
+          <span class="text-2xl font-bold <%= @website_health[:percentage] >= 80 ? 'text-green-600' : @website_health[:percentage] >= 50 ? 'text-yellow-600' : 'text-red-600' %>">
+            <%= @website_health[:percentage] %>%
+          </span>
+        </div>
+        <!-- Progress bar -->
+        <div class="mt-3 w-full bg-gray-200 rounded-full h-2">
+          <div class="h-2 rounded-full transition-all duration-500 <%= @website_health[:percentage] >= 80 ? 'bg-green-500' : @website_health[:percentage] >= 50 ? 'bg-yellow-500' : 'bg-red-500' %>"
+               style="width: <%= @website_health[:percentage] %>%"></div>
+        </div>
       </div>
       <div class="p-4 md:p-6">
-        <% if @activity_timeline.any? %>
-          <div class="flow-root">
-            <ul class="-mb-8">
-              <% @activity_timeline.each_with_index do |activity, index| %>
-                <li>
-                  <div class="relative pb-8">
-                    <% unless index == @activity_timeline.length - 1 %>
-                      <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                    <% end %>
-                    <div class="relative flex space-x-3">
-                      <div>
-                        <span class="h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white
-                          <%= case activity[:type]
-                              when :message then 'bg-purple-100'
-                              when :property then 'bg-blue-100'
-                              when :contact then 'bg-yellow-100'
-                              else 'bg-gray-100'
-                              end %>">
-                          <% case activity[:type] %>
-                          <% when :message %>
-                            <svg class="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                            </svg>
-                          <% when :property %>
-                            <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4z" clip-rule="evenodd"></path>
-                            </svg>
-                          <% when :contact %>
-                            <svg class="w-4 h-4 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
-                            </svg>
-                          <% end %>
-                        </span>
-                      </div>
-                      <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                        <div>
-                          <%= link_to activity[:path], class: 'text-sm text-gray-900 hover:text-blue-600' do %>
-                            <%= activity[:title] %>
-                          <% end %>
-                        </div>
-                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                          hace <%= time_ago_in_words(activity[:time]) %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        <% else %>
-          <p class="text-gray-500 text-center py-8">Sin actividad reciente</p>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Keyboard Shortcuts Modal -->
-<div x-data="{ showShortcuts: false }"
-     @keydown.window.prevent.?="showShortcuts = true"
-     @keydown.window.escape="showShortcuts = false">
-
-  <!-- Keyboard shortcut listeners -->
-  <div x-data="{}"
-       @keydown.window="
-         if (event.key === 'g' && !event.ctrlKey && !event.metaKey) {
-           window._waitingForNav = true;
-           setTimeout(() => window._waitingForNav = false, 500);
-         }
-         if (window._waitingForNav) {
-           if (event.key === 'p') { window.location.href = '<%= site_admin_props_path %>'; }
-           if (event.key === 'm') { window.location.href = '<%= site_admin_messages_path %>'; }
-           if (event.key === 's') { window.location.href = '<%= site_admin_website_settings_path %>'; }
-           if (event.key === 'd') { window.location.href = '<%= site_admin_root_path %>'; }
-           if (event.key === 'a') { window.location.href = '<%= site_admin_analytics_path %>'; }
-         }
-         if (event.key === 'n' && !event.ctrlKey && !event.metaKey) {
-           window._waitingForNew = true;
-           setTimeout(() => window._waitingForNew = false, 500);
-         }
-         if (window._waitingForNew && event.key === 'p') {
-           window.location.href = '<%= new_site_admin_prop_path %>';
-         }
-       ">
-  </div>
-
-  <!-- Shortcuts Modal -->
-  <div x-show="showShortcuts" x-transition class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
-    <div class="flex items-center justify-center min-h-screen px-4">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75" @click="showShortcuts = false"></div>
-      <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Atajos de teclado</h3>
         <div class="space-y-3">
-          <div class="flex justify-between">
-            <span class="text-gray-600">Ir al panel</span>
-            <span class="text-gray-900 font-mono bg-gray-100 px-2 py-0.5 rounded">g d</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Ir a Propiedades</span>
-            <span class="text-gray-900 font-mono bg-gray-100 px-2 py-0.5 rounded">g p</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Ir a Mensajes</span>
-            <span class="text-gray-900 font-mono bg-gray-100 px-2 py-0.5 rounded">g m</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Ir a Configuración</span>
-            <span class="text-gray-900 font-mono bg-gray-100 px-2 py-0.5 rounded">g s</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Ir a Analíticas</span>
-            <span class="text-gray-900 font-mono bg-gray-100 px-2 py-0.5 rounded">g a</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Nueva propiedad</span>
-            <span class="text-gray-900 font-mono bg-gray-100 px-2 py-0.5 rounded">n p</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Mostrar esta ayuda</span>
-            <span class="text-gray-900 font-mono bg-gray-100 px-2 py-0.5 rounded">?</span>
-          </div>
+          <% @website_health[:checks].each do |check| %>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <% if check[:complete] %>
+                  <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                <% else %>
+                  <svg class="w-5 h-5 text-gray-300 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"></path>
+                  </svg>
+                <% end %>
+                <span class="text-sm <%= check[:complete] ? 'text-gray-600' : 'text-gray-900 font-medium' %>">
+                  <%= check[:name] %>
+                </span>
+              </div>
+              <% unless check[:complete] %>
+                <%= link_to 'Corregir', check[:path], class: 'text-xs text-blue-600 hover:text-blue-800 font-medium' %>
+              <% end %>
+            </div>
+          <% end %>
         </div>
-        <button @click="showShortcuts = false" class="mt-6 w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded">
-          Cerrar
-        </button>
       </div>
     </div>
   </div>

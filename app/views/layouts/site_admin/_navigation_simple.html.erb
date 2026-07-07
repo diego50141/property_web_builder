@@ -1,0 +1,79 @@
+<%#
+  Simplified sidebar for agencies. Sections show as headers and expand on click
+  (accordion). "Mi cuenta" lives in the top header instead. Kept as its own
+  partial; the layout picks it when simple_admin_nav? is true (default). Set
+  PWB_SIMPLE_ADMIN_NAV=false to fall back to the full menu.
+%>
+<%
+  nav_open =
+    if request.path.start_with?('/site_admin/inbox') || request.path.include?('/contacts')
+      'prospectos'
+    elsif request.path.include?('/props') || request.path.include?('metrocuadrado')
+      'inmuebles'
+    else
+      ''
+    end
+%>
+<aside id="tour-sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-800 text-white flex-shrink-0 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0"
+       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+       x-data="{ open: '<%= nav_open %>' }">
+  <div class="flex flex-col h-full">
+    <!-- Brand -->
+    <div class="flex items-center justify-between h-16 bg-gray-900 px-4">
+      <span class="text-xl font-bold">Administración</span>
+      <button @click="sidebarOpen = false" class="md:hidden text-gray-400 hover:text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto py-4">
+      <!-- Inmuebles (colapsable) -->
+      <div class="px-4 mb-2">
+        <button @click="open = (open === 'inmuebles' ? '' : 'inmuebles')"
+                class="flex items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-gray-700 text-left">
+          <span class="flex items-center font-medium">
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path></svg>
+            Inmuebles
+          </span>
+          <svg class="w-4 h-4 transition-transform duration-200" :class="open === 'inmuebles' ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+        <div x-show="open === 'inmuebles'" x-collapse>
+          <%= link_to site_admin_props_path, class: "flex items-center pl-11 pr-4 py-2 rounded-lg hover:bg-gray-700 text-sm #{current_page?(site_admin_props_path) ? 'bg-gray-700' : ''}" do %>
+            <span>Lista de inmuebles</span>
+          <% end %>
+          <%= link_to new_site_admin_prop_path, class: "flex items-center pl-11 pr-4 py-2 rounded-lg hover:bg-gray-700 text-sm #{current_page?(new_site_admin_prop_path) ? 'bg-gray-700' : ''}" do %>
+            <span>Nuevo inmueble</span>
+          <% end %>
+          <%= link_to site_admin_metrocuadrado_import_path, class: "flex items-center pl-11 pr-4 py-2 rounded-lg hover:bg-gray-700 text-sm #{request.path.include?('metrocuadrado_import') ? 'bg-gray-700' : ''}" do %>
+            <span>Importar de Metrocuadrado</span>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Prospectos (colapsable) -->
+      <div class="px-4 mb-2">
+        <button @click="open = (open === 'prospectos' ? '' : 'prospectos')"
+                class="flex items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-gray-700 text-left">
+          <span class="flex items-center font-medium">
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z" clip-rule="evenodd"></path></svg>
+            Prospectos
+            <% if @unread_messages_count.to_i > 0 %>
+              <span class="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full"><%= @unread_messages_count > 9 ? '9+' : @unread_messages_count %></span>
+            <% end %>
+          </span>
+          <svg class="w-4 h-4 transition-transform duration-200" :class="open === 'prospectos' ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+        <div x-show="open === 'prospectos'" x-collapse>
+          <%= link_to site_admin_inbox_index_path, class: "flex items-center pl-11 pr-4 py-2 rounded-lg hover:bg-gray-700 text-sm #{request.path.start_with?('/site_admin/inbox') ? 'bg-gray-700' : ''}" do %>
+            <span>Bandeja de entrada</span>
+          <% end %>
+          <%= link_to site_admin_contacts_path, class: "flex items-center pl-11 pr-4 py-2 rounded-lg hover:bg-gray-700 text-sm #{current_page?(site_admin_contacts_path) ? 'bg-gray-700' : ''}" do %>
+            <span>Contactos</span>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+  </div>
+</aside>

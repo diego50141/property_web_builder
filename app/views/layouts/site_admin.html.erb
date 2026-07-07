@@ -121,7 +121,7 @@
     </div>
 
     <!-- Sidebar -->
-    <%= render 'layouts/site_admin/navigation' %>
+    <%= render(simple_admin_nav? ? 'layouts/site_admin/navigation_simple' : 'layouts/site_admin/navigation') %>
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">

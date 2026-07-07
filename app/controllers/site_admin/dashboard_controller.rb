@@ -6,6 +6,11 @@ module SiteAdmin
   # Shows statistics and recent activity for the current website/tenant
   class DashboardController < SiteAdminController
     def index
+      # Panel deshabilitado por ahora en el modo simplificado: la inmobiliaria
+      # entra directo a su lista de inmuebles. Reversible con
+      # PWB_SIMPLE_ADMIN_NAV=false (vuelve el panel y su menú completo).
+      return redirect_to(site_admin_props_path) if helpers.simple_admin_nav?
+
       @website = current_website
       website_id = current_website.id
 
@@ -141,7 +146,7 @@ module SiteAdmin
                         agency.company_name.present? &&
                         agency.email_primary.present?
       checks << {
-        name: 'Agency profile complete',
+        name: 'Perfil de la agencia completo',
         complete: agency_complete,
         path: edit_site_admin_agency_path,
         priority: :high
@@ -150,7 +155,7 @@ module SiteAdmin
       # At least one property
       has_properties = @stats[:total_properties] > 0
       checks << {
-        name: 'At least one property added',
+        name: 'Al menos una propiedad agregada',
         complete: has_properties,
         path: new_site_admin_prop_path,
         priority: :high
@@ -159,7 +164,7 @@ module SiteAdmin
       # Theme configured (has a non-default theme or customized)
       theme_configured = @website&.theme_name.present?
       checks << {
-        name: 'Theme configured',
+        name: 'Tema configurado',
         complete: theme_configured,
         path: site_admin_website_settings_tab_path('appearance'),
         priority: :medium
@@ -168,7 +173,7 @@ module SiteAdmin
       # Custom domain set up
       domain_configured = @website&.custom_domain.present?
       checks << {
-        name: 'Custom domain configured',
+        name: 'Dominio propio configurado',
         complete: domain_configured,
         path: site_admin_domain_path,
         priority: :low
@@ -181,7 +186,7 @@ module SiteAdmin
                               .count
       has_social = social_links > 0
       checks << {
-        name: 'Social media links added',
+        name: 'Redes sociales agregadas',
         complete: has_social,
         path: site_admin_website_settings_tab_path('social'),
         priority: :low
@@ -190,7 +195,7 @@ module SiteAdmin
       # SEO configured
       seo_configured = @website&.default_seo_title.present? || @website&.default_meta_description.present?
       checks << {
-        name: 'SEO meta tags configured',
+        name: 'Etiquetas SEO configuradas',
         complete: seo_configured,
         path: site_admin_website_settings_tab_path('seo'),
         priority: :medium
@@ -199,7 +204,7 @@ module SiteAdmin
       # Logo uploaded
       has_logo = @website&.main_logo_url.present?
       checks << {
-        name: 'Logo uploaded',
+        name: 'Logo subido',
         complete: has_logo,
         path: site_admin_website_settings_tab_path('seo'),
         priority: :medium
