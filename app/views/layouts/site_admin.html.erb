@@ -105,7 +105,9 @@
 </head>
 <body class="bg-gray-50" data-controller="keyboard">
   <!-- Command Palette (Global Search) -->
-  <%= render 'layouts/site_admin/command_palette' %>
+  <% unless simple_admin_nav? %>
+    <%= render 'layouts/site_admin/command_palette' %>
+  <% end %>
 
   <div x-data="{ sidebarOpen: false }" class="flex h-screen overflow-hidden">
     <!-- Mobile sidebar backdrop -->
