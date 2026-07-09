@@ -57,8 +57,9 @@ services:
       CDN_IMAGES_BUCKET: dev-dummy
       CDN_IMAGES_URL: http://localhost
       R2_PUBLIC_URL: http://localhost
-      # Convenience for early dev; revisit before exposing publicly.
-      BYPASS_ADMIN_AUTH: "true"
+      # Sin BYPASS_ADMIN_AUTH: el stack está expuesto en el puerto 3100 del
+      # VPS, así que los paneles exigen login (admin del seed; cambiar la
+      # contraseña tras el primer acceso).
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
