@@ -35,5 +35,29 @@ module Pwb
     it 'has a valid factory' do
       expect(prop_photo).to be_valid
     end
+
+    describe '#external? (attachment takes priority over external_url)' do
+      it 'is external with only an external_url' do
+        photo = FactoryBot.create(:pwb_prop_photo, :with_external_url)
+
+        expect(photo).to be_external
+        expect(photo.image_url).to eq(photo.external_url)
+      end
+
+      it 'is not external once the image is downloaded, keeping external_url as provenance' do
+        photo = FactoryBot.create(:pwb_prop_photo, :with_external_url, :with_image)
+
+        expect(photo).not_to be_external
+        expect(photo.external_url).to be_present
+        expect(photo.image_url).not_to eq(photo.external_url)
+      end
+
+      it 'is not external without any image' do
+        photo = FactoryBot.create(:pwb_prop_photo)
+
+        expect(photo).not_to be_external
+        expect(photo.has_image?).to be(false)
+      end
+    end
   end
 end

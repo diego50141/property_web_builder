@@ -109,8 +109,17 @@ module Pwb
       end
 
       # Returns number of photos attached.
+      #
+      # Fase D: si las URLs del portal no cambiaron, no toca las fotos — así
+      # los attachments ya descargados (DownloadScrapedImagesJob) sobreviven
+      # al resync periódico. Cuando sí cambian, reemplaza y encola la descarga
+      # a ActiveStorage/R2 conservando external_url como procedencia (el
+      # attachment tiene prioridad al servir; ver ExternalImageSupport).
       def replace_photos(asset, images)
         return 0 if images.nil? || images.empty?
+
+        current = asset.prop_photos.order(:sort_order, :id).pluck(:external_url)
+        return current.length if current == images
 
         asset.prop_photos.destroy_all
         count = 0
@@ -120,7 +129,14 @@ module Pwb
         rescue StandardError => e
           Rails.logger.warn("[metrocuadrado] foto omitida (#{img_url}): #{e.message}")
         end
+        enqueue_photo_download(asset) if count.positive?
         count
+      end
+
+      def enqueue_photo_download(asset)
+        Pwb::DownloadScrapedImagesJob.perform_later(asset.id, replace_external: false)
+      rescue StandardError => e
+        Rails.logger.warn("[metrocuadrado] no se pudo encolar la descarga de fotos: #{e.message}")
       end
 
       def refresh_public_view

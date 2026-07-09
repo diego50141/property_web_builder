@@ -28,9 +28,12 @@ module ExternalImageSupport
     }, allow_blank: true
   end
 
-  # Returns true if this photo uses an external URL instead of ActiveStorage
+  # Returns true if this photo serves an external URL instead of ActiveStorage.
+  # A photo can keep external_url as provenance after its image is downloaded
+  # (e.g. DownloadScrapedImagesJob with replace_external: false); once the
+  # attachment exists, it takes priority everywhere (views, API, variants).
   def external?
-    external_url.present?
+    external_url.present? && !image.attached?
   end
 
   # Returns the image URL - either external URL or ActiveStorage URL

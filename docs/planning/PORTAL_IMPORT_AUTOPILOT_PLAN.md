@@ -136,8 +136,13 @@ estabilidad del formato RSC ante cambios de Metrocuadrado.
   (`SubdomainTenant`) hoy sirve los sitios en cualquier `provisioning_state`,
   así que provisionar en estado `ready` no oculta nada; requiere gating por
   estado en el routing público antes de tener sentido.
-- ⏳ **Fotos/logo a ActiveStorage/R2** — pendiente; hoy quedan como
-  `external_url` (evaluar reutilizar `DownloadScrapedImagesJob`).
+- ✅ **Fotos a ActiveStorage/R2** — el Importer encola
+  `DownloadScrapedImagesJob` (con `replace_external: false`) al crear o
+  cambiar las fotos de un inmueble; `external_url` se conserva como
+  procedencia y `ExternalImageSupport#external?` pasa a priorizar el
+  attachment al servir. El resync no toca las fotos si las URLs del portal
+  no cambiaron, así los attachments sobreviven al sync diario. (El logo de
+  la agencia sigue como `main_logo_url` externo.)
 
 ## Consideraciones transversales
 
