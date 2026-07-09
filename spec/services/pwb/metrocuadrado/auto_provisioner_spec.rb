@@ -68,6 +68,16 @@ module Pwb
           expect(Pwb::RealtyAsset.unscoped.where(website_id: result.website.id).count).to eq(3)
         end
 
+        it 'records the import source for the periodic resync (Fase D)' do
+          result = described_class.provision(agency_url: agency_url)
+
+          entry = result.website.reload.imports_config['metrocuadrado']
+          expect(entry['agency_url']).to eq(agency_url)
+          expect(entry['auto_resync']).to be(true)
+          expect(entry['last_synced_at']).to be_present
+          expect(entry['last_result']['imported']).to eq(3)
+        end
+
         it 'honours an explicit subdomain' do
           result = described_class.provision(agency_url: agency_url, subdomain: 'llano-custom')
 

@@ -118,11 +118,26 @@ estabilidad del formato RSC ante cambios de Metrocuadrado.
     (`tenant_admin/metrocuadrado_provision`).
   - Rake: `rake 'latam:provision_metrocuadrado[URL,subdominio]'`.
 
-### Fase D — Pulido
+### Fase D — Pulido (parcial, julio 2026)
 
-- Preview antes de publicar, resincronización periódica, manejo de errores/
-  límites.
-- Esfuerzo: 2–3 días.
+- ✅ **Rate-limit y reintentos** — `Pwb::Metrocuadrado::Http` espacia los
+  requests al portal (0.5s por defecto, `METROCUADRADO_THROTTLE_SECONDS`) y
+  reintenta con backoff ante timeouts y HTTP 429/5xx (3 intentos).
+- ✅ **Registro del origen** — `Pwb::Metrocuadrado::SyncRegistry` guarda en
+  `website.imports_config["metrocuadrado"]` la URL de la agencia, el resumen
+  del último sync y el flag `auto_resync` (el AutoProvisioner lo escribe al
+  provisionar).
+- ✅ **Resincronización periódica** — `Pwb::Metrocuadrado::ResyncJob`
+  (Solid Queue, diario a las 4am vía `config/recurring.yml`) re-importa cada
+  sitio registrado; el import es idempotente. Manual:
+  `rake latam:resync_metrocuadrado` (o `[website_id]`). Para excluir un sitio:
+  `imports_config.metrocuadrado.auto_resync = false`.
+- ⏳ **Preview antes de publicar** — pendiente: el resolver de subdominios
+  (`SubdomainTenant`) hoy sirve los sitios en cualquier `provisioning_state`,
+  así que provisionar en estado `ready` no oculta nada; requiere gating por
+  estado en el routing público antes de tener sentido.
+- ⏳ **Fotos/logo a ActiveStorage/R2** — pendiente; hoy quedan como
+  `external_url` (evaluar reutilizar `DownloadScrapedImagesJob`).
 
 ## Consideraciones transversales
 

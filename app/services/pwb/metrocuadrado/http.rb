@@ -8,23 +8,42 @@ module Pwb
     # Plain-HTTP fetching shared by the importer and the auto-provisioner.
     # Metrocuadrado serves the full RSC payload to a simple GET with a browser
     # User-Agent (no Playwright needed).
+    #
+    # Fase D: incluye rate-limit (pausa mínima entre requests, para no golpear
+    # el portal) y reintentos con backoff ante errores transitorios (timeouts,
+    # HTTP 429/5xx). Ambos se anulan en specs con `Http.throttle_seconds = 0`,
+    # que también deja el backoff en cero.
     module Http
       USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " \
                    "(KHTML, like Gecko) Chrome/120 Safari/537.36"
+      MAX_ATTEMPTS = 3
+
+      # HTTP 429/5xx del portal; se reintenta con backoff.
+      class RetryableError < StandardError; end
+
+      RETRIABLE_EXCEPTIONS = [
+        RetryableError, Net::OpenTimeout, Net::ReadTimeout,
+        Errno::ECONNRESET, Errno::ECONNREFUSED, SocketError
+      ].freeze
 
       module_function
+
+      # Pausa mínima entre requests, en segundos. Configurable con
+      # METROCUADRADO_THROTTLE_SECONDS; en test es 0 (sin sleeps ni backoff).
+      def throttle_seconds
+        @throttle_seconds ||= ENV.fetch("METROCUADRADO_THROTTLE_SECONDS") do
+          defined?(Rails) && Rails.env.test? ? "0" : "0.5"
+        end.to_f
+      end
+
+      def throttle_seconds=(value)
+        @throttle_seconds = value
+      end
 
       def fetch(url, limit = 5)
         raise "demasiados redirects" if limit.zero?
 
-        uri = URI.parse(url)
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = uri.scheme == "https"
-        http.open_timeout = 15
-        http.read_timeout = 30
-        req = Net::HTTP::Get.new(uri.request_uri)
-        req["User-Agent"] = USER_AGENT
-        res = http.request(req)
+        res = request_with_retries(url)
         case res
         when Net::HTTPSuccess
           # Net::HTTP returns the body as ASCII-8BIT (binary); force UTF-8 so
@@ -34,6 +53,47 @@ module Pwb
         when Net::HTTPRedirection then fetch(res["location"], limit - 1)
         else raise "HTTP #{res.code} al pedir #{url}"
         end
+      end
+
+      def request_with_retries(url)
+        attempts = 0
+        begin
+          attempts += 1
+          throttle!
+          res = request(url)
+          if res.is_a?(Net::HTTPTooManyRequests) || res.is_a?(Net::HTTPServerError)
+            raise RetryableError, "HTTP #{res.code} al pedir #{url}"
+          end
+
+          res
+        rescue *RETRIABLE_EXCEPTIONS => e
+          raise "#{e.message} (tras #{attempts} intentos)" if attempts >= MAX_ATTEMPTS
+
+          sleep(throttle_seconds * (2**attempts))
+          retry
+        end
+      end
+
+      def request(url)
+        uri = URI.parse(url)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = uri.scheme == "https"
+        http.open_timeout = 15
+        http.read_timeout = 30
+        req = Net::HTTP::Get.new(uri.request_uri)
+        req["User-Agent"] = USER_AGENT
+        http.request(req)
+      end
+
+      # Espacia requests consecutivos al portal.
+      def throttle!
+        return if throttle_seconds <= 0
+
+        now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        if @last_request_at && (wait = throttle_seconds - (now - @last_request_at)).positive?
+          sleep(wait)
+        end
+        @last_request_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       end
     end
   end

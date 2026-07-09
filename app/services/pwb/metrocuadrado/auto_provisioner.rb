@@ -19,6 +19,8 @@ module Pwb
     #   4. Configura Pwb::Agency (nombre, teléfonos, dirección) y el logo
     #      (main_logo_url; Website#logo_url cae a esa columna para los themes).
     #   5. Importa las propiedades con Pwb::Metrocuadrado::Importer.
+    #   6. Registra el origen en imports_config (SyncRegistry) para que la
+    #      resincronización periódica (ResyncJob) mantenga el sitio al día.
     class AutoProvisioner
       SEED_PACK = "base"
       AGENCY_URL_PATTERN = %r{\Ahttps?://(www\.)?metrocuadrado\.com/inmobiliaria/}i
@@ -59,6 +61,7 @@ module Pwb
         end
 
         import_results = Importer.new(website).import(@agency_url)
+        SyncRegistry.record(website, agency_url: @agency_url, results: import_results)
         Result.new(website: website, agency_data: agency_data, created: created, import_results: import_results)
       rescue StandardError => e
         Rails.logger.error("[metrocuadrado] auto-provisión falló: #{e.class}: #{e.message}")

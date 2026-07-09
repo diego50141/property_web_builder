@@ -27,6 +27,26 @@ namespace :latam do
     puts "[metrocuadrado] #{imported} importada(s), #{errored} con error, sobre website ##{website.id}"
   end
 
+  desc "Resincronizar los sitios provisionados desde Metrocuadrado (Fase D). " \
+       "Uso: rake latam:resync_metrocuadrado  |  rake 'latam:resync_metrocuadrado[website_id]'"
+  task :resync_metrocuadrado, [:website_id] => :environment do |_t, args|
+    websites = Pwb::Metrocuadrado::SyncRegistry.resyncable_websites
+    websites = websites.where(id: args[:website_id]) if args[:website_id].present?
+
+    if websites.none?
+      puts "[metrocuadrado] No hay sitios con resync habilitado " \
+           "(imports_config.metrocuadrado.auto_resync)."
+      next
+    end
+
+    websites.find_each do |website|
+      Pwb::Metrocuadrado::ResyncJob.perform_now(website_id: website.id)
+      last = website.reload.imports_config.dig("metrocuadrado", "last_result") || {}
+      puts "[metrocuadrado] ##{website.id} #{website.subdomain}: " \
+           "#{last['imported']} importadas, #{last['errors']} con error, #{last['skipped']} omitidas"
+    end
+  end
+
   desc "Crear un sitio nuevo desde una agencia de Metrocuadrado (Fase C). " \
        "Uso: rake 'latam:provision_metrocuadrado[URL_AGENCIA,subdominio_opcional]'"
   task :provision_metrocuadrado, [:url, :subdomain] => :environment do |_t, args|

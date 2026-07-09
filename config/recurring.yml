@@ -26,6 +26,12 @@ production: &production
     description: "Fetch latest currency exchange rates from ECB"
     schedule: every day at 6am
 
+  metrocuadrado_resync:
+    class: Pwb::Metrocuadrado::ResyncJob
+    queue: low
+    description: "Re-import properties for websites provisioned from Metrocuadrado"
+    schedule: every day at 4am
+
   subscription_lifecycle:
     class: SubscriptionLifecycleJob
     queue: default
