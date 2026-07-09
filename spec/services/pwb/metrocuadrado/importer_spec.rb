@@ -28,6 +28,30 @@ module Pwb
         imported_assets.find_by(reference: '16573-M6016483')
       end
 
+      describe 'anuncios retirados (soft-404 del portal)' do
+        let(:gone_url) do
+          'https://www.metrocuadrado.com/inmueble/venta-casa-restrepo-5-habitaciones-5-banos/16573-M5010348'
+        end
+        let(:soft_404_html) do
+          '<html><head><meta property="og:title" content="Error 404 - Detalle - 16573-M5010348"/></head></html>'
+        end
+
+        it 'oculta los listings y no sobrescribe el asset' do
+          described_class.new(website).import(agency_url)
+          asset = imported_assets.find_by(reference: '16573-M5010348')
+          expect(Pwb::SaleListing.unscoped.where(realty_asset_id: asset.id, visible: true)).to exist
+
+          stub_request(:get, gone_url).to_return(status: 200, body: soft_404_html)
+          results = described_class.new(website).import(agency_url)
+
+          removed = results.find { |r| r.reference == '16573-M5010348' }
+          expect(removed.action).to eq('removed')
+          expect(Pwb::SaleListing.unscoped.where(realty_asset_id: asset.id, visible: true)).not_to exist
+          expect(Pwb::SaleListing.unscoped.where(realty_asset_id: asset.id).first.title_es)
+            .not_to include('Error 404')
+        end
+      end
+
       describe 'listing titles' do
         it 'strips the business-type noise from the portal title' do
           described_class.new(website).import(agency_url)

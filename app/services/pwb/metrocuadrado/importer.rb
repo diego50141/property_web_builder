@@ -47,6 +47,15 @@ module Pwb
           return Result.new(reference: nil, action: "skipped", error: "sin reference")
         end
 
+        # Metrocuadrado responde 200 con una página "Error 404" cuando el
+        # anuncio fue retirado (aunque siga enlazado desde la agencia): no
+        # sobrescribir con basura y ocultar el anuncio del sitio.
+        if soft_404?(data)
+          removed = deactivate_listings(data[:reference])
+          return Result.new(reference: data[:reference], action: removed ? "removed" : "skipped",
+                            error: "el portal ya no tiene el detalle (404)")
+        end
+
         photos = 0
         ActsAsTenant.with_tenant(@website) do
           asset = upsert_asset(data)
@@ -62,6 +71,25 @@ module Pwb
 
       def fetch(url)
         Http.fetch(url)
+      end
+
+      def soft_404?(data)
+        data[:title].to_s.match?(/\AError 404/i)
+      end
+
+      # Oculta los listings de un asset cuyo anuncio desapareció del portal.
+      # @return [Boolean] true si el asset existía
+      def deactivate_listings(reference)
+        found = false
+        ActsAsTenant.with_tenant(@website) do
+          asset = Pwb::RealtyAsset.find_by(website: @website, reference: reference)
+          next unless asset
+
+          found = true
+          asset.sale_listings.update_all(visible: false, active: false)
+          asset.rental_listings.update_all(visible: false, active: false)
+        end
+        found
       end
 
       def upsert_asset(data)
