@@ -102,10 +102,26 @@ module Pwb
         end
         listing.save!
 
-        listing.title_es = data[:title] || "#{data[:property_type_name]} en #{data[:city]}"
+        listing.title_es = display_title(data) || "#{data[:property_type_name]} en #{data[:city]}"
         listing.description_es = data[:description] if data[:description]
         listing.save!
         listing
+      end
+
+      # El título OpenGraph del portal viene como
+      # "Venta de Casa en Condominio X - Restrepo - 16573-M5446068":
+      # quitamos el prefijo de negocio (la sección Comprar/Arrendar ya lo
+      # dice, y en las tarjetas se leía "venta de casa, venta de finca...")
+      # y la referencia del final.
+      def display_title(data)
+        title = data[:title].to_s.strip
+        return nil if title.empty?
+
+        title = title.sub(/\s*-?\s*#{Regexp.escape(data[:reference].to_s)}\z/i, "") if data[:reference]
+        title = title.sub(/\A(venta o arriendo|venta|arriendo)\s+de\s+/i, "")
+        title = title.sub(/\s+en\s+(venta o arriendo|venta|arriendo)\b/i, "")
+        title = title.strip.presence
+        title && title[0].upcase + title[1..]
       end
 
       # Returns number of photos attached.

@@ -1,25 +1,41 @@
 <!-- Default Theme Footer - Uses semantic palette classes for theme customization -->
 <footer class="pwb-footer bg-pwb-secondary-800 text-white">
   <div class="pwb-container container mx-auto px-4 py-12">
-    <div class="pwb-footer__grid grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="pwb-footer__grid grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
       <!-- Company Info -->
       <div class="pwb-footer__company-info">
         <h4 class="pwb-footer__heading text-lg font-semibold mb-4"><%= company_display_name %></h4>
         <ul class="pwb-footer__contact-list space-y-3">
           <% if @current_agency.phone_number_primary.present? %>
-            <li class="pwb-footer__contact-item flex items-center">
+            <li class="pwb-footer__contact-item flex items-center justify-center">
               <%= icon(:phone, size: :sm, class: "pwb-footer__icon mr-3 text-pwb-primary-300") %>
               <a href="tel:<%= @current_agency.phone_number_primary %>" class="pwb-footer__contact-link hover:text-pwb-primary-300 transition-colors">
                 <%= @current_agency.phone_number_primary %>
               </a>
             </li>
           <% end %>
+          <% if @current_agency.phone_number_mobile.present? && @current_agency.phone_number_mobile != @current_agency.phone_number_primary %>
+            <li class="pwb-footer__contact-item flex items-center justify-center">
+              <%= brand_icon(:whatsapp, size: 16) %>
+              <a href="https://wa.me/<%= @current_agency.phone_number_mobile.gsub(/\D/, '') %>" target="_blank" rel="noopener"
+                 class="pwb-footer__contact-link ml-3 hover:text-pwb-primary-300 transition-colors">
+                <%= @current_agency.phone_number_mobile %>
+              </a>
+            </li>
+          <% end %>
           <% if @current_agency.email_primary.present? %>
-            <li class="pwb-footer__contact-item flex items-center">
+            <li class="pwb-footer__contact-item flex items-center justify-center">
               <%= icon(:email, size: :sm, class: "pwb-footer__icon mr-3 text-pwb-primary-300") %>
               <a href="mailto:<%= @current_agency.email_primary %>" class="pwb-footer__contact-link hover:text-pwb-primary-300 transition-colors">
                 <%= @current_agency.email_primary %>
               </a>
+            </li>
+          <% end %>
+          <% address = @current_agency.primary_address %>
+          <% if address && (address.street_address.present? || address.city.present?) %>
+            <li class="pwb-footer__contact-item flex items-center justify-center">
+              <%= icon(:location, size: :sm, class: "pwb-footer__icon mr-3 text-pwb-primary-300") %>
+              <span><%= [address.street_address, address.city].compact_blank.join(', ') %></span>
             </li>
           <% end %>
         </ul>
@@ -28,7 +44,7 @@
       <!-- Social Media -->
       <nav class="pwb-footer__social-nav" aria-label="Social media links">
         <h4 class="pwb-footer__heading text-lg font-semibold mb-4"><%= t('pwb.footer.follow_us', default: 'Follow Us') %></h4>
-        <div class="pwb-footer__social-links flex space-x-4">
+        <div class="pwb-footer__social-links flex justify-center space-x-4">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer"
                class="pwb-footer__social-link w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
@@ -88,8 +104,8 @@
     <hr class="pwb-footer__divider my-8 border-pwb-secondary-700">
 
     <!-- Bottom Bar -->
-    <div class="pwb-footer__bottom-bar flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-      <nav class="pwb-footer__bottom-nav flex flex-wrap justify-center gap-4 mb-4 md:mb-0" aria-label="Footer navigation">
+    <div class="pwb-footer__bottom-bar flex flex-col justify-center items-center text-sm text-gray-400">
+      <nav class="pwb-footer__bottom-nav flex flex-wrap justify-center gap-4" aria-label="Footer navigation">
         <% @current_website.links.ordered_visible_footer.each do |page| %>
           <% target_path = nil %>
           <% begin %>
@@ -106,8 +122,8 @@
         <% end %>
         <%= link_to I18n.t("signIn"), "/pwb_login", class: "pwb-footer__link hover:text-pwb-primary-300 transition-colors" %>
       </nav>
-      <p class="pwb-footer__powered-by">
-        Powered by <a href="https://www.propertywebbuilder.com" class="pwb-footer__link text-pwb-primary-400 hover:text-pwb-primary-300 transition-colors">PropertyWebBuilder</a>
+      <p class="pwb-footer__copyright mt-4">
+        &copy; <%= Date.current.year %> <%= company_display_name %>
       </p>
     </div>
   </div>

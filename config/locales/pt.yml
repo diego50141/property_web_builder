@@ -105,6 +105,7 @@ pt:
     tagLineExt: Belos sites que têm que ver para crer. <br> Ninguém coloca o seu negócio online mais rápido.
   requestPropertyInfo: Pedido de informações
   search: Buscar
+  searchCta: Buscar
   searchForProperties: Buscar propriedades
   selectpicker:
     countSelectedText: Selecionado {0} de {1}

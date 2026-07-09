@@ -109,6 +109,7 @@ ro:
       te te online mai repede..
   requestPropertyInfo: Solicita?i informa?ii
   search: Cautare
+  searchCta: Cautare
   searchForProperties: Cauta?i proprieta?i
   selectpicker:
     countSelectedText: Au fost selecta?i {0} din {1}

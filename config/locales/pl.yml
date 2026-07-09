@@ -109,6 +109,7 @@ pl:
       szybciej Cie online.
   requestPropertyInfo: Popros o informacje
   search: Szukaj
+  searchCta: Szukaj
   searchForProperties: Wyszukaj wlasciwosci
   selectpicker:
     countSelectedText: Wybrany {0} z {1}

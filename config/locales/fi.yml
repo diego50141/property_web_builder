@@ -109,6 +109,7 @@ fi:
       ei saa sinut verkossa nopeammin.
   requestPropertyInfo: Pyydä tietoja
   search: Hae
+  searchCta: Hae
   searchForProperties: Etsi kiinteistöjä
   selectpicker:
     countSelectedText: Valittu {0} / {1}

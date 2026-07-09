@@ -153,6 +153,7 @@ en:
       duplicate: "A search named \"%{name}\" already exists. Replace it?"
   requestPropertyInfo: Request info
   search: Search
+  searchCta: Search
   searchForProperties: Search for properties
   selectpicker:
     countSelectedText: Selected {0} of {1}

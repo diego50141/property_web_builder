@@ -108,6 +108,7 @@ bg:
     tagLineExt: Красиви и функционални сайтове, които трябва да видиш за да повярваш.<br>Без аналог! - Стартирайте своят агенция с минимални усилия и минимално време.
   requestPropertyInfo: Поискайте повече информация
   search: Търсене
+  searchCta: Търсене
   searchForProperties: Търсене на имот
   selectpicker:
     countSelectedText: Избран {0} от {1}

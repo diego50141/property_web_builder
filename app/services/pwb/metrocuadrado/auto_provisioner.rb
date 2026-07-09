@@ -128,7 +128,9 @@ module Pwb
         website.company_display_name = agency_data[:name]
         website.default_client_locale = "es"
         website.default_admin_locale = "es"
-        website.supported_locales = %w[es en]
+        # Solo español: con un único locale el theme oculta el selector de
+        # idioma (el admin puede añadir más luego en ajustes).
+        website.supported_locales = %w[es]
         website.default_currency = "COP"
         website.available_currencies = %w[COP USD] if website.respond_to?(:available_currencies=)
         website.supported_currencies = %w[COP USD] if website.respond_to?(:supported_currencies=)

@@ -109,6 +109,7 @@ it:
       ti mette online più velocemente.
   requestPropertyInfo: Richiedi informazioni
   search: Cerca
+  searchCta: Cerca
   searchForProperties: Cerca proprietà
   selectpicker:
     countSelectedText: Selezionati {0} di {1}

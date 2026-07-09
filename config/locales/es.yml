@@ -105,7 +105,32 @@ es:
     tagLineExt: Páginas web preciosas y elegantes.<br>Nadie te pone en Internet más
       rápido.
   requestPropertyInfo: Solicitar información
-  search: Buscar
+  # search es un diccionario (etiquetas del panel de filtros); el botón
+  # "Buscar" de los formularios usa searchCta.
+  search:
+    any: Cualquiera
+    clear_all: Limpiar todo
+    features: Características
+    features_label: Características
+    filters: Filtros
+    max: Máx
+    max_price: Precio máximo
+    max_rent: Arriendo máximo
+    min: Mín
+    min_price: Precio mínimo
+    min_rent: Arriendo mínimo
+    monthly_rent: Arriendo mensual
+    price_range: Rango de precio
+    show_results: Ver resultados
+  searchCta: Buscar
+  clearFilters: Limpiar filtros
+  filter: Filtros
+  amenities:
+    bathrooms: Baños
+    bedrooms: Habitaciones
+  propertyTypes:
+    all: Todos los tipos
+    label: Tipo de propiedad
   searchForProperties: Buscar inmuebles
   selectpicker:
     countSelectedText: Seleccionados {0} de {1}
@@ -199,11 +224,11 @@ es:
     # Listing types - singular form for labels
     listing_type:
       sale: En Venta
-      rental: En Alquiler
+      rental: En Arriendo
     # Listing types - plural form for manager.rb filter_options
     listing_types:
       sale: En Venta
-      rental: En Alquiler
+      rental: En Arriendo
     badges:
       reduced: Rebajado
     features:

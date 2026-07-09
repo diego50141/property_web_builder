@@ -107,6 +107,7 @@ de:
       bringt dich schneller online.
   requestPropertyInfo: Infos anfordern
   search: Suche
+  searchCta: Suche
   searchForProperties: Suche nach Immobilien
   selectpicker:
     countSelectedText: Ausgewählte {0} von {1}

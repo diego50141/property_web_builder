@@ -106,6 +106,7 @@ ru:
       быстрый результат он-лайн быстрее всех остальных.
   requestPropertyInfo: Запросить информацию о недвижимости
   search: Поиск
+  searchCta: Поиск
   searchForProperties: Поиск недвижимости
   selectpicker:
     countSelectedText: Выбранный {0} {1}

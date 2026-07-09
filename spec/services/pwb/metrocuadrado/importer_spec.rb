@@ -28,6 +28,28 @@ module Pwb
         imported_assets.find_by(reference: '16573-M6016483')
       end
 
+      describe 'listing titles' do
+        it 'strips the business-type noise from the portal title' do
+          described_class.new(website).import(agency_url)
+
+          listing = Pwb::SaleListing.unscoped
+                                    .where(realty_asset_id: asset_with_photos.id).first
+          # og:title del fixture: "Apartamento en Venta, Balcones De La Colina, Restrepo"
+          expect(listing.title_es).to eq('Apartamento, Balcones De La Colina, Restrepo')
+        end
+
+        it 'cleans the "Venta de X en ... - referencia" shape too' do
+          importer = described_class.new(website)
+          title = importer.send(
+            :display_title,
+            title: 'Venta de Casa en Condominio la pradera - Restrepo - 16573-M5446068',
+            reference: '16573-M5446068'
+          )
+
+          expect(title).to eq('Casa en Condominio la pradera - Restrepo')
+        end
+      end
+
       describe 'photo sync (Fase D)' do
         it 'creates photos with external_url and enqueues their download' do
           expect do

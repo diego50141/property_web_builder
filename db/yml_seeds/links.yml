@@ -40,7 +40,7 @@
   is_external: false
   placement: :top_nav
   link_title_en: Rent
-  link_title_es: Alquilar
+  link_title_es: Arrendar
   link_title_fr: Louer
   link_title_de: Mieten
   link_title_nl: Huren
@@ -178,7 +178,7 @@
   is_external: false
   placement: :footer
   link_title_en: Rent
-  link_title_es: Alquilar
+  link_title_es: Arrendar
   link_title_fr: Louer
   link_title_de: Mieten
   link_title_nl: Huren
@@ -412,7 +412,7 @@
   is_external: false
   placement: :admin
   link_title_en: Rent
-  link_title_es: Alquilar
+  link_title_es: Arrendar
   link_title_fr: Louer
   link_title_de: Mieten
   link_title_nl: Huren

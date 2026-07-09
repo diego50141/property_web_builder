@@ -108,6 +108,7 @@ ko:
     tagLineExt: 멋진 웹사이트로 신속히 정보를 교환하고, <br>보여줌으로써, 신뢰를 줄 수 있을 것입니다.
   requestPropertyInfo: 정보요청
   search: 검색
+  searchCta: 검색
   searchForProperties: 건물 검색
   selectpicker:
     countSelectedText: 선택됨 {0} 중 {1}

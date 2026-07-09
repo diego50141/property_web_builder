@@ -17,13 +17,22 @@ namespace :latam do
     # codes PWB actually loads (I18n.available_locales => :es, :en, ...).
     website.default_client_locale = "es"
     website.default_admin_locale = "es"
-    website.supported_locales = %w[es en]
+    # Solo español: con un único locale el theme oculta el selector de idioma.
+    website.supported_locales = %w[es]
 
     website.default_currency = "COP"
     website.available_currencies = %w[COP USD] if website.respond_to?(:available_currencies=)
     website.supported_currencies = %w[COP USD] if website.respond_to?(:supported_currencies=)
 
     website.save!
+
+    # Español de Colombia: "Arrendar" en vez de "Alquilar" en la navegación
+    # (los seeds nuevos ya lo traen; esto corrige sitios ya sembrados).
+    website.links.find_each do |link|
+      next unless link.link_title_es == "Alquilar"
+
+      link.update!(link_title_es: "Arrendar")
+    end
 
     puts "[latam] demo website ##{website.id} subdomain=#{website.subdomain} " \
          "locale=#{website.default_client_locale} currency=#{website.default_currency}"

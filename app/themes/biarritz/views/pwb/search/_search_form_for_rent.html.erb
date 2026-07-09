@@ -130,7 +130,7 @@
         <%= f.button :button, class: "pwb-search-box__submit w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center",
             id: "btn_buscar_inmuebles" do %>
           <%= icon(:search, size: :sm, class: "mr-2") %>
-          <%= I18n.t("search") %>
+          <%= I18n.t("searchCta", default: "Search") %>
         <% end %>
       </div>
     <% end %>

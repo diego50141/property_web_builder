@@ -106,6 +106,7 @@ fr:
     tagLineExt: Pages web professionnelles et élégantes.<br>On a jamais vu aussi rapide!
   requestPropertyInfo: Demandez des informations
   search: Cherchez
+  searchCta: Cherchez
   searchForProperties: Cherchez immeubles
   selectpicker:
     countSelectedText: Seleccionés {0} de {1}

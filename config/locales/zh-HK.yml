@@ -106,6 +106,7 @@ zh:
     tagLineExt: 美丽的网站必须被视为相信。<br>没有人能更快地上网。
   requestPropertyInfo: 请求信息
   search: 搜索
+  searchCta: 搜索
   searchForProperties: 搜索属性
   selectpicker:
     countSelectedText: "{1}的{0}"

@@ -111,6 +111,7 @@ vi:
       ai giúp bạn trực tuyến nhanh hơn.
   requestPropertyInfo: Yêu cầu thông tin
   search: Tìm kiếm
+  searchCta: Tìm kiếm
   searchForProperties: Tìm kiếm tài sản
   selectpicker:
     countSelectedText: Đã chọn {0} trong tổng số {1}

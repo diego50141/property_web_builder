@@ -106,6 +106,7 @@ pt-PT:
       coloca você online mais rápido.
   requestPropertyInfo: informações Request
   search: Pesquisa
+  searchCta: Pesquisa
   searchForProperties: Busca de propriedades
   selectpicker:
     countSelectedText: Selecionado {0} de {1}

@@ -109,6 +109,7 @@ tr:
       çabuk yakalayamaz.
   requestPropertyInfo: Bilgi talep et
   search: Arama
+  searchCta: Arama
   searchForProperties: Mülk ara
   selectpicker:
     countSelectedText: "{1} 'den seçilen {0}"
