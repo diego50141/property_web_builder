@@ -78,6 +78,23 @@ module Pwb
           expect(entry['last_result']['imported']).to eq(3)
         end
 
+        it 'creates the website in preview when publish is false (Fase D)' do
+          result = described_class.provision(agency_url: agency_url, publish: false)
+
+          expect(result).to be_success
+          expect(result.website.reload.provisioning_state).to eq('ready')
+          expect(result.website.preview_pending_publish?).to be(true)
+        end
+
+        it 'does not change the state of an existing website when re-provisioning' do
+          live = described_class.provision(agency_url: agency_url).website
+          expect(live.reload.provisioning_state).to eq('live')
+
+          described_class.provision(agency_url: agency_url, publish: false)
+
+          expect(live.reload.provisioning_state).to eq('live')
+        end
+
         it 'honours an explicit subdomain' do
           result = described_class.provision(agency_url: agency_url, subdomain: 'llano-custom')
 

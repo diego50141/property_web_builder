@@ -29,13 +29,17 @@ module Pwb
         def success? = error.nil?
       end
 
-      def self.provision(agency_url:, subdomain: nil)
-        new(agency_url, subdomain).provision
+      # publish: false crea el sitio en preview (provisioning_state "ready"):
+      # el público ve "en preparación" y el super-admin lo navega con el
+      # preview_token hasta pulsar Publicar (Website#publish_preview!).
+      def self.provision(agency_url:, subdomain: nil, publish: true)
+        new(agency_url, subdomain, publish: publish).provision
       end
 
-      def initialize(agency_url, subdomain = nil)
+      def initialize(agency_url, subdomain = nil, publish: true)
         @agency_url = agency_url.to_s.strip
         @subdomain_param = subdomain.to_s.strip.presence
+        @publish = publish
       end
 
       def provision
@@ -105,7 +109,9 @@ module Pwb
           subdomain: validation[:normalized],
           company_display_name: agency_data[:name],
           theme_name: "default",
-          provisioning_state: "live",
+          # "ready" = preview sin publicar; el estado de un sitio existente
+          # nunca se toca al re-provisionar.
+          provisioning_state: @publish ? "live" : "ready",
           site_type: "residential",
           seed_pack_name: SEED_PACK
         )

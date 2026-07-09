@@ -52,6 +52,19 @@
         <p class="mt-1 text-sm text-gray-500">Minúsculas, números y guiones. Si se deja vacío se usa el slug del portal (p. ej. <code>llanocasa</code>).</p>
       </div>
 
+      <div class="flex items-start gap-3">
+        <input type="hidden" name="publish" value="0">
+        <input type="checkbox" name="publish" id="publish" value="1" <%= "checked" unless @publish == false %>
+               class="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+        <div>
+          <label for="publish" class="text-sm font-medium text-gray-700">Publicar el sitio de inmediato</label>
+          <p class="text-sm text-gray-500">
+            Si se desmarca, el sitio queda <strong>en preview</strong>: el público ve "en preparación"
+            y solo tú puedes navegarlo (con el enlace de preview) hasta pulsar Publicar.
+          </p>
+        </div>
+      </div>
+
       <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
         <p class="text-sm text-yellow-700">
           Usar solo con autorización de la agencia (importa <em>sus propios</em> anuncios).
@@ -103,6 +116,28 @@
         <%= link_to "Ver sitio en el panel →", tenant_admin_website_path(@result.website),
                     class: "text-blue-600 hover:underline text-sm font-medium" %>
       </div>
+
+      <% if @result.website.preview_pending_publish? %>
+        <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
+          <p class="text-sm font-medium text-blue-900">El sitio está en preview (sin publicar).</p>
+          <% if @result.website.primary_url %>
+            <p class="text-sm text-blue-800">
+              Navégalo antes de publicar:
+              <a href="<%= @result.website.primary_url %>/?preview_token=<%= @result.website.preview_token %>"
+                 target="_blank" rel="noopener" class="underline font-medium">
+                <%= @result.website.primary_url %> →
+              </a>
+            </p>
+          <% end %>
+          <%= form_with url: publish_tenant_admin_metrocuadrado_provision_path, method: :post, local: true do %>
+            <input type="hidden" name="website_id" value="<%= @result.website.id %>">
+            <button type="submit"
+                    class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-200">
+              Publicar sitio
+            </button>
+          <% end %>
+        </div>
+      <% end %>
 
       <h3 class="text-sm font-semibold text-gray-900 mb-2">
         Propiedades (<%= @result.import_results.count { |r| r.action == "imported" } %> importadas,

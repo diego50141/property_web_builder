@@ -757,5 +757,43 @@ module Pwb
         end
       end
     end
+
+    describe 'preview antes de publicar (Fase D autopilot)' do
+      let(:website) { FactoryBot.create(:pwb_website, provisioning_state: 'ready') }
+
+      it 'is pending publish only in the ready state' do
+        expect(website.preview_pending_publish?).to be(true)
+
+        website.update!(provisioning_state: 'live')
+        expect(website.preview_pending_publish?).to be(false)
+      end
+
+      it 'has a deterministic preview token unique per website' do
+        other = FactoryBot.create(:pwb_website, provisioning_state: 'ready')
+
+        expect(website.preview_token).to eq(website.preview_token)
+        expect(website.preview_token).not_to eq(other.preview_token)
+      end
+
+      it 'validates its own token and rejects others' do
+        expect(website.valid_preview_token?(website.preview_token)).to be(true)
+        expect(website.valid_preview_token?('nope')).to be(false)
+        expect(website.valid_preview_token?(nil)).to be(false)
+      end
+
+      describe '#publish_preview!' do
+        it 'moves the website to live' do
+          website.publish_preview!
+
+          expect(website.reload.provisioning_state).to eq('live')
+        end
+
+        it 'refuses when the website is not in preview' do
+          website.update!(provisioning_state: 'live')
+
+          expect { website.publish_preview! }.to raise_error(/no está en preview/)
+        end
+      end
+    end
   end
 end

@@ -48,17 +48,19 @@ namespace :latam do
   end
 
   desc "Crear un sitio nuevo desde una agencia de Metrocuadrado (Fase C). " \
-       "Uso: rake 'latam:provision_metrocuadrado[URL_AGENCIA,subdominio_opcional]'"
-  task :provision_metrocuadrado, [:url, :subdomain] => :environment do |_t, args|
+       "Uso: rake 'latam:provision_metrocuadrado[URL_AGENCIA,subdominio_opcional,preview]' " \
+       "(tercer arg 'preview' lo deja sin publicar)"
+  task :provision_metrocuadrado, [:url, :subdomain, :mode] => :environment do |_t, args|
     url = args[:url].to_s.strip
     if url.empty?
-      warn "Uso: rake 'latam:provision_metrocuadrado[https://www.metrocuadrado.com/inmobiliaria/<slug>/<id>,subdominio]'"
+      warn "Uso: rake 'latam:provision_metrocuadrado[https://www.metrocuadrado.com/inmobiliaria/<slug>/<id>,subdominio,preview]'"
       next
     end
 
     result = Pwb::Metrocuadrado::AutoProvisioner.provision(
       agency_url: url,
-      subdomain: args[:subdomain].to_s.strip.presence
+      subdomain: args[:subdomain].to_s.strip.presence,
+      publish: args[:mode].to_s.strip.downcase != "preview"
     )
 
     if result.success?
@@ -70,6 +72,10 @@ namespace :latam do
       puts "[metrocuadrado] website ##{result.website.id} (#{result.website.subdomain}) " \
            "#{result.created ? 'creado' : 'reutilizado'}: agencia '#{result.agency_data[:name]}', " \
            "#{imported} propiedad(es) importada(s), #{errored} con error"
+      if result.website.preview_pending_publish?
+        puts "[metrocuadrado] EN PREVIEW (sin publicar). Navegar: " \
+             "#{result.website.primary_url}/?preview_token=#{result.website.preview_token}"
+      end
     else
       warn "[metrocuadrado] auto-provisión falló: #{result.error}"
       exit 1

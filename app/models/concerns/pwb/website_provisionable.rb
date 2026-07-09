@@ -213,6 +213,41 @@ module Pwb
       locked_pending_email_verification? || locked_pending_registration?
     end
 
+    # ===================
+    # Preview (Fase D del autopilot)
+    # ===================
+    # Un sitio auto-provisionado en estado `ready` está completo pero sin
+    # publicar: el público ve una página "en preparación" y el super-admin
+    # puede navegarlo con el preview_token antes de pasarlo a `live`.
+
+    def preview_pending_publish?
+      provisioning_state == 'ready'
+    end
+
+    # Token determinista por sitio (no se persiste): derivado del
+    # secret_key_base, verificable regenerándolo.
+    def preview_token
+      OpenSSL::HMAC.hexdigest(
+        'SHA256', Rails.application.secret_key_base, "website-preview-#{id}"
+      ).first(24)
+    end
+
+    def valid_preview_token?(token)
+      token.present? &&
+        ActiveSupport::SecurityUtils.secure_compare(token.to_s, preview_token)
+    end
+
+    # Publicación directa por el super-admin. No usa el evento AASM go_live
+    # porque su guard exige un owner y los sitios auto-provisionados desde
+    # Metrocuadrado no tienen usuarios (igual que el AutoProvisioner crea
+    # sitios `live` sin pasar por la máquina de estados).
+    def publish_preview!
+      raise "El sitio no está en preview (estado: #{provisioning_state})" unless preview_pending_publish?
+
+      update!(provisioning_state: 'live')
+      log_provisioning_step('live_from_preview')
+    end
+
     def locked_mode
       return nil unless locked?
       return :pending_email_verification if locked_pending_email_verification?

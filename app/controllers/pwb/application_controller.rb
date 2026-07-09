@@ -4,7 +4,8 @@ module Pwb
     helper AuthHelper
     helper_method :current_website
 
-    before_action :current_agency_and_website, :check_unseeded_website, :check_locked_website, :nav_links,
+    before_action :current_agency_and_website, :check_unseeded_website, :check_locked_website,
+      :check_preview_website, :nav_links,
       :set_locale, :set_theme_path, :footer_content
 
     # Themes allowed to be switched via ?theme= URL parameter
@@ -112,6 +113,25 @@ module Pwb
 
       # Render locked page and halt the filter chain
       render 'pwb/locked/show', layout: 'pwb/locked', status: :ok
+    end
+
+    # Sitios en preview (provisioning_state "ready", Fase D del autopilot):
+    # el público ve "en preparación" en TODAS las rutas; con el preview_token
+    # (?preview_token=...) se navega el sitio completo (queda en sesión).
+    def check_preview_website
+      return unless @current_website&.preview_pending_publish?
+      return if preview_access_granted?
+
+      render 'pwb/locked/preview', layout: 'pwb/locked', status: :not_found
+    end
+
+    def preview_access_granted?
+      if @current_website.valid_preview_token?(params[:preview_token])
+        session[:preview_website_id] = @current_website.id
+        return true
+      end
+
+      session[:preview_website_id] == @current_website.id
     end
 
     # Reserved subdomains that should not be used for tenant resolution

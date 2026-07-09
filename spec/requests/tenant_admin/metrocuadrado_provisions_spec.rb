@@ -52,5 +52,45 @@ RSpec.describe 'TenantAdmin::MetrocuadradoProvisions', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+
+    context 'in preview mode (publish unchecked)' do
+      before do
+        allow(Pwb::SeedPack).to receive(:find)
+          .and_return(instance_double(Pwb::SeedPack, apply!: true))
+        stub_request(:get, agency_url)
+          .to_return(status: 200, body: File.read(fixture_path.join('agency_page.html')))
+        stub_request(:get, %r{\Ahttps://www\.metrocuadrado\.com/inmueble/})
+          .to_return(status: 200, body: File.read(fixture_path.join('property_page.html')))
+      end
+
+      it 'provisions in preview and offers the publish button' do
+        post '/tenant_admin/metrocuadrado_provision', params: { url: agency_url, publish: '0' }
+
+        website = Pwb::Website.unscoped.find_by(subdomain: 'llanocasa')
+        expect(website.provisioning_state).to eq('ready')
+        expect(response.body).to include('preview')
+        expect(response.body).to include('Publicar sitio')
+      end
+    end
+  end
+
+  describe 'POST /tenant_admin/metrocuadrado_provision/publish' do
+    it 'publishes a preview website' do
+      website = FactoryBot.create(:pwb_website, provisioning_state: 'ready')
+
+      post '/tenant_admin/metrocuadrado_provision/publish', params: { website_id: website.id }
+
+      expect(response).to redirect_to('/tenant_admin/metrocuadrado_provision/new')
+      expect(website.reload.provisioning_state).to eq('live')
+    end
+
+    it 'rejects websites that are not in preview' do
+      website = FactoryBot.create(:pwb_website, provisioning_state: 'live')
+
+      post '/tenant_admin/metrocuadrado_provision/publish', params: { website_id: website.id }
+
+      expect(response).to redirect_to('/tenant_admin/metrocuadrado_provision/new')
+      expect(flash[:alert]).to include('no está en preview')
+    end
   end
 end

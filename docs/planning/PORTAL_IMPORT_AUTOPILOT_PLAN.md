@@ -132,10 +132,14 @@ estabilidad del formato RSC ante cambios de Metrocuadrado.
   sitio registrado; el import es idempotente. Manual:
   `rake latam:resync_metrocuadrado` (o `[website_id]`). Para excluir un sitio:
   `imports_config.metrocuadrado.auto_resync = false`.
-- ⏳ **Preview antes de publicar** — pendiente: el resolver de subdominios
-  (`SubdomainTenant`) hoy sirve los sitios en cualquier `provisioning_state`,
-  así que provisionar en estado `ready` no oculta nada; requiere gating por
-  estado en el routing público antes de tener sentido.
+- ✅ **Preview antes de publicar** — provisionar con `publish: false` (checkbox
+  en el panel, o `rake 'latam:provision_metrocuadrado[URL,sub,preview]'`) deja
+  el sitio en `provisioning_state: ready`: el público ve "Sitio en preparación"
+  (404, `Pwb::ApplicationController#check_preview_website`) y el super-admin lo
+  navega completo con `?preview_token=...` (token HMAC determinista, queda en
+  sesión). El botón "Publicar sitio" del panel (`Website#publish_preview!`) lo
+  pasa a `live`. Nota: cubre los themes server-rendered (los A-themes vía proxy
+  Astro no pasan por este controller).
 - ✅ **Fotos a ActiveStorage/R2** — el Importer encola
   `DownloadScrapedImagesJob` (con `replace_external: false`) al crear o
   cambiar las fotos de un inmueble; `external_url` se conserva como
