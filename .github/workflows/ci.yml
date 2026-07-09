@@ -106,15 +106,10 @@ jobs:
           npm run tailwind:build
           bundle exec rake assets:precompile
 
+      # Sin RspecJunitFormatter: la gema rspec_junit_formatter no está en el
+      # Gemfile y el bundle corre en modo frozen.
       - name: Run RSpec tests
-        run: bundle exec rspec --format progress --format RspecJunitFormatter --out tmp/rspec_results.xml
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: rspec-results
-          path: tmp/rspec_results.xml
+        run: bundle exec rspec --format progress
 
   e2e:
     name: Playwright E2E Tests
@@ -172,6 +167,8 @@ jobs:
 
       - name: Install dependencies
         run: |
+          # db:seed genera variantes de imagen y necesita `convert`
+          sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick
           npm ci
           npx playwright install --with-deps chromium
 
