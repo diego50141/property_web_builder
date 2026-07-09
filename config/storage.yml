@@ -24,8 +24,12 @@ cloudflare_r2:
   bucket: <%= ENV['CDN_IMAGES_BUCKET'] || Rails.application.credentials.dig(:r2, :bucket) || ENV['R2_BUCKET'] %>
   endpoint: <%= begin
     r2_account_id = Rails.application.credentials.dig(:r2, :account_id) || ENV['R2_ACCOUNT_ID']
-    raise 'Missing R2 account id (set credentials.r2.account_id or R2_ACCOUNT_ID)' if r2_account_id.blank?
-    "https://#{r2_account_id}.r2.cloudflarestorage.com"
+    # ActiveStorage parsea este archivo completo en TODOS los entornos aunque
+    # solo production/staging usen R2; fallar duro aquí rompería test/dev/e2e.
+    if r2_account_id.blank? && %w[production staging].include?(Rails.env)
+      raise 'Missing R2 account id (set credentials.r2.account_id or R2_ACCOUNT_ID)'
+    end
+    "https://#{r2_account_id.presence || 'r2-not-configured'}.r2.cloudflarestorage.com"
   end %>
   force_path_style: true
   public: true
