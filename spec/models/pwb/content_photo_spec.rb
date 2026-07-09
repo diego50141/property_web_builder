@@ -38,5 +38,19 @@ module Pwb
     it 'has a valid factory' do
       expect(content_photo).to be_valid
     end
+
+    describe '#optimized_image_url' do
+      it 'never raises when URL generation fails (e.g. Disk service without url_options in db:seed)' do
+        photo = FactoryBot.create(:pwb_content_photo, :with_image)
+
+        expect { photo.optimized_image_url }.not_to raise_error
+      end
+
+      it 'returns the external_url for external photos' do
+        photo = FactoryBot.create(:pwb_content_photo, external_url: 'https://cdn.example.com/a.jpg')
+
+        expect(photo.optimized_image_url).to eq('https://cdn.example.com/a.jpg')
+      end
+    end
   end
 end

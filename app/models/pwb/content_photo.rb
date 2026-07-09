@@ -52,7 +52,14 @@ module Pwb
       end
     rescue StandardError => e
       Rails.logger.warn "Failed to generate optimized URL for ContentPhoto##{id}: #{e.message}"
-      image.attached? ? image.url : nil
+      # El fallback puede lanzar el MISMO error (p. ej. Disk service sin
+      # ActiveStorage::Current.url_options fuera de un request, como en
+      # db:seed): nunca re-lanzar desde aquí.
+      begin
+        image.attached? ? image.url : nil
+      rescue StandardError
+        nil
+      end
     end
 
     def image_filename

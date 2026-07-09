@@ -21,18 +21,24 @@ module Pwb
         Pwb::RealtyAsset.unscoped.where(website_id: website.id)
       end
 
+      # La extracción de fotos está anclada al property id: el fixture solo
+      # trae las imágenes de 16573-M6016483, así que de los 3 inmuebles solo
+      # ese termina con fotos (y con descarga encolada).
+      def asset_with_photos
+        imported_assets.find_by(reference: '16573-M6016483')
+      end
+
       describe 'photo sync (Fase D)' do
         it 'creates photos with external_url and enqueues their download' do
           expect do
             described_class.new(website).import(agency_url)
           end.to have_enqueued_job(Pwb::DownloadScrapedImagesJob)
             .with(kind_of(String), replace_external: false)
-            .exactly(3).times
+            .exactly(1).times
 
           expect(imported_assets.count).to eq(3)
-          asset = imported_assets.first
-          expect(asset.prop_photos.count).to eq(2)
-          expect(asset.prop_photos.pluck(:external_url)).to all(be_present)
+          expect(asset_with_photos.prop_photos.count).to eq(2)
+          expect(asset_with_photos.prop_photos.pluck(:external_url)).to all(be_present)
         end
 
         it 'keeps the same photo records when re-importing unchanged listings' do
@@ -49,7 +55,7 @@ module Pwb
 
         it 'preserves downloaded attachments across resyncs' do
           described_class.new(website).import(agency_url)
-          photo = imported_assets.first.prop_photos.order(:sort_order).first
+          photo = asset_with_photos.prop_photos.order(:sort_order).first
           photo.image.attach(io: StringIO.new('img'), filename: 'a.jpg', content_type: 'image/jpeg')
 
           described_class.new(website).import(agency_url)
