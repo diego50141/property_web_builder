@@ -36,7 +36,8 @@ module Pwb
         paths = html.gsub('\\"', '"')
                     .scan(%r{/inmueble/[a-z0-9\-]+/\d+-M\d+}i)
                     .uniq
-        paths.map { |path| import_property(BASE + path) }
+        results = paths.map { |path| import_property(BASE + path) }
+        results + deactivate_delisted(results)
       end
 
       def import_property(url)
@@ -75,6 +76,32 @@ module Pwb
 
       def soft_404?(data)
         data[:title].to_s.match?(/\AError 404/i)
+      end
+
+      # Anuncios importados de Metrocuadrado (reference con patrón N-MN) que
+      # ya no aparecen en la página de la agencia: el portal los retiró, así
+      # que se ocultan (no se borran). Si algún resultado vino sin reference
+      # (fetch fallido a mitad de crawl) no se desactiva nada: no sabríamos
+      # qué anuncio era y ocultaríamos uno vigente por un error transitorio.
+      def deactivate_delisted(results)
+        return [] if results.empty? || results.any? { |r| r.reference.nil? }
+
+        seen = results.map(&:reference)
+        stale = []
+        ActsAsTenant.with_tenant(@website) do
+          stale = Pwb::RealtyAsset.where(website: @website)
+                                  .where("reference ~ ?", '^\d+-M\d+$')
+                                  .where.not(reference: seen)
+                                  .to_a
+          stale.each do |asset|
+            asset.sale_listings.update_all(visible: false, active: false)
+            asset.rental_listings.update_all(visible: false, active: false)
+          end
+        end
+        stale.map do |asset|
+          Result.new(reference: asset.reference, action: "removed",
+                     error: "ya no está en la página de la agencia")
+        end
       end
 
       # Oculta los listings de un asset cuyo anuncio desapareció del portal.

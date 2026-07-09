@@ -52,6 +52,36 @@ module Pwb
         end
       end
 
+      describe 'anuncios que desaparecen de la página de la agencia' do
+        def create_stale_asset
+          ActsAsTenant.with_tenant(website) do
+            asset = Pwb::RealtyAsset.create!(website: website, reference: '16573-M9999999')
+            asset.sale_listings.create!(reference: '16573-M9999999', visible: true, active: true,
+                                        price_sale_current_cents: 100_00, price_sale_current_currency: 'COP')
+            asset
+          end
+        end
+
+        it 'hides listings for assets no longer listed by the agency' do
+          stale = create_stale_asset
+
+          results = described_class.new(website).import(agency_url)
+
+          removed = results.find { |r| r.reference == '16573-M9999999' }
+          expect(removed.action).to eq('removed')
+          expect(Pwb::SaleListing.unscoped.where(realty_asset_id: stale.id, visible: true)).not_to exist
+        end
+
+        it 'does not hide anything when a property fetch failed mid-crawl' do
+          stale = create_stale_asset
+          stub_request(:get, %r{/inmueble/venta-casa-restrepo}).to_return(status: 404)
+
+          described_class.new(website).import(agency_url)
+
+          expect(Pwb::SaleListing.unscoped.where(realty_asset_id: stale.id, visible: true)).to exist
+        end
+      end
+
       describe 'listing titles' do
         it 'strips the business-type noise from the portal title' do
           described_class.new(website).import(agency_url)
