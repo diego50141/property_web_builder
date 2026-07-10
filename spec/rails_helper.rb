@@ -108,10 +108,13 @@ RSpec.configure do |config|
 
   # El tenant fugado entre tests causa flakes dependientes del orden (p. ej.
   # un show cross-tenant respondiendo 200 porque Pwb::Current quedó apuntando
-  # al website de otro test). Los specs que necesitan tenant lo fijan en sus
-  # propios before (que corren después de este).
-  config.before(:each) do
+  # al website de otro test). Tiene que ser un around (no un before): los
+  # around de config son los más externos, así que el reset ocurre antes de
+  # que los `around { ActsAsTenant.with_tenant(...) }` de cada grupo fijen su
+  # tenant; un config.before correría dentro de esos around y lo borraría.
+  config.around(:each) do |example|
     Pwb::Current.reset
     ActsAsTenant.current_tenant = nil
+    example.run
   end
 end
