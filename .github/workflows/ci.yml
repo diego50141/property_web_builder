@@ -175,15 +175,25 @@ jobs:
       - name: Setup database
         run: |
           bundle exec rake db:create db:schema:load
-          bundle exec rake db:seed
+          # Seeds de e2e (tenant-a/tenant-b), no los seeds normales: los
+          # tests navegan a tenant-a.e2e.localhost / tenant-b.e2e.localhost.
+          bundle exec rails playwright:seed
 
       - name: Build assets
         run: |
           npm run tailwind:build
           bundle exec rake assets:precompile
 
+      # curl no resuelve *.localhost a 127.0.0.1 (el navegador sí); el
+      # health-check del runner de e2e lo necesita.
+      - name: Add e2e hosts
+        run: echo "127.0.0.1 e2e.localhost tenant-a.e2e.localhost tenant-b.e2e.localhost" | sudo tee -a /etc/hosts
+
+      # El script arranca el server Rails en :3001 (con BYPASS_ADMIN_AUTH,
+      # que los tests de admin esperan), espera a que responda y corre la
+      # suite. Sin server, todo daba ERR_CONNECTION_REFUSED.
       - name: Run Playwright tests
-        run: npx playwright test --project=chromium
+        run: ./scripts/run-e2e-tests.sh --bypass-auth --project=chromium
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
