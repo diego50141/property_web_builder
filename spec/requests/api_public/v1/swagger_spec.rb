@@ -144,7 +144,8 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
                        slug: { type: :string },
                        lat: { type: :number, format: :float },
                        lng: { type: :number, format: :float },
-                       title: { type: :string },
+                       # Un listing puede no tener título en el locale actual
+                       title: { type: %i[string null] },
                        price: { type: :string },
                        image: { type: %i[string null] },
                        url: { type: :string }

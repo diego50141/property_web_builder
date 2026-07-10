@@ -153,9 +153,9 @@ test.describe('Tenant Isolation', () => {
       await goToAdminPage(page, TENANTS.B, ROUTES.ADMIN.WEBSITE_SETTINGS);
       const tenantBSettings = await page.content();
 
-      // Both should show settings page
-      expect(tenantASettings).toContain('Settings');
-      expect(tenantBSettings).toContain('Settings');
+      // Both should show settings page (el panel está en español)
+      expect(tenantASettings).toContain('Configuración');
+      expect(tenantBSettings).toContain('Configuración');
     });
   });
 });

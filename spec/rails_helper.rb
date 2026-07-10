@@ -105,4 +105,13 @@ RSpec.configure do |config|
   config.around(:each) do |example|
     I18n.with_locale(I18n.default_locale) { example.run }
   end
+
+  # El tenant fugado entre tests causa flakes dependientes del orden (p. ej.
+  # un show cross-tenant respondiendo 200 porque Pwb::Current quedó apuntando
+  # al website de otro test). Los specs que necesitan tenant lo fijan en sus
+  # propios before (que corren después de este).
+  config.before(:each) do
+    Pwb::Current.reset
+    ActsAsTenant.current_tenant = nil
+  end
 end
