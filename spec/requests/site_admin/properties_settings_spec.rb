@@ -42,7 +42,7 @@ RSpec.describe 'Site Admin Properties Settings', type: :request do
           headers: { 'HTTP_HOST' => 'props-settings-test.e2e.localhost' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Property Field Keys')
+      expect(response.body).to include('Claves de campo de propiedades')
       expect(response.body).to include('Property Types')
       expect(response.body).to include('Features')
     end

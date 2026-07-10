@@ -28,7 +28,7 @@ RSpec.describe 'SiteAdmin::Integrations', type: :request do
 
       it 'shows the integration status' do
         get site_admin_integrations_path
-        expect(response.body).to include('Connected')
+        expect(response.body).to include('Conectado')
       end
     end
   end
@@ -104,7 +104,7 @@ RSpec.describe 'SiteAdmin::Integrations', type: :request do
     it 'shows masked credentials' do
       get edit_site_admin_integration_path(integration)
       # Should show masked version, not actual key
-      expect(response.body).to include('Configure Anthropic')
+      expect(response.body).to include('Configurar Anthropic')
     end
   end
 

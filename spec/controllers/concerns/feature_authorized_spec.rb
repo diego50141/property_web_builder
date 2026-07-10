@@ -52,7 +52,7 @@ RSpec.describe FeatureAuthorized, type: :request do
         get site_admin_domain_path
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('Domain Settings')
+        expect(response.body).to include('Configuración de dominio')
       end
     end
 

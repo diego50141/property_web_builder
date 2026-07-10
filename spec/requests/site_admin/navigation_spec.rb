@@ -35,21 +35,21 @@ RSpec.describe 'Site Admin Navigation', type: :request do
       expect(response.body).to include(site_admin_email_templates_path)
     end
 
-    it 'renders the Site Design section' do
+    it 'renders the site content section' do
       get site_admin_root_path
-      expect(response.body).to include('Site Design')
+      expect(response.body).to include('Contenido del sitio')
       expect(response.body).to include(site_admin_pages_path)
       expect(response.body).to include(site_admin_media_library_index_path)
     end
 
-    it 'renders the Analytics section' do
+    it 'does not render the Analytics section (oculta por ahora)' do
       get site_admin_root_path
-      expect(response.body).to include('Analytics')
+      expect(response.body).not_to include('tour-analytics-section')
     end
 
-    it 'renders the Settings section' do
+    it 'renders the settings section' do
       get site_admin_root_path
-      expect(response.body).to include('Settings')
+      expect(response.body).to include('Configuración')
       expect(response.body).to include(site_admin_users_path)
     end
   end

@@ -21,7 +21,7 @@ RSpec.describe 'SiteAdmin::SupportTickets', type: :request do
 
       it 'shows empty state' do
         get site_admin_support_tickets_path, headers: { 'HTTP_HOST' => 'support-test.test.localhost' }
-        expect(response.body).to include('No support tickets')
+        expect(response.body).to include('No hay tickets de soporte')
       end
     end
 
@@ -98,7 +98,7 @@ RSpec.describe 'SiteAdmin::SupportTickets', type: :request do
 
     it 'shows the form' do
       get new_site_admin_support_ticket_path, headers: { 'HTTP_HOST' => 'support-test.test.localhost' }
-      expect(response.body).to include('Create Support Ticket')
+      expect(response.body).to include('Crear ticket de soporte')
       expect(response.body).to include('Subject')
       expect(response.body).to include('Description')
     end

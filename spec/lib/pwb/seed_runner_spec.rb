@@ -42,8 +42,10 @@ RSpec.describe Pwb::SeedRunner, type: :model do
   describe 'modes' do
     describe ':create_only mode' do
       it 'does not update existing records' do
-        # Create an existing user
-        existing_user = create(:pwb_user, email: 'admin@example.com', website: website)
+        # Create an existing user. El reload es necesario: Ruby guarda el
+        # timestamp con nanosegundos y Postgres lo redondea a microsegundos;
+        # sin él la comparación falla aunque nada haya cambiado.
+        existing_user = create(:pwb_user, email: 'admin@example.com', website: website).reload
         original_updated_at = existing_user.updated_at
 
         described_class.run(

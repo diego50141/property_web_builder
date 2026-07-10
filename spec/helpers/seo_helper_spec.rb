@@ -6,7 +6,9 @@ RSpec.describe SeoHelper, type: :helper do
   let(:website) { create(:pwb_website, subdomain: 'test-seo') }
 
   before do
-    allow(helper).to receive(:current_website).and_return(website)
+    # El helper resuelve el website vía helper_current_website (ivar
+    # @current_website o Pwb::Current.website), no via current_website.
+    helper.instance_variable_set(:@current_website, website)
   end
 
   describe '#verification_meta_tags' do

@@ -2,8 +2,14 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= "test"
-# Add example.com as a platform domain so tests using `host! 'subdomain.example.com'` work correctly
-ENV["PLATFORM_DOMAINS"] ||= "propertywebbuilder.com,pwb.localhost,e2e.localhost,localhost,example.com"
+# Add example.com and test.host as platform domains so tests using
+# `host! 'subdomain.example.com'` / `subdomain.test.host` resolve their tenant
+ENV["PLATFORM_DOMAINS"] ||= "propertywebbuilder.com,pwb.localhost,e2e.localhost,localhost,example.com,test.host"
+# El panel simplificado (PWB_SIMPLE_ADMIN_NAV, activo por defecto) redirige el
+# dashboard a /site_admin/props y oculta módulos: los specs de site_admin
+# describen el panel completo, así que en test se desactiva. El modo
+# simplificado se prueba aparte re-activando la variable alrededor del ejemplo.
+ENV["PWB_SIMPLE_ADMIN_NAV"] = "false"
 require File.expand_path("../../config/environment", __FILE__)
 
 # Prevent database truncation if the environment is production

@@ -21,7 +21,7 @@ RSpec.describe 'SiteAdmin::Inbox', type: :request do
 
       it 'shows empty state' do
         get site_admin_inbox_index_path, headers: { 'HTTP_HOST' => 'inbox-test.test.localhost' }
-        expect(response.body).to include('No contacts with messages')
+        expect(response.body).to include('No hay contactos con mensajes')
       end
     end
 
@@ -54,7 +54,7 @@ RSpec.describe 'SiteAdmin::Inbox', type: :request do
 
       it 'displays message count' do
         get site_admin_inbox_index_path, headers: { 'HTTP_HOST' => 'inbox-test.test.localhost' }
-        expect(response.body).to include('2 messages')
+        expect(response.body).to include('2 mensajes')
       end
 
       # This test specifically catches the instance-dependent scope bug
@@ -74,7 +74,7 @@ RSpec.describe 'SiteAdmin::Inbox', type: :request do
 
       it 'displays orphan message count' do
         get site_admin_inbox_index_path, headers: { 'HTTP_HOST' => 'inbox-test.test.localhost' }
-        expect(response.body).to include('1 message without contact')
+        expect(response.body).to include('1 mensaje sin contacto')
       end
     end
 

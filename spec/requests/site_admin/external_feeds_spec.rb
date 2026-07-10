@@ -20,7 +20,7 @@ RSpec.describe "SiteAdmin::ExternalFeeds", type: :request do
 
     it "renders the show template" do
       get site_admin_external_feed_path
-      expect(response.body).to include("External Feed Settings")
+      expect(response.body).to include("Configuración de feeds externos")
     end
 
     it "shows provider options" do

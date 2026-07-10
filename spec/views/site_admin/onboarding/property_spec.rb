@@ -88,6 +88,6 @@ RSpec.describe 'site_admin/onboarding/property.html.erb', type: :view do
   it 'has back link' do
     render
 
-    expect(rendered).to have_link('Back')
+    expect(rendered).to have_link('Atrás')
   end
 end

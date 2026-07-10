@@ -74,11 +74,11 @@ module Pwb
     private
 
     def increment_contact_unread_count
-      contact&.increment!(:unread_messages_count) unless read?
+      contact.increment!(:unread_messages_count) if counts_toward_contact_unread? && !read?
     end
 
     def sync_contact_unread_count_on_update
-      return unless contact && saved_change_to_read?
+      return unless counts_toward_contact_unread? && saved_change_to_read?
 
       if read?
         contact.decrement!(:unread_messages_count)
@@ -88,7 +88,14 @@ module Pwb
     end
 
     def decrement_contact_unread_count
-      contact&.decrement!(:unread_messages_count) unless read?
+      contact.decrement!(:unread_messages_count) if counts_toward_contact_unread? && !read?
+    end
+
+    # El contador del contacto solo refleja mensajes de SU website: un mensaje
+    # cross-tenant no debe inflarlo (igual que Contact#last_message filtra por
+    # website_id).
+    def counts_toward_contact_unread?
+      contact.present? && website_id == contact.website_id
     end
   end
 end

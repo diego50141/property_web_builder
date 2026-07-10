@@ -181,11 +181,10 @@ RSpec.describe 'SiteAdmin::DashboardController', type: :request do
       let!(:plan) { create(:pwb_plan, display_name: 'Pro Plan') }
       let!(:subscription) { create(:pwb_subscription, website: website, plan: plan, status: 'active') }
 
-      it 'displays subscription details' do
+      it 'allows access with an active subscription (el plan ya no se muestra en el dashboard)' do
         get site_admin_root_path, headers: { 'HTTP_HOST' => 'dashboard-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Pro Plan')
       end
     end
 
@@ -208,6 +207,22 @@ RSpec.describe 'SiteAdmin::DashboardController', type: :request do
           expect(response).to have_http_status(:success)
         end
       end
+    end
+  end
+
+  describe 'panel simplificado (PWB_SIMPLE_ADMIN_NAV activo)' do
+    around do |example|
+      previous = ENV['PWB_SIMPLE_ADMIN_NAV']
+      ENV['PWB_SIMPLE_ADMIN_NAV'] = 'true'
+      example.run
+    ensure
+      ENV['PWB_SIMPLE_ADMIN_NAV'] = previous
+    end
+
+    it 'redirects the dashboard to the properties list' do
+      get site_admin_root_path, headers: { 'HTTP_HOST' => 'dashboard-test.test.localhost' }
+
+      expect(response).to redirect_to(site_admin_props_path)
     end
   end
 end

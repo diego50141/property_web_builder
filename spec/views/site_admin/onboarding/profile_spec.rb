@@ -61,6 +61,6 @@ RSpec.describe 'site_admin/onboarding/profile.html.erb', type: :view do
   it 'has back link' do
     render
 
-    expect(rendered).to have_link('Back')
+    expect(rendered).to have_link('Atrás')
   end
 end

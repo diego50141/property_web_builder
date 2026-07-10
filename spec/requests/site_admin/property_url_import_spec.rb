@@ -23,7 +23,7 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
           headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("Import Property from URL")
+      expect(response.body).to include("Importar propiedad desde URL")
     end
   end
 
@@ -104,7 +104,7 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
                headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
 
           expect(response).to have_http_status(:success)
-          expect(response.body).to include("Manual HTML Entry")
+          expect(response.body).to include("Entrada manual de HTML")
         end
 
         it "displays the error message" do
@@ -182,7 +182,7 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
           headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("Review Imported Data")
+      expect(response.body).to include("Revisar datos importados")
     end
 
     it "displays extracted data" do
@@ -320,7 +320,7 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
           headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("Import History")
+      expect(response.body).to include("Historial de importaciones")
     end
 
     it "displays scraped properties" do

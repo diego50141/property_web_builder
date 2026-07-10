@@ -30,9 +30,9 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
           headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('General Settings')
-      expect(response.body).to include('Supported Languages')
-      expect(response.body).to include('Primary Currency')
+      expect(response.body).to include('Configuración general')
+      expect(response.body).to include('Idiomas admitidos')
+      expect(response.body).to include('Moneda principal')
     end
   end
 
@@ -85,7 +85,7 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
           headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Appearance Settings')
+      expect(response.body).to include('Configuración de apariencia')
       expect(response.body).to include('Theme')
     end
   end
@@ -96,7 +96,7 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
           headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Navigation Settings')
+      expect(response.body).to include('Configuración de navegación')
     end
   end
 
@@ -106,7 +106,7 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
           headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Push Notifications')
+      expect(response.body).to include('Notificaciones push')
     end
   end
 
@@ -116,7 +116,7 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
           headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Social Media Links')
+      expect(response.body).to include('Enlaces de redes sociales')
     end
 
     it 'displays all 6 social media platforms' do
@@ -231,8 +231,8 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include('SEO')
-      expect(response.body).to include('Default Page Title')
-      expect(response.body).to include('Default Meta Description')
+      expect(response.body).to include('Configuración básica de SEO')
+      expect(response.body).to include('Metadescripción predeterminada')
     end
   end
 
@@ -476,7 +476,7 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
           headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Home Page Settings')
+      expect(response.body).to include('Configuración de la página de inicio')
     end
   end
 
@@ -536,7 +536,7 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
           headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Search Configuration')
+      expect(response.body).to include('Configuración de búsqueda')
       expect(response.body).to include('Display Options')
       expect(response.body).to include('Listing Types')
       expect(response.body).to include('Price Filter')

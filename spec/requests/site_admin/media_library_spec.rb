@@ -20,7 +20,7 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
 
     it 'displays the media library page' do
       get site_admin_media_library_index_path
-      expect(response.body).to include('Media Library')
+      expect(response.body).to include('Biblioteca de medios')
     end
 
     it 'shows media statistics' do

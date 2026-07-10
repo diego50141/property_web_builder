@@ -32,7 +32,7 @@ RSpec.describe 'SiteAdmin::CmaReports', type: :request do
       get site_admin_cma_reports_path
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('CMA Reports')
+      expect(response.body).to include('Informes CMA')
     end
 
     it 'lists all CMA reports' do
@@ -100,7 +100,7 @@ RSpec.describe 'SiteAdmin::CmaReports', type: :request do
       get new_site_admin_cma_report_path
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('Generate CMA Report')
+      expect(response.body).to include('Generar informe CMA')
     end
 
     it 'shows available properties' do
