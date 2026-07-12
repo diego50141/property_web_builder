@@ -17,7 +17,9 @@ namespace :latam do
 
     website.update!(external_image_mode: true) unless website.external_image_mode
 
-    results = Pwb::Metrocuadrado::Importer.new(website).import(url)
+    # inline_images: el proceso rake termina al acabar; con el adapter :async
+    # los jobs encolados se perderían (fotos sin descargar a R2).
+    results = Pwb::Metrocuadrado::Importer.new(website, inline_images: true).import(url)
     imported = results.count { |r| r.action == "imported" }
     errored  = results.count { |r| r.action == "error" }
 
@@ -40,7 +42,7 @@ namespace :latam do
     end
 
     websites.find_each do |website|
-      Pwb::Metrocuadrado::ResyncJob.perform_now(website_id: website.id)
+      Pwb::Metrocuadrado::ResyncJob.perform_now(website_id: website.id, inline_images: true)
       last = website.reload.imports_config.dig("metrocuadrado", "last_result") || {}
       puts "[metrocuadrado] ##{website.id} #{website.subdomain}: " \
            "#{last['imported']} importadas, #{last['errors']} con error, #{last['skipped']} omitidas"
@@ -60,7 +62,8 @@ namespace :latam do
     result = Pwb::Metrocuadrado::AutoProvisioner.provision(
       agency_url: url,
       subdomain: args[:subdomain].to_s.strip.presence,
-      publish: args[:mode].to_s.strip.downcase != "preview"
+      publish: args[:mode].to_s.strip.downcase != "preview",
+      inline_images: true
     )
 
     if result.success?

@@ -22,20 +22,22 @@ module Pwb
       # falla el job completo, Solid Queue lo reintenta con backoff.
       retry_on StandardError, wait: :polynomially_longer, attempts: 3
 
-      def perform(website_id: nil)
+      # inline_images: true descarga las fotos en el mismo proceso; pásalo
+      # cuando el job corre con perform_now desde rake (ver Importer).
+      def perform(website_id: nil, inline_images: false)
         websites = SyncRegistry.resyncable_websites
         websites = websites.where(id: website_id) if website_id
 
         websites.find_each do |website|
-          resync(website)
+          resync(website, inline_images: inline_images)
         end
       end
 
       private
 
-      def resync(website)
+      def resync(website, inline_images: false)
         agency_url = SyncRegistry.agency_url(website)
-        results = Importer.new(website).import(agency_url)
+        results = Importer.new(website, inline_images: inline_images).import(agency_url)
         SyncRegistry.record(website, agency_url: agency_url, results: results)
 
         summary = SyncRegistry.summarize(results)

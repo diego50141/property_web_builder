@@ -11,13 +11,18 @@ module Pwb
     # Idempotent: re-running upserts by `reference` (the Metrocuadrado id), so
     # properties are updated in place rather than duplicated. Photos are stored
     # as external URLs (no download) via PropPhoto#external_url.
+    #
+    # inline_images: true descarga las fotos en el mismo proceso (perform_now).
+    # Obligatorio en procesos cortos (rake) con el queue adapter :async, donde
+    # los jobs encolados mueren con el proceso.
     class Importer
       BASE = "https://www.metrocuadrado.com"
 
       Result = Struct.new(:reference, :title, :action, :photos, :error, keyword_init: true)
 
-      def initialize(website)
+      def initialize(website, inline_images: false)
         @website = website
+        @inline_images = inline_images
       end
 
       # @return [Array<Result>]
@@ -190,7 +195,13 @@ module Pwb
         return 0 if images.nil? || images.empty?
 
         current = asset.prop_photos.order(:sort_order, :id).pluck(:external_url)
-        return current.length if current == images
+        if current == images
+          # URLs sin cambios: no tocar los registros, pero si quedaron fotos
+          # sin attachment (p. ej. el proceso murió con la cola async sin
+          # drenar) re-disparar la descarga: el job solo procesa las que faltan.
+          enqueue_photo_download(asset) if missing_attachments?(asset)
+          return current.length
+        end
 
         asset.prop_photos.destroy_all
         count = 0
@@ -204,8 +215,19 @@ module Pwb
         count
       end
 
+      def missing_attachments?(asset)
+        asset.prop_photos
+             .where.not(external_url: [nil, ""])
+             .where.missing(:image_attachment)
+             .exists?
+      end
+
       def enqueue_photo_download(asset)
-        Pwb::DownloadScrapedImagesJob.perform_later(asset.id, replace_external: false)
+        if @inline_images
+          Pwb::DownloadScrapedImagesJob.perform_now(asset.id, replace_external: false)
+        else
+          Pwb::DownloadScrapedImagesJob.perform_later(asset.id, replace_external: false)
+        end
       rescue StandardError => e
         Rails.logger.warn("[metrocuadrado] no se pudo encolar la descarga de fotos: #{e.message}")
       end

@@ -32,14 +32,17 @@ module Pwb
       # publish: false crea el sitio en preview (provisioning_state "ready"):
       # el público ve "en preparación" y el super-admin lo navega con el
       # preview_token hasta pulsar Publicar (Website#publish_preview!).
-      def self.provision(agency_url:, subdomain: nil, publish: true)
-        new(agency_url, subdomain, publish: publish).provision
+      # inline_images: true descarga las fotos en el mismo proceso; necesario
+      # desde rake con el adapter :async (ver Importer).
+      def self.provision(agency_url:, subdomain: nil, publish: true, inline_images: false)
+        new(agency_url, subdomain, publish: publish, inline_images: inline_images).provision
       end
 
-      def initialize(agency_url, subdomain = nil, publish: true)
+      def initialize(agency_url, subdomain = nil, publish: true, inline_images: false)
         @agency_url = agency_url.to_s.strip
         @subdomain_param = subdomain.to_s.strip.presence
         @publish = publish
+        @inline_images = inline_images
       end
 
       def provision
@@ -64,7 +67,7 @@ module Pwb
           upsert_agency(website, agency_data)
         end
 
-        import_results = Importer.new(website).import(@agency_url)
+        import_results = Importer.new(website, inline_images: @inline_images).import(@agency_url)
         SyncRegistry.record(website, agency_url: @agency_url, results: import_results)
         Result.new(website: website, agency_data: agency_data, created: created, import_results: import_results)
       rescue StandardError => e

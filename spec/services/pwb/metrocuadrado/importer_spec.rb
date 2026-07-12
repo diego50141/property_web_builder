@@ -121,12 +121,44 @@ module Pwb
           described_class.new(website).import(agency_url)
           ids_before = imported_assets.flat_map { |a| a.prop_photos.order(:sort_order).pluck(:id) }
 
-          expect do
-            described_class.new(website).import(agency_url)
-          end.not_to have_enqueued_job(Pwb::DownloadScrapedImagesJob)
+          described_class.new(website).import(agency_url)
 
           ids_after = imported_assets.flat_map { |a| a.prop_photos.order(:sort_order).pluck(:id) }
           expect(ids_after).to eq(ids_before)
+        end
+
+        # Si la descarga original se perdió (p. ej. proceso rake que terminó
+        # con la cola :async sin drenar), el resync debe re-dispararla aunque
+        # las URLs del portal no hayan cambiado.
+        it 're-enqueues the download when unchanged photos still lack attachments' do
+          described_class.new(website).import(agency_url)
+
+          expect do
+            described_class.new(website).import(agency_url)
+          end.to have_enqueued_job(Pwb::DownloadScrapedImagesJob)
+            .with(asset_with_photos.id, replace_external: false)
+        end
+
+        it 'does not re-enqueue when every photo already has its attachment' do
+          described_class.new(website).import(agency_url)
+          asset_with_photos.prop_photos.each do |photo|
+            photo.image.attach(io: StringIO.new('img'), filename: 'a.jpg', content_type: 'image/jpeg')
+          end
+
+          expect do
+            described_class.new(website).import(agency_url)
+          end.not_to have_enqueued_job(Pwb::DownloadScrapedImagesJob)
+        end
+
+        it 'descarga las fotos en el mismo proceso con inline_images (rake/CLI)' do
+          stub_request(:get, %r{\Ahttps://multimedia\.metrocuadrado\.com/})
+            .to_return(status: 200, body: 'imgdata', headers: { 'Content-Type' => 'image/jpeg' })
+
+          expect do
+            described_class.new(website, inline_images: true).import(agency_url)
+          end.not_to have_enqueued_job(Pwb::DownloadScrapedImagesJob)
+
+          expect(asset_with_photos.prop_photos.reload).to all(satisfy { |p| p.image.attached? })
         end
 
         it 'preserves downloaded attachments across resyncs' do
