@@ -160,13 +160,28 @@ module Pwb
       def seed_users(yml_file)
         users_yml = load_seed_yml yml_file
         users_yml.each do |user_yml|
-          unless Pwb::User.where(email: user_yml["email"]).count > 0
+          user = Pwb::User.find_by(email: user_yml["email"])
+          unless user
             # Ensure website association if required
             if Pwb::User.reflect_on_association(:website)
               user_yml["website_id"] ||= @current_website.id if @current_website
             end
-            Pwb::User.create!(user_yml)
+            user = Pwb::User.create!(user_yml)
           end
+          ensure_membership(user)
+        end
+      end
+
+      # El acceso a site_admin exige una membership activa con rol owner/admin
+      # (User#admin_for?); el flag `admin` del usuario no basta. Sin esto, el
+      # admin del seed no puede entrar al panel. Corre también para usuarios
+      # ya existentes, así re-seedear repara instalaciones viejas.
+      def ensure_membership(user)
+        return unless @current_website
+
+        Pwb::UserMembership.find_or_create_by!(user: user, website: @current_website) do |m|
+          m.role = user.admin ? "admin" : "member"
+          m.active = true
         end
       end
 
