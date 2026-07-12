@@ -112,13 +112,24 @@ class Rack::Attack
 
   # Block IPs with excessive failed login attempts
   # Blocklist for 1 hour after 20 failed attempts in 1 hour
+  #
+  # TEMPORARY: modo log-only. El pass-through tiene que hacerse AQUÍ
+  # (loguear y devolver false): el blocklisted_responder no puede "dejar
+  # pasar" una petición — lo que devuelva se usa como respuesta Rack, y
+  # devolver nil rompe el middleware con un 500 para toda IP fichada.
+  # Para re-activar el bloqueo: devolver `banned` y descomentar el
+  # responder 403 de más abajo.
   blocklist('fail2ban/login') do |req|
     # `filter` returns false if the request is allowed, or a truthy value if blocked
-    Rack::Attack::Fail2Ban.filter("login-#{req.ip}", maxretry: 20, findtime: 1.hour, bantime: 1.hour) do
+    banned = Rack::Attack::Fail2Ban.filter("login-#{req.ip}", maxretry: 20, findtime: 1.hour, bantime: 1.hour) do
       # Count failed login attempts
       # This is triggered when the response is a redirect back to login (failed attempt)
       req.path == '/users/sign_in' && req.post?
     end
+    if banned
+      Rails.logger.warn("[Rack::Attack] BLOCKING DISABLED - Would have blocked #{req.ip} to #{req.path}")
+    end
+    false
   end
 
   ### Custom Responses ###
@@ -164,7 +175,8 @@ class Rack::Attack
   end
 
   # Custom response for blocklisted IPs
-  # TEMPORARILY DISABLED: To re-enable, uncomment the block below and remove the pass-through lambda
+  # TEMPORARILY DISABLED: to re-enable, uncomment the block below and make
+  # the fail2ban blocklist above return `banned` instead of false.
   #
   # self.blocklisted_responder = lambda do |req|
   #   headers = { 'Content-Type' => 'text/html' }
@@ -182,13 +194,6 @@ class Rack::Attack
   #
   #   [403, headers, [body]]
   # end
-
-  # TEMPORARY: Pass-through responder (logs but allows blocked requests)
-  # Remove this and uncomment the block above to re-enable blocking
-  self.blocklisted_responder = lambda do |req|
-    Rails.logger.warn("[Rack::Attack] BLOCKING DISABLED - Would have blocked #{req.ip} to #{req.path}")
-    nil # Returning nil allows the request through
-  end
 
   ### Logging ###
 
