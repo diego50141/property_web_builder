@@ -3,13 +3,15 @@
 # This is intentionally separate from the production ./Dockerfile.
 FROM ruby:3.4-slim-bookworm
 
-# System deps: build tools for native gems (pg, ffi, nokogiri), libvips for
-# ActiveStorage image processing, postgresql-client for pg_isready/psql, git.
+# System deps: build tools for native gems (pg, ffi, nokogiri), imagemagick
+# for ActiveStorage variants (variant_processor es :mini_magick — sin él las
+# imágenes responden 500), postgresql-client for pg_isready/psql, git.
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
       build-essential \
       git \
       curl \
+      imagemagick \
       libpq-dev \
       libvips-dev \
       libyaml-dev \
