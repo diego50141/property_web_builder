@@ -60,6 +60,13 @@ services:
       # Sin BYPASS_ADMIN_AUTH: el stack está expuesto en el puerto 3100 del
       # VPS, así que los paneles exigen login (admin del seed; cambiar la
       # contraseña tras el primer acceso).
+      # Habilita el panel super-admin (/tenant_admin) para el admin del seed.
+      # IMPORTANTE: en un stack expuesto, esa cuenta NO debe conservar la
+      # contraseña del seed.
+      TENANT_ADMIN_EMAILS: admin@example.com
+      # Sin claves de Firebase el login por defecto (AUTH_PROVIDER=firebase)
+      # queda roto: usar el login clásico de Devise.
+      AUTH_PROVIDER: devise
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
