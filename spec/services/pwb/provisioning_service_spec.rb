@@ -95,7 +95,7 @@ module Pwb
         )
 
         expect(result[:success]).to be false
-        expect(result[:errors]).to include(match(/Invalid site type/))
+        expect(result[:errors]).to include(match(/Tipo de sitio inválido/))
       end
     end
 

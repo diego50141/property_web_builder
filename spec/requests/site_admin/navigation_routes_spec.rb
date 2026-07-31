@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Site Admin Navigation Routes', type: :request do
-  let(:plan) { create(:pwb_plan, features: %w[analytics custom_domain]) }
+  # crm: contacts/pipeline are feature-gated (see SiteAdminController#require_feature!)
+  let(:plan) { create(:pwb_plan, features: %w[analytics custom_domain crm]) }
   let(:website) { create(:website) }
   let!(:subscription) { create(:pwb_subscription, :active, website: website, plan: plan) }
   let(:admin_user) { create(:user, :admin, website: website) }

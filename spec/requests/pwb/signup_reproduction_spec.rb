@@ -48,7 +48,7 @@ RSpec.describe 'Pwb::SignupController Security', type: :request do
       get '/signup', headers: { 'HTTP_HOST' => 'localhost:3000' }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Create Your Property Website')
+      expect(response.body).to include('Crea tu sitio inmobiliario')
     end
   end
 end

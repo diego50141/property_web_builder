@@ -101,26 +101,26 @@ module Pwb
       it 'rejects names that are too short' do
         result = SubdomainGenerator.validate_custom_name('ab')
         expect(result[:valid]).to be false
-        expect(result[:errors]).to include(match(/at least 3 characters/))
+        expect(result[:errors]).to include(match(/al menos 3 caracteres/))
       end
 
       it 'rejects names that are too long' do
         result = SubdomainGenerator.validate_custom_name('a' * 50)
         expect(result[:valid]).to be false
-        expect(result[:errors]).to include(match(/40 characters/))
+        expect(result[:errors]).to include(match(/40 caracteres/))
       end
 
       it 'rejects reserved names' do
         result = SubdomainGenerator.validate_custom_name('admin')
         expect(result[:valid]).to be false
-        expect(result[:errors]).to include(match(/reserved/))
+        expect(result[:errors]).to include(match(/reservado/))
       end
 
       it 'rejects names already taken by websites' do
         FactoryBot.create(:pwb_website, subdomain: 'taken-name')
         result = SubdomainGenerator.validate_custom_name('taken-name')
         expect(result[:valid]).to be false
-        expect(result[:errors]).to include(match(/already taken/))
+        expect(result[:errors]).to include(match(/ya está en uso/))
       end
 
       it 'rejects names that are allocated in subdomain pool' do

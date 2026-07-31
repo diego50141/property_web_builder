@@ -72,7 +72,9 @@ module Pwb
 
     # Validations
     validates :slug, presence: true, uniqueness: true
-    validate :within_subscription_property_limit, on: :create
+    # NOTE: the plan's property_limit caps PUBLISHED listings (see
+    # ListingStateable#within_publish_limit); drafts are unlimited, so there is
+    # no create-time limit here.
 
     # Associations
     has_many :sale_listings, class_name: 'Pwb::SaleListing', foreign_key: 'realty_asset_id', dependent: :destroy
@@ -286,14 +288,5 @@ module Pwb
       parts.join('-').truncate(100, omission: '')
     end
 
-    # Validate that creating this property won't exceed subscription limits
-    def within_subscription_property_limit
-      return unless website # Skip if no website association
-
-      unless website.can_add_property?
-        limit = website.property_limit
-        errors.add(:base, "Property limit reached. Your plan allows #{limit} properties. Please upgrade to add more.")
-      end
-    end
   end
 end

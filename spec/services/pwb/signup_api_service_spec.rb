@@ -105,7 +105,7 @@ module Pwb
           result = service.start_signup(email: 'haswebsite@example.com')
 
           expect(result[:success]).to be false
-          expect(result[:errors]).to include(match(/already exists/i))
+          expect(result[:errors]).to include(match(/ya existe una cuenta/i))
         end
       end
 
@@ -285,7 +285,7 @@ module Pwb
           )
 
           expect(result[:success]).to be false
-          expect(result[:errors]).to include(match(/Invalid site type/i))
+          expect(result[:errors]).to include(match(/tipo de sitio inválido/i))
         end
       end
 
@@ -311,7 +311,7 @@ module Pwb
           )
 
           expect(result[:success]).to be false
-          expect(result[:errors]).to include(match(/already taken/i))
+          expect(result[:errors]).to include(match(/ya está en uso/i))
         end
       end
 
