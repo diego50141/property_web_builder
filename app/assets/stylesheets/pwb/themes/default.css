@@ -185,21 +185,36 @@ html {
   cursor: pointer;
 }
 
+/* Los templates pueden traer utilidades explícitas (bg-*, text-*): en ese caso
+   mandan ellas. Sin el guard :not(), este CSS (sin @layer) les ganaba y producía
+   botones ilegibles (ej. texto blanco sobre bg-white en el hero). */
 .pwb-btn--primary {
-  background-color: var(--primary-color, #3b82f6);
-  color: #ffffff;
   border: none;
 }
 
+.pwb-btn--primary:not([class*="bg-"]) {
+  background-color: var(--primary-color, #3b82f6);
+}
+
+.pwb-btn--primary:not([class*="text-"]) {
+  color: #ffffff;
+}
+
 .pwb-btn--primary:hover {
-  background-color: var(--secondary-color, #2563eb);
   transform: translateY(-1px);
+}
+
+.pwb-btn--primary:hover:not([class*="bg-"]) {
+  background-color: var(--secondary-color, #2563eb);
 }
 
 .pwb-btn--outline {
   background-color: transparent;
-  color: #ffffff;
   border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.pwb-btn--outline:not([class*="text-"]) {
+  color: #ffffff;
 }
 
 .pwb-btn--outline:hover {

@@ -70,7 +70,7 @@ class SignupStatusPresenter
       subdomain: reserved_subdomain.name,
       provisioning_status: 'pending',
       progress: 10,
-      message: 'Subdomain reserved. Please configure your site.',
+      message: 'Subdominio reservado. Configura tu sitio.',
       complete: false,
       next_step: 'configure'
     }
@@ -84,7 +84,7 @@ class SignupStatusPresenter
       subdomain: nil,
       provisioning_status: 'pending',
       progress: 5,
-      message: 'Email captured. Please choose a subdomain.',
+      message: 'Correo registrado. Elige un subdominio.',
       complete: false,
       next_step: 'configure'
     }

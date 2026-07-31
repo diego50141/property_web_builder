@@ -225,7 +225,7 @@ RSpec.describe Pwb::WebsiteProvisionable, type: :model do
     describe '#provisioning_status_message' do
       it 'returns human-readable message for live state' do
         website.update!(provisioning_state: 'live')
-        expect(website.provisioning_status_message).to eq('Your website is live!')
+        expect(website.provisioning_status_message).to eq('¡Tu sitio está publicado!')
       end
 
       it 'returns error message for failed state' do

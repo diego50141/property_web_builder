@@ -30,6 +30,8 @@ module Pwb
           expect(website.company_display_name).to eq('LLANOCASA')
           expect(website.provisioning_state).to eq('live')
           expect(website.default_currency).to eq('COP')
+          expect(website.available_currencies).to eq(['COP'])
+          expect(website.supported_currencies).to eq(['COP'])
           expect(website.default_client_locale).to eq('es')
           expect(website.supported_locales).to include('es')
           expect(website.external_image_mode).to be(true)

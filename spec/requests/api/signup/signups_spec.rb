@@ -132,7 +132,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         expect(response).to have_http_status(:unprocessable_content)
         expect(json_response[:success]).to be false
-        expect(json_response[:error]).to include("already exists")
+        expect(json_response[:error]).to include("Ya existe una cuenta")
       end
     end
 
@@ -273,7 +273,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
           expect(response).to have_http_status(:unprocessable_content)
           expect(json_response[:success]).to be false
-          expect(json_response[:error]).to include("taken")
+          expect(json_response[:error]).to include("en uso")
         end
       end
 
@@ -533,7 +533,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:available]).to be false
-        expect(json_response[:errors]).to include(a_string_matching(/at least 3/))
+        expect(json_response[:errors]).to include(a_string_matching(/al menos 3/))
       end
 
       it "returns error for subdomain with invalid characters" do
@@ -549,7 +549,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:available]).to be false
-        expect(json_response[:errors]).to include(a_string_matching(/reserved/i))
+        expect(json_response[:errors]).to include(a_string_matching(/reservado/i))
       end
     end
   end

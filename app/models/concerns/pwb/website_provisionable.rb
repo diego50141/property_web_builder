@@ -285,20 +285,20 @@ module Pwb
 
     def provisioning_status_message
       case provisioning_state
-      when 'pending' then 'Waiting to start...'
-      when 'owner_assigned' then 'Owner account created'
-      when 'agency_created' then 'Agency information saved'
-      when 'links_created' then 'Navigation links created'
-      when 'field_keys_created' then 'Property fields configured'
-      when 'properties_seeded' then 'Sample properties added'
-      when 'ready' then 'Almost done! Finalizing...'
-      when 'locked_pending_email_verification' then 'Please check your email to verify your account'
-      when 'locked_pending_registration' then 'Email verified! Please create your account to continue'
-      when 'live' then 'Your website is live!'
-      when 'failed' then "Setup failed: #{provisioning_error}"
-      when 'suspended' then 'Website suspended'
-      when 'terminated' then 'Website terminated'
-      else 'Unknown status'
+      when 'pending' then 'Esperando para comenzar...'
+      when 'owner_assigned' then 'Cuenta del propietario creada'
+      when 'agency_created' then 'Información de la agencia guardada'
+      when 'links_created' then 'Menú de navegación creado'
+      when 'field_keys_created' then 'Campos de propiedades configurados'
+      when 'properties_seeded' then 'Propiedades de ejemplo cargadas'
+      when 'ready' then '¡Casi listo! Finalizando...'
+      when 'locked_pending_email_verification' then 'Revisa tu correo para verificar tu cuenta'
+      when 'locked_pending_registration' then '¡Correo verificado! Crea tu cuenta para continuar'
+      when 'live' then '¡Tu sitio está publicado!'
+      when 'failed' then "La instalación falló: #{provisioning_error}"
+      when 'suspended' then 'Sitio suspendido'
+      when 'terminated' then 'Sitio dado de baja'
+      else 'Estado desconocido'
       end
     end
 

@@ -1,12 +1,15 @@
 # Base navigation links
 # These are standard navigation items used across all packs
 # NOTE: link_path is required for the navigation to render properly
+# Titles are multilingual (link_title_<locale>) so sites render correctly
+# in their configured locale (same format as db/yml_seeds/links.yml).
 
 # Top Navigation
 - slug: top_nav_home
   page_slug: home
   link_path: home_path
-  link_title: Home
+  link_title_en: Home
+  link_title_es: Inicio
   placement: top_nav
   sort_order: 1
   visible: true
@@ -14,7 +17,8 @@
 - slug: top_nav_buy
   page_slug: buy
   link_path: buy_path
-  link_title: Buy
+  link_title_en: Buy
+  link_title_es: Comprar
   placement: top_nav
   sort_order: 2
   visible: true
@@ -22,7 +26,8 @@
 - slug: top_nav_rent
   page_slug: rent
   link_path: rent_path
-  link_title: Rent
+  link_title_en: Rent
+  link_title_es: Arrendar
   placement: top_nav
   sort_order: 3
   visible: true
@@ -31,7 +36,8 @@
   page_slug: about-us
   link_path: show_page_path
   link_path_params: about-us
-  link_title: About
+  link_title_en: About
+  link_title_es: Sobre Nosotros
   placement: top_nav
   sort_order: 4
   visible: true
@@ -39,7 +45,8 @@
 - slug: top_nav_contact
   page_slug: contact-us
   link_path: contact_us_path
-  link_title: Contact
+  link_title_en: Contact
+  link_title_es: Contacto
   placement: top_nav
   sort_order: 5
   visible: true
@@ -48,7 +55,8 @@
 - slug: footer_home
   page_slug: home
   link_path: home_path
-  link_title: Home
+  link_title_en: Home
+  link_title_es: Inicio
   placement: footer
   sort_order: 1
   visible: true
@@ -56,7 +64,8 @@
 - slug: footer_buy
   page_slug: buy
   link_path: buy_path
-  link_title: Properties for Sale
+  link_title_en: Properties for Sale
+  link_title_es: Inmuebles en Venta
   placement: footer
   sort_order: 2
   visible: true
@@ -64,7 +73,8 @@
 - slug: footer_rent
   page_slug: rent
   link_path: rent_path
-  link_title: Properties for Rent
+  link_title_en: Properties for Rent
+  link_title_es: Inmuebles en Arriendo
   placement: footer
   sort_order: 3
   visible: true
@@ -72,7 +82,8 @@
 - slug: footer_contact
   page_slug: contact-us
   link_path: contact_us_path
-  link_title: Contact Us
+  link_title_en: Contact Us
+  link_title_es: Contáctenos
   placement: footer
   sort_order: 4
   visible: true
@@ -81,7 +92,8 @@
   page_slug: privacy
   link_path: show_page_path
   link_path_params: privacy
-  link_title: Privacy Policy
+  link_title_en: Privacy Policy
+  link_title_es: Política de Privacidad
   placement: footer
   sort_order: 5
   visible: true
@@ -90,7 +102,8 @@
   page_slug: legal
   link_path: show_page_path
   link_path_params: legal
-  link_title: Terms & Conditions
+  link_title_en: Terms & Conditions
+  link_title_es: Términos y Condiciones
   placement: footer
   sort_order: 6
   visible: true

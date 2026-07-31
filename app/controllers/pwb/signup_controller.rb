@@ -40,7 +40,7 @@ module Pwb
 
       unless valid_email?(email)
         log_signup_warning('Invalid email format', email: email)
-        flash.now[:error] = "Please enter a valid email address"
+        flash.now[:error] = "Ingresa un correo electrónico válido"
         return render :new
       end
 
@@ -62,7 +62,7 @@ module Pwb
         redirect_to signup_configure_path
       else
         log_signup_warning('Step 1 failed', email: email, errors: result[:errors])
-        flash.now[:error] = result[:errors].first || "Unable to start signup"
+        flash.now[:error] = result[:errors].first || "No pudimos iniciar el registro"
         render :new
       end
     end
@@ -98,7 +98,7 @@ module Pwb
         log_signup_warning('Step 2 failed', subdomain: subdomain, errors: result[:errors])
         @suggested_subdomain = subdomain
         @site_types = Website::SITE_TYPES
-        flash.now[:error] = result[:errors].first || "Unable to configure site"
+        flash.now[:error] = result[:errors].first || "No pudimos configurar el sitio"
         render :configure
       end
     end
@@ -112,35 +112,44 @@ module Pwb
       @website = signup_session.website
 
       unless @website
-        flash[:error] = "Website not found. Please start over."
+        flash[:error] = "No encontramos el sitio. Empieza de nuevo."
         return redirect_to signup_path
       end
 
       redirect_to signup_complete_path if @website.live?
     end
 
+    # Encola el aprovisionamiento y responde al instante. El sembrado tarda
+    # minutos (páginas, contenidos y variantes de imagen), así que correrlo
+    # dentro de la petición dejaba la barra en 0% y, si el navegador se iba,
+    # el sitio quedaba a medias sin poder retomar. El front sigue el avance
+    # por /signup/status.
     def provision
       @website = signup_session.website
 
       unless @website
         log_signup_warning('Provision attempt for missing website')
-        return render json: { success: false, error: "Website not found" }, status: :not_found
+        return render json: { success: false, error: "No encontramos el sitio" }, status: :not_found
       end
 
       return render json: { success: true, status: 'live', progress: 100 } if @website.live?
 
-      log_signup_event('Step 3: Starting provisioning', website_id: @website.id)
-
-      result = ProvisioningService.new.provision_website(website: @website)
-
-      if result[:success]
-        log_signup_event('Step 3 completed: Website is live', website_id: @website.id)
-        render json: provisioning_status_json
-      else
-        log_signup_error('Step 3 failed', website_id: @website.id, errors: result[:errors])
-        render json: provisioning_status_json.merge(success: false, error: result[:errors].first),
-               status: :unprocessable_entity
+      if @website.pending? || @website.owner_assigned?
+        enqueue_provisioning('Step 3: Aprovisionamiento encolado')
+      elsif @website.failed?
+        @website.retry_provisioning!
+        enqueue_provisioning('Step 3: Reintento de aprovisionamiento encolado')
+      elsif params[:force].present? && @website.provisioning?
+        # Reintento pedido por el usuario sobre un sitio que quedó a medias
+        # (p. ej. el proceso murió a mitad del sembrado): se marca fallido
+        # para poder volver a 'pending' y arrancar de nuevo.
+        @website.fail_provisioning!('Aprovisionamiento interrumpido; reintentado por el usuario')
+        @website.retry_provisioning!
+        enqueue_provisioning('Step 3: Aprovisionamiento reiniciado por el usuario')
       end
+      # Si ya viene avanzando, no se encola de nuevo: el polling lo refleja.
+
+      render json: provisioning_status_json
     end
 
     def status
@@ -198,7 +207,7 @@ module Pwb
 
     def require_signup_user
       unless signup_session.has_user?
-        flash[:error] = "Please start by entering your email"
+        flash[:error] = "Empieza ingresando tu correo"
         redirect_to signup_path
       end
     end
@@ -215,13 +224,26 @@ module Pwb
       email.present? && email.match?(URI::MailTo::EMAIL_REGEXP)
     end
 
+    def enqueue_provisioning(message)
+      log_signup_event(message, website_id: @website.id)
+      ProvisionWebsiteJob.perform_later(@website.id)
+    end
+
+    # `finished` marca el fin del trabajo pesado: el sitio quedó armado. El
+    # signup NO termina en 'live' sino en un estado bloqueado esperando que el
+    # dueño verifique su correo, así que el front debe dejar de consultar ahí
+    # (si esperara 'live' se quedaría girando en 95%).
     def provisioning_status_json
       @website.reload
       {
         success: true,
         status: @website.provisioning_state,
         progress: @website.provisioning_progress,
-        message: @website.provisioning_status_message
+        message: @website.provisioning_status_message,
+        finished: @website.live? || @website.locked? || @website.ready?,
+        awaiting_email_verification: @website.locked_pending_email_verification?,
+        failed: @website.failed?,
+        owner_email: @website.owner_email
       }
     end
 

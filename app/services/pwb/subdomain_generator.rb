@@ -87,40 +87,40 @@ module Pwb
 
         # Format validation
         unless normalized.match?(/\A[a-z0-9]([a-z0-9\-]*[a-z0-9])?\z/)
-          errors << "can only contain lowercase letters, numbers, and hyphens (no leading/trailing hyphens)"
+          errors << "solo puede contener minúsculas, números y guiones (sin guion al inicio o al final)"
         end
 
         # Length validation
         if normalized.length < 3
-          errors << "must be at least 3 characters"
+          errors << "debe tener al menos 3 caracteres"
         elsif normalized.length > 40
-          errors << "must be 40 characters or fewer"
+          errors << "debe tener máximo 40 caracteres"
         end
 
         # Reserved name check
         if Website::RESERVED_SUBDOMAINS.include?(normalized)
-          errors << "is reserved and cannot be used"
+          errors << "está reservado y no se puede usar"
         end
 
         # Profanity check
         if Obscenity.profane?(normalized.gsub('-', ' '))
-          errors << "contains inappropriate language"
+          errors << "contiene lenguaje inapropiado"
         end
 
         # Availability check
         if errors.empty?
           if Website.exists?(subdomain: normalized)
-            errors << "is already taken"
+            errors << "ya está en uso"
           else
             pool_subdomain = Subdomain.find_by(name: normalized)
             if pool_subdomain
               case pool_subdomain.aasm_state
               when 'allocated'
-                errors << "is already taken"
+                errors << "ya está en uso"
               when 'reserved'
                 # Allow if reserved by the same email
                 unless reserved_by_email && pool_subdomain.reserved_by_email == reserved_by_email.downcase
-                  errors << "is not available"
+                  errors << "no está disponible"
                 end
               end
             end

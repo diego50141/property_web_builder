@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Create Your Property Website | PropertyWebBuilder</title>
+    <title>Crea tu sitio inmobiliario | PropertyWebBuilder</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind-default", "data-turbo-track": "reload" %>
@@ -16,7 +16,7 @@
         <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
           <div class="flex justify-between items-center">
             <h1 class="text-2xl font-bold text-indigo-600">PropertyWebBuilder</h1>
-            <span class="text-sm text-gray-500">Create your property website</span>
+            <span class="text-sm text-gray-500">Crea tu sitio inmobiliario</span>
           </div>
         </div>
       </header>
@@ -27,10 +27,10 @@
           <div class="max-w-3xl mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
               <% [
-                { step: 1, label: 'Email' },
-                { step: 2, label: 'Configure' },
-                { step: 3, label: 'Setup' },
-                { step: 4, label: 'Complete' }
+                { step: 1, label: 'Correo' },
+                { step: 2, label: 'Configuración' },
+                { step: 3, label: 'Instalación' },
+                { step: 4, label: 'Listo' }
               ].each do |s| %>
                 <div class="flex items-center">
                   <div class="<%= s[:step] <= @step ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600' %> w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm">
@@ -69,7 +69,7 @@
       <!-- Footer -->
       <footer class="bg-white border-t py-4">
         <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
-          &copy; <%= Date.current.year %> PropertyWebBuilder. All rights reserved.
+          &copy; <%= Date.current.year %> PropertyWebBuilder. Todos los derechos reservados.
         </div>
       </footer>
     </div>

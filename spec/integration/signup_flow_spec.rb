@@ -97,7 +97,7 @@ RSpec.describe 'Signup Flow Integration', type: :request do
         result = signup_service.start_signup(email: 'existing@signup.test')
 
         expect(result[:success]).to be false
-        expect(result[:errors].first).to include('already exists')
+        expect(result[:errors].first).to include('Ya existe una cuenta')
       end
     end
   end
@@ -172,7 +172,7 @@ RSpec.describe 'Signup Flow Integration', type: :request do
       )
 
       expect(result[:success]).to be false
-      expect(result[:errors].first).to include('Invalid site type')
+      expect(result[:errors].first).to include('Tipo de sitio inválido')
     end
 
     it 'rejects already taken subdomain' do
@@ -185,7 +185,7 @@ RSpec.describe 'Signup Flow Integration', type: :request do
       )
 
       expect(result[:success]).to be false
-      expect(result[:errors].first).to include('already taken')
+      expect(result[:errors].first).to include('ya está en uso')
     end
 
     context 'subdomain allocation' do

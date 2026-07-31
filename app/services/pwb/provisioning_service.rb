@@ -26,7 +26,7 @@ module Pwb
         existing_user = User.find_by(email: email.downcase.strip)
         if existing_user
           if existing_user.active?
-            @errors << "An account with this email already exists"
+            @errors << "Ya existe una cuenta con este correo"
             raise ActiveRecord::Rollback
           else
             # Reactivate churned user
@@ -51,16 +51,16 @@ module Pwb
         begin
           subdomain = Subdomain.reserve_for_email(email, duration: 10.minutes)
           unless subdomain
-            @errors << "Unable to reserve a subdomain. Please try again later."
+            @errors << "No pudimos reservar un subdominio. Intenta de nuevo más tarde."
             raise ActiveRecord::Rollback
           end
         rescue Subdomain::SubdomainPoolEmptyError => e
           Rails.logger.error("[Provisioning] Subdomain pool empty during signup: #{e.message}")
-          @errors << "We're setting up new subdomains. Please try again in a few minutes, or contact support."
+          @errors << "Estamos preparando nuevos subdominios. Intenta en unos minutos o escribe a soporte."
           raise ActiveRecord::Rollback
         rescue Subdomain::SubdomainPoolExhaustedError => e
           Rails.logger.error("[Provisioning] Subdomain pool exhausted during signup: #{e.message}")
-          @errors << "We're experiencing high demand. Please try again later, or contact support for assistance."
+          @errors << "Estamos con alta demanda. Intenta más tarde o escribe a soporte."
           raise ActiveRecord::Rollback
         end
 
@@ -75,7 +75,7 @@ module Pwb
     rescue Subdomain::SubdomainPoolEmptyError, Subdomain::SubdomainPoolExhaustedError => e
       # These are already handled above, but catch any that escape the transaction
       Rails.logger.error("[Provisioning] Subdomain pool error escaped transaction: #{e.message}")
-      @errors << "Unable to complete signup. Please contact support." unless @errors.any?
+      @errors << "No pudimos completar el registro. Escribe a soporte." unless @errors.any?
       failure_result
     rescue StandardError => e
       Rails.logger.error("[Provisioning] Unexpected error in start_signup: #{e.class.name}: #{e.message}")
@@ -114,7 +114,7 @@ module Pwb
 
       # Validate site type
       unless Website::SITE_TYPES.include?(site_type)
-        @errors << "Invalid site type. Choose from: #{Website::SITE_TYPES.join(', ')}"
+        @errors << "Tipo de sitio inválido. Opciones: #{Website::SITE_TYPES.join(', ')}"
         return failure_result
       end
 
@@ -199,6 +199,9 @@ module Pwb
         end
 
         report_progress(progress_block, website, 'owner_assigned', 15)
+
+        # Defaults LATAM para sitios del signup (es/COP); respeta valores ya elegidos
+        apply_latam_defaults(website)
 
         # Step 1: Create agency
         Rails.logger.info("[Provisioning] Creating agency for website #{website.id}")
@@ -295,6 +298,21 @@ module Pwb
         notify_platform(:provisioning_failed, website.id, error: e.message)
         failure_result
       end
+    end
+
+    # Defaults LATAM (mismos que Metrocuadrado::AutoProvisioner#configure_website):
+    # español único (el theme oculta el selector de idioma) y COP como moneda.
+    # El signup no ofrece elegir idioma/moneda, así que cualquier valor presente
+    # es un default de plataforma (en-UK/EUR) y se sobreescribe sin miedo.
+    def apply_latam_defaults(website)
+      website.default_client_locale = 'es'
+      website.default_admin_locale = 'es' if website.respond_to?(:default_admin_locale)
+      website.supported_locales = %w[es]
+      # COP como única moneda disponible y configurada
+      website.default_currency = 'COP'
+      website.available_currencies = %w[COP]
+      website.supported_currencies = %w[COP]
+      website.save! if website.changed?
     end
 
     # Assign the free plan to a newly provisioned website

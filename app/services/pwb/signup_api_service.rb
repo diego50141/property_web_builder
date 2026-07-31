@@ -37,7 +37,7 @@ module Pwb
             return { success: true, user: user, subdomain: subdomain, signup_token: token }
           else
             # User already has a website
-            return { success: false, errors: ["An account with this email already exists. Please sign in."] }
+            return { success: false, errors: ["Ya existe una cuenta con este correo. Inicia sesión."] }
           end
         end
 
@@ -101,13 +101,13 @@ module Pwb
       # Validate site type
       valid_site_types = %w[residential commercial vacation_rental]
       unless valid_site_types.include?(site_type)
-        return { success: false, errors: ["Invalid site type"] }
+        return { success: false, errors: ["Tipo de sitio inválido"] }
       end
 
       ActiveRecord::Base.transaction do
         # Check if subdomain is taken by an existing website
         if Pwb::Website.exists?(subdomain: subdomain_name)
-          return { success: false, errors: ["This subdomain is already taken"] }
+          return { success: false, errors: ["Este subdominio ya está en uso"] }
         end
 
         # Create the website in pending state
@@ -134,7 +134,7 @@ module Pwb
         if website.may_assign_owner?
           website.assign_owner!
         else
-          return { success: false, errors: ["Failed to verify owner assignment"] }
+          return { success: false, errors: ["No pudimos verificar la asignación del propietario"] }
         end
 
         { success: true, website: website }

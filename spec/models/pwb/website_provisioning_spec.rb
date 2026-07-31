@@ -361,13 +361,13 @@ module Pwb
 
       describe '#provisioning_status_message' do
         it 'returns human-readable messages for each state' do
-          expect(FactoryBot.build(:pwb_website, provisioning_state: 'pending').provisioning_status_message).to eq('Waiting to start...')
-          expect(FactoryBot.build(:pwb_website, provisioning_state: 'owner_assigned').provisioning_status_message).to eq('Owner account created')
-          expect(FactoryBot.build(:pwb_website, provisioning_state: 'agency_created').provisioning_status_message).to eq('Agency information saved')
-          expect(FactoryBot.build(:pwb_website, provisioning_state: 'links_created').provisioning_status_message).to eq('Navigation links created')
-          expect(FactoryBot.build(:pwb_website, provisioning_state: 'field_keys_created').provisioning_status_message).to eq('Property fields configured')
-          expect(FactoryBot.build(:pwb_website, provisioning_state: 'properties_seeded').provisioning_status_message).to eq('Sample properties added')
-          expect(FactoryBot.build(:pwb_website, provisioning_state: 'live').provisioning_status_message).to eq('Your website is live!')
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'pending').provisioning_status_message).to eq('Esperando para comenzar...')
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'owner_assigned').provisioning_status_message).to eq('Cuenta del propietario creada')
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'agency_created').provisioning_status_message).to eq('Información de la agencia guardada')
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'links_created').provisioning_status_message).to eq('Menú de navegación creado')
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'field_keys_created').provisioning_status_message).to eq('Campos de propiedades configurados')
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'properties_seeded').provisioning_status_message).to eq('Propiedades de ejemplo cargadas')
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'live').provisioning_status_message).to eq('¡Tu sitio está publicado!')
         end
 
         it 'includes error message when failed' do

@@ -11,11 +11,12 @@ version: "1.0"
 inherits_from: null
 
 # Default website configuration (can be overridden by child packs)
+# Defaults LATAM: español único y COP (los packs hijos pueden sobreescribir)
 website:
   theme_name: default
   selected_palette: classic_red
-  default_client_locale: en
+  default_client_locale: es
   supported_locales:
-    - en
-  currency: EUR
+    - es
+  currency: COP
   area_unit: sqmt

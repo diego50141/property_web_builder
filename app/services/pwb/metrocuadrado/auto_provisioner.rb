@@ -135,8 +135,8 @@ module Pwb
         # idioma (el admin puede añadir más luego en ajustes).
         website.supported_locales = %w[es]
         website.default_currency = "COP"
-        website.available_currencies = %w[COP USD] if website.respond_to?(:available_currencies=)
-        website.supported_currencies = %w[COP USD] if website.respond_to?(:supported_currencies=)
+        website.available_currencies = %w[COP] if website.respond_to?(:available_currencies=)
+        website.supported_currencies = %w[COP] if website.respond_to?(:supported_currencies=)
         website.external_image_mode = true
         website.main_logo_url = agency_data[:logo_url] if agency_data[:logo_url]
         if website.selected_palette.blank?

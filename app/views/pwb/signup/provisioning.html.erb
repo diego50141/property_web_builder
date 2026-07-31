@@ -1,7 +1,7 @@
 <div class="bg-white rounded-2xl shadow-xl p-8">
   <div class="text-center mb-8">
-    <h2 class="text-3xl font-bold text-gray-900">Setting Up Your Website</h2>
-    <p class="mt-2 text-gray-600">This will only take a moment...</p>
+    <h2 class="text-3xl font-bold text-gray-900">Estamos creando tu sitio</h2>
+    <p class="mt-2 text-gray-600">Esto puede tardar unos minutos, puedes dejar la página abierta.</p>
   </div>
 
   <!-- Progress Display -->
@@ -11,7 +11,7 @@
       <div class="flex mb-2 items-center justify-between">
         <div>
           <span id="status-text" class="text-sm font-semibold inline-block text-indigo-600">
-            Starting...
+            Iniciando...
           </span>
         </div>
         <div class="text-right">
@@ -31,26 +31,46 @@
 
     <!-- Status Steps -->
     <div id="status-steps" class="space-y-3">
-      <div class="flex items-center text-gray-400" data-step="subdomain_allocated">
+      <div class="flex items-center text-gray-400" data-step="owner_assigned">
         <span class="step-icon mr-3 text-xl">&#9711;</span>
-        <span>Assigning subdomain</span>
+        <span>Creando tu cuenta</span>
       </div>
-      <div class="flex items-center text-gray-400" data-step="configuring">
+      <div class="flex items-center text-gray-400" data-step="agency_created">
         <span class="step-icon mr-3 text-xl">&#9711;</span>
-        <span>Configuring website</span>
+        <span>Configurando la inmobiliaria</span>
       </div>
-      <div class="flex items-center text-gray-400" data-step="seeding">
+      <div class="flex items-center text-gray-400" data-step="links_created">
         <span class="step-icon mr-3 text-xl">&#9711;</span>
-        <span>Adding sample properties</span>
+        <span>Armando el menú del sitio</span>
+      </div>
+      <div class="flex items-center text-gray-400" data-step="field_keys_created">
+        <span class="step-icon mr-3 text-xl">&#9711;</span>
+        <span>Preparando los campos de propiedades</span>
+      </div>
+      <div class="flex items-center text-gray-400" data-step="properties_seeded">
+        <span class="step-icon mr-3 text-xl">&#9711;</span>
+        <span>Cargando páginas y propiedades de ejemplo</span>
       </div>
       <div class="flex items-center text-gray-400" data-step="ready">
         <span class="step-icon mr-3 text-xl">&#9711;</span>
-        <span>Finalizing setup</span>
+        <span>Finalizando la instalación</span>
       </div>
-      <div class="flex items-center text-gray-400" data-step="live">
-        <span class="step-icon mr-3 text-xl">&#9711;</span>
-        <span>Going live!</span>
-      </div>
+    </div>
+
+    <!-- Aviso de verificación de correo: el registro no termina en "publicado"
+         sino esperando que el dueño verifique su correo. -->
+    <div id="verify-email-notice" class="hidden p-4 bg-green-50 border border-green-300 text-green-800 rounded-lg">
+      <p class="font-semibold">¡Tu sitio quedó listo!</p>
+      <p class="mt-1 text-sm">
+        Te enviamos un correo a
+        <span id="verify-email-address" class="font-mono"><%= @website.owner_email %></span>
+        para verificar tu cuenta. Ábrelo para activar tu sitio y definir tu contraseña.
+      </p>
+      <p class="mt-2 text-sm">
+        ¿No te llegó?
+        <%= link_to 'Reenviar el correo de verificación', resend_verification_path,
+            class: 'underline font-medium' %>
+      </p>
     </div>
 
     <!-- Error Display (hidden by default) -->
@@ -60,14 +80,14 @@
         onclick="retryProvisioning()"
         class="mt-2 block w-full text-center bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
       >
-        Retry
+        Reintentar
       </button>
     </div>
   </div>
 
   <!-- Subdomain Preview -->
   <div class="mt-8 p-4 bg-gray-50 rounded-lg text-center">
-    <p class="text-sm text-gray-500 mb-1">Your website will be available at:</p>
+    <p class="text-sm text-gray-500 mb-1">Tu sitio quedará disponible en:</p>
     <p class="text-lg font-mono text-indigo-600">
       <%= @website.subdomain %>.propertywebbuilder.com
     </p>
@@ -75,34 +95,35 @@
 </div>
 
 <script>
-  const STATES = ['subdomain_allocated', 'configuring', 'seeding', 'ready', 'live'];
+  const STATES = ['owner_assigned', 'agency_created', 'links_created', 'field_keys_created', 'properties_seeded', 'ready'];
   let provisioningStarted = false;
+  let polling = false;
 
   function updateUI(data) {
-    // Update progress bar
     document.getElementById('progress-bar').style.width = data.progress + '%';
     document.getElementById('progress-percent').textContent = data.progress + '%';
-    document.getElementById('status-text').textContent = data.message || 'Processing...';
+    document.getElementById('status-text').textContent = data.message || 'Procesando...';
 
-    // Update step indicators
+    // El backend reporta el estado del sitio; cada paso de la lista se marca
+    // como hecho cuando el estado ya lo dejó atrás.
     const currentStateIndex = STATES.indexOf(data.status);
+    const done = data.finished === true;
     STATES.forEach((state, index) => {
       const stepEl = document.querySelector('[data-step="' + state + '"]');
-      if (stepEl) {
-        const iconEl = stepEl.querySelector('.step-icon');
-        if (index < currentStateIndex) {
-          stepEl.classList.remove('text-gray-400', 'text-indigo-600');
-          stepEl.classList.add('text-green-600');
-          iconEl.innerHTML = '&#10003;';
-        } else if (index === currentStateIndex) {
-          stepEl.classList.remove('text-gray-400', 'text-green-600');
-          stepEl.classList.add('text-indigo-600');
-          iconEl.innerHTML = '&#10148;';
-        } else {
-          stepEl.classList.remove('text-green-600', 'text-indigo-600');
-          stepEl.classList.add('text-gray-400');
-          iconEl.innerHTML = '&#9711;';
-        }
+      if (!stepEl) return;
+      const iconEl = stepEl.querySelector('.step-icon');
+      if (done || index < currentStateIndex) {
+        stepEl.classList.remove('text-gray-400', 'text-indigo-600');
+        stepEl.classList.add('text-green-600');
+        iconEl.innerHTML = '&#10003;';
+      } else if (index === currentStateIndex) {
+        stepEl.classList.remove('text-gray-400', 'text-green-600');
+        stepEl.classList.add('text-indigo-600');
+        iconEl.innerHTML = '&#10148;';
+      } else {
+        stepEl.classList.remove('text-green-600', 'text-indigo-600');
+        stepEl.classList.add('text-gray-400');
+        iconEl.innerHTML = '&#9711;';
       }
     });
   }
@@ -112,12 +133,46 @@
     document.getElementById('error-message').textContent = message;
   }
 
-  async function startProvisioning() {
+  function hideError() {
+    document.getElementById('error-display').classList.add('hidden');
+  }
+
+  function showEmailVerification(email) {
+    const box = document.getElementById('verify-email-notice');
+    if (!box) return;
+    if (email) {
+      document.getElementById('verify-email-address').textContent = email;
+    }
+    box.classList.remove('hidden');
+  }
+
+  // Corta el sondeo cuando ya no hay nada que esperar.
+  function handleTerminalState(data) {
+    if (data.status === 'live') {
+      window.location.href = '<%= signup_complete_path %>';
+      return true;
+    }
+    if (data.awaiting_email_verification) {
+      showEmailVerification(data.owner_email);
+      return true;
+    }
+    if (data.failed) {
+      showError(data.message || 'La instalación falló');
+      return true;
+    }
+    return false;
+  }
+
+  // El POST solo encola el trabajo y responde al instante; el avance real se
+  // sigue por sondeo, así la barra se mueve durante todo el proceso.
+  async function startProvisioning(force) {
     if (provisioningStarted) return;
     provisioningStarted = true;
+    hideError();
 
     try {
-      const response = await fetch('<%= signup_provision_path %>', {
+      const url = '<%= signup_provision_path %>' + (force ? '?force=true' : '');
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -127,57 +182,56 @@
 
       const data = await response.json();
 
-      if (data.success && data.status === 'live') {
-        updateUI(data);
-        setTimeout(() => {
-          window.location.href = '<%= signup_complete_path %>';
-        }, 1000);
-      } else if (!data.success) {
-        showError(data.error || 'Provisioning failed');
-      } else {
-        updateUI(data);
-        pollStatus();
+      if (!data.success) {
+        showError(data.error || 'La instalación falló');
+        provisioningStarted = false;
+        return;
       }
+
+      updateUI(data);
+      if (!handleTerminalState(data)) pollStatus();
     } catch (e) {
-      showError('Network error. Please try again.');
+      showError('Error de red. Intenta de nuevo.');
+      provisioningStarted = false;
     }
   }
 
   async function pollStatus() {
+    if (polling) return;
+    polling = true;
+
     try {
       const response = await fetch('<%= signup_status_path %>');
       const data = await response.json();
 
       if (data.success) {
         updateUI(data);
-
-        if (data.complete) {
-          setTimeout(() => {
-            window.location.href = '<%= signup_complete_path %>';
-          }, 1000);
-        } else {
-          setTimeout(pollStatus, 1000);
-        }
+        polling = false;
+        if (!handleTerminalState(data)) setTimeout(pollStatus, 1500);
       } else {
-        showError(data.error || 'Error checking status');
+        polling = false;
+        showError(data.error || 'Error al consultar el estado');
       }
     } catch (e) {
-      setTimeout(pollStatus, 2000);
+      polling = false;
+      setTimeout(pollStatus, 3000);
     }
   }
 
   async function retryProvisioning() {
-    document.getElementById('error-display').classList.add('hidden');
+    hideError();
     provisioningStarted = false;
-    startProvisioning();
+    // force: el sitio pudo quedar a medias, hay que reiniciar el intento.
+    startProvisioning(true);
   }
 
-  // Start provisioning when page loads
   document.addEventListener('DOMContentLoaded', function() {
-    <% if @website.provisioning? %>
-      startProvisioning();
-    <% elsif @website.live? %>
+    <% if @website.live? %>
       window.location.href = '<%= signup_complete_path %>';
+    <% elsif @website.locked_pending_email_verification? %>
+      showEmailVerification('<%= j @website.owner_email.to_s %>');
+    <% else %>
+      startProvisioning(false);
     <% end %>
   });
 </script>
