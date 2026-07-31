@@ -1,0 +1,9 @@
+<%
+  badge = case requirement.status
+          when 'completed' then ['Completada', 'bg-green-100 text-green-800']
+          when 'failed'    then ['Falló', 'bg-red-100 text-red-800']
+          when 'running'   then ['Buscando…', 'bg-blue-100 text-blue-800']
+          else                  ['Pendiente', 'bg-yellow-100 text-yellow-800']
+          end
+%>
+<span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full <%= badge[1] %>"><%= badge[0] %></span>

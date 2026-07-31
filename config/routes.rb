@@ -298,6 +298,14 @@ Rails.application.routes.draw do
       patch ':id', action: :update, as: :update
     end
 
+    # Búsqueda de inmuebles en portales externos (Metrocuadrado) a partir de
+    # un requerimiento de cliente
+    resources :property_requirements, only: %i[index new create show destroy] do
+      member do
+        post :rerun
+      end
+    end
+
     # SEO Audit Dashboard
     resource :seo_audit, only: [:show], controller: 'seo_audit', as: 'seo_audit' do
       get '/', action: :index, on: :collection

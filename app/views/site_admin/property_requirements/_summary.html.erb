@@ -1,0 +1,14 @@
+<%
+  parts = []
+  parts << requirement.property_type_key.capitalize
+  parts << (requirement.rent? ? 'en arriendo' : 'en venta')
+  parts << "en #{requirement.city}"
+  if requirement.price_min_cents.present? || requirement.price_max_cents.present?
+    min = requirement.price_min_cents ? "$#{number_with_delimiter(requirement.price_min_cents / 100, delimiter: '.')}" : nil
+    max = requirement.price_max_cents ? "$#{number_with_delimiter(requirement.price_max_cents / 100, delimiter: '.')}" : nil
+    parts << [min, max].compact.join(' – ')
+  end
+  parts << "#{requirement.bedrooms_min}+ hab." if requirement.bedrooms_min.present?
+  parts << "#{requirement.bathrooms_min}+ baños" if requirement.bathrooms_min.present?
+%>
+<%= parts.join(', ') %>

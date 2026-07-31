@@ -1,0 +1,92 @@
+<div class="max-w-7xl mx-auto">
+  <%= render 'site_admin/shared/page_header',
+      title: 'Resultados de la búsqueda',
+      description: capture { render 'summary', requirement: @requirement } %>
+
+  <div class="mb-6 bg-white rounded-lg shadow p-4 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <%= render 'status_badge', requirement: @requirement %>
+      <% if @requirement.contact %>
+        <span class="text-sm text-gray-600">
+          Cliente:
+          <%= link_to [@requirement.contact.first_name, @requirement.contact.last_name].compact.join(' ').presence || @requirement.contact.primary_email,
+              site_admin_contact_path(@requirement.contact), class: 'text-blue-600 hover:text-blue-800' %>
+        </span>
+      <% end %>
+      <% if @requirement.last_searched_at %>
+        <span class="text-sm text-gray-500">Última búsqueda: <%= format_date(@requirement.last_searched_at) %></span>
+      <% end %>
+    </div>
+    <div class="flex items-center gap-3">
+      <% if @requirement.pending? || @requirement.running? %>
+        <%= link_to 'Actualizar', site_admin_property_requirement_path(@requirement),
+            class: 'px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-sm' %>
+      <% else %>
+        <%= button_to 'Volver a buscar', rerun_site_admin_property_requirement_path(@requirement), method: :post,
+            class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm' %>
+      <% end %>
+      <%= link_to 'Todas las búsquedas', site_admin_property_requirements_path,
+          class: 'text-sm text-blue-600 hover:text-blue-800' %>
+    </div>
+  </div>
+
+  <% if @requirement.failed? %>
+    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+      La búsqueda falló: <%= @requirement.error_message %>
+    </div>
+  <% elsif @requirement.pending? || @requirement.running? %>
+    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-700">
+      Buscando en los portales… usa "Actualizar" en unos segundos para ver los resultados.
+    </div>
+  <% end %>
+
+  <% if @matches.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @matches.each do |match| %>
+        <% portal_label = match.portal == 'fincaraiz' ? 'Fincaraíz' : 'Metrocuadrado' %>
+        <div class="bg-white rounded-lg shadow overflow-hidden flex flex-col">
+          <div class="relative">
+            <% if match.thumbnail_url.present? %>
+              <img src="<%= match.thumbnail_url %>" alt="<%= match.title %>" loading="lazy"
+                   class="w-full h-44 object-cover bg-gray-100">
+            <% else %>
+              <div class="w-full h-44 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">Sin foto</div>
+            <% end %>
+            <span class="absolute top-2 left-2 px-2 py-0.5 text-xs font-medium rounded-full bg-white/90 text-gray-700 shadow">
+              <%= portal_label %>
+            </span>
+          </div>
+          <div class="p-4 flex-1 flex flex-col">
+            <p class="text-lg font-bold text-gray-900">
+              $<%= number_with_delimiter(match.price_cents.to_i / 100, delimiter: '.') %>
+              <% if @requirement.rent? %><span class="text-sm font-normal text-gray-500">/mes</span><% end %>
+            </p>
+            <p class="mt-1 text-sm text-gray-700 line-clamp-2"><%= match.title %></p>
+            <p class="mt-1 text-xs text-gray-500"><%= match.neighborhood %></p>
+            <div class="mt-2 flex items-center gap-3 text-xs text-gray-600">
+              <span><%= match.bedrooms %> hab.</span>
+              <span><%= match.bathrooms %> baños</span>
+              <% if match.area.present? %><span><%= match.area %> m²</span><% end %>
+            </div>
+            <div class="mt-auto pt-3">
+              <a href="<%= match.source_url_full %>" target="_blank" rel="noopener"
+                 class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800">
+                Ver en <%= portal_label %>
+                <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% elsif @requirement.completed? %>
+    <div class="bg-white rounded-lg shadow p-12">
+      <%= render 'site_admin/shared/empty_state',
+          title: 'Sin resultados',
+          description: 'Ninguna propiedad del portal cumple el requerimiento. Prueba ampliando el rango de precio o bajando los mínimos.',
+          icon: 'search' %>
+    </div>
+  <% end %>
+</div>

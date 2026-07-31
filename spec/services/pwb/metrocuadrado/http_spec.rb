@@ -62,8 +62,22 @@ module Pwb
           expect(described_class.fetch(url)).to eq('movido')
         end
 
+        it 'resolves relative redirect Locations against the current URL (Fincaraíz does this)' do
+          stub_request(:get, url).to_return(status: 301, headers: { 'Location' => '/inmobiliaria/llanocasa-v2/7157' })
+          stub_request(:get, 'https://www.metrocuadrado.com/inmobiliaria/llanocasa-v2/7157')
+            .to_return(status: 200, body: 'relativo ok')
+
+          expect(described_class.fetch(url)).to eq('relativo ok')
+        end
+
         it 'uses a zero throttle in the test environment (no sleeps)' do
           expect(described_class.throttle_seconds).to eq(0)
+        end
+
+        it 'sends extra headers when given (ej. x-api-key)' do
+          stub_request(:get, url).with(headers: { 'X-Api-Key' => 'secret' }).to_return(status: 200, body: 'ok')
+
+          expect(described_class.fetch(url, headers: { 'x-api-key' => 'secret' })).to eq('ok')
         end
       end
     end

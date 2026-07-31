@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_07_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_30_120001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -777,6 +777,52 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_000001) do
     t.index ["locale"], name: "index_pwb_prop_translations_on_locale"
     t.index ["prop_id"], name: "index_pwb_prop_translations_on_pwb_prop_id"
     t.index ["realty_asset_id"], name: "index_pwb_prop_translations_on_realty_asset_id"
+  end
+
+  create_table "pwb_property_requirement_matches", force: :cascade do |t|
+    t.decimal "area", precision: 10, scale: 2
+    t.integer "bathrooms"
+    t.integer "bedrooms"
+    t.string "city"
+    t.datetime "created_at", null: false
+    t.string "external_reference", null: false
+    t.datetime "matched_at"
+    t.string "neighborhood"
+    t.string "portal", default: "metrocuadrado", null: false
+    t.bigint "price_cents"
+    t.string "price_currency", default: "COP", null: false
+    t.bigint "property_requirement_id", null: false
+    t.jsonb "raw_data", default: {}, null: false
+    t.string "source_url"
+    t.string "thumbnail_url"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["property_requirement_id", "portal", "external_reference"], name: "idx_prop_req_matches_unique", unique: true
+    t.index ["property_requirement_id"], name: "idx_prop_req_matches_on_requirement"
+  end
+
+  create_table "pwb_property_requirements", force: :cascade do |t|
+    t.integer "bathrooms_min"
+    t.integer "bedrooms_min"
+    t.string "city"
+    t.string "city_slug"
+    t.bigint "contact_id"
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id"
+    t.text "error_message"
+    t.datetime "last_searched_at"
+    t.string "operation_type", default: "venta", null: false
+    t.string "price_currency", default: "COP", null: false
+    t.bigint "price_max_cents"
+    t.bigint "price_min_cents"
+    t.string "property_type_key", default: "apartamento", null: false
+    t.integer "results_count", default: 0, null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["contact_id"], name: "index_pwb_property_requirements_on_contact_id"
+    t.index ["status"], name: "index_pwb_property_requirements_on_status"
+    t.index ["website_id"], name: "index_pwb_property_requirements_on_website_id"
   end
 
   create_table "pwb_props", id: :serial, force: :cascade do |t|

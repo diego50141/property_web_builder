@@ -24,11 +24,14 @@ module Pwb
 #  other_phone_number    :string
 #  primary_email         :string
 #  primary_phone_number  :string
+#  source                :string
+#  stage                 :string           default("nuevo"), not null
 #  title                 :integer          default("mr")
 #  unread_messages_count :integer          default(0), not null
 #  website_url           :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  assigned_user_id      :integer
 #  documentation_id      :string
 #  facebook_id           :string
 #  linkedin_id           :string
@@ -41,14 +44,17 @@ module Pwb
 #
 # Indexes
 #
+#  index_pwb_contacts_on_assigned_user_id          (assigned_user_id)
 #  index_pwb_contacts_on_documentation_id          (documentation_id)
 #  index_pwb_contacts_on_first_name                (first_name)
 #  index_pwb_contacts_on_first_name_and_last_name  (first_name,last_name)
 #  index_pwb_contacts_on_last_name                 (last_name)
 #  index_pwb_contacts_on_primary_email             (primary_email)
 #  index_pwb_contacts_on_primary_phone_number      (primary_phone_number)
+#  index_pwb_contacts_on_stage                     (stage)
 #  index_pwb_contacts_on_title                     (title)
 #  index_pwb_contacts_on_website_id                (website_id)
+#  index_pwb_contacts_on_website_id_and_stage      (website_id,stage)
 #
 # Foreign Keys
 #
@@ -79,6 +85,10 @@ module Pwb
     has_many :contact_realty_assets, class_name: 'Pwb::ContactRealtyAsset',
              foreign_key: :contact_id, dependent: :destroy
     has_many :linked_properties, through: :contact_realty_assets, source: :realty_asset
+
+    # Requerimientos de búsqueda del cliente en portales externos (ej. Metrocuadrado)
+    has_many :property_requirements, class_name: 'Pwb::PropertyRequirement',
+             foreign_key: :contact_id, dependent: :nullify
 
     # --- CRM: pipeline de leads (Fase 2) ---
     STAGES = %w[nuevo contactado calificado visita negociacion ganado perdido].freeze

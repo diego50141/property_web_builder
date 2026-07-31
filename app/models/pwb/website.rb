@@ -155,6 +155,7 @@ module Pwb
     has_many :auth_audit_logs, class_name: 'Pwb::AuthAuditLog', dependent: :destroy
     has_many :contacts, class_name: 'Pwb::Contact'
     has_many :messages, class_name: 'Pwb::Message'
+    has_many :property_requirements, class_name: 'Pwb::PropertyRequirement', dependent: :destroy
     has_many :support_tickets, class_name: 'Pwb::SupportTicket', dependent: :destroy
     has_many :ticket_messages, class_name: 'Pwb::TicketMessage', dependent: :destroy
     has_many :website_photos

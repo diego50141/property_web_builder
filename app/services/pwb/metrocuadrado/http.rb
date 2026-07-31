@@ -40,27 +40,30 @@ module Pwb
         @throttle_seconds = value
       end
 
-      def fetch(url, limit = 5)
+      # headers: extra request headers (ej. x-api-key para el rest-search API).
+      def fetch(url, limit = 5, headers: {})
         raise "demasiados redirects" if limit.zero?
 
-        res = request_with_retries(url)
+        res = request_with_retries(url, headers)
         case res
         when Net::HTTPSuccess
           # Net::HTTP returns the body as ASCII-8BIT (binary); force UTF-8 so
           # accented strings (Bogotá, Restrepo) transliterate when Rails builds
           # slugs. Metrocuadrado serves UTF-8.
           res.body.to_s.dup.force_encoding(Encoding::UTF_8)
-        when Net::HTTPRedirection then fetch(res["location"], limit - 1)
+        # Location puede venir relativo (Fincaraíz lo hace); se resuelve
+        # contra la URL actual.
+        when Net::HTTPRedirection then fetch(URI.join(url, res["location"]).to_s, limit - 1, headers: headers)
         else raise "HTTP #{res.code} al pedir #{url}"
         end
       end
 
-      def request_with_retries(url)
+      def request_with_retries(url, headers = {})
         attempts = 0
         begin
           attempts += 1
           throttle!
-          res = request(url)
+          res = request(url, headers)
           if res.is_a?(Net::HTTPTooManyRequests) || res.is_a?(Net::HTTPServerError)
             raise RetryableError, "HTTP #{res.code} al pedir #{url}"
           end
@@ -74,7 +77,7 @@ module Pwb
         end
       end
 
-      def request(url)
+      def request(url, headers = {})
         uri = URI.parse(url)
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = uri.scheme == "https"
@@ -82,6 +85,7 @@ module Pwb
         http.read_timeout = 30
         req = Net::HTTP::Get.new(uri.request_uri)
         req["User-Agent"] = USER_AGENT
+        headers.each { |k, v| req[k.to_s] = v }
         http.request(req)
       end
 
