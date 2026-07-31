@@ -197,14 +197,14 @@ module Pwb
       plan.unlimited_users? || count <= plan.user_limit
     end
 
-    # Remaining properties allowed
+    # Remaining properties allowed (counts PUBLISHED properties, not drafts)
     #
     # @return [Integer, nil] Remaining count or nil if unlimited
     #
     def remaining_properties
       return nil if plan.unlimited_properties?
 
-      current = website.realty_assets.count
+      current = website.published_properties_count
       [plan.property_limit - current, 0].max
     end
 

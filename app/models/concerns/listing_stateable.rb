@@ -26,6 +26,7 @@ module ListingStateable
     # Validations
     validate :only_one_active_per_realty_asset, if: :active?
     validate :cannot_delete_active_listing, on: :destroy
+    validate :within_publish_limit, if: :becoming_published?
 
     # Scopes
     scope :visible, -> { where(visible: true) }
@@ -97,6 +98,30 @@ module ListingStateable
 
   def will_activate?
     active? && active_changed?
+  end
+
+  # A listing is "published" when it is active, visible and not archived
+  # (same rule as the ListedProperty materialized view).
+  def published_state?
+    active? && visible? && !archived?
+  end
+
+  # Only run the limit check when this save transitions the listing INTO
+  # the published state, so already-published listings can keep being edited.
+  def becoming_published?
+    published_state? && (new_record? || active_changed? || visible_changed? || archived_changed?)
+  end
+
+  def within_publish_limit
+    website = realty_asset&.website
+    return unless website.respond_to?(:can_publish_property?)
+    return if website.can_publish_property?(realty_asset)
+
+    errors.add(:base, I18n.t(
+      'pwb.listings.publish_limit_reached',
+      limit: website.property_limit,
+      default: "Has alcanzado el límite de %{limit} propiedades publicadas de tu plan. Despublica otra propiedad o mejora tu plan."
+    ))
   end
 
   def deactivate_other_listings

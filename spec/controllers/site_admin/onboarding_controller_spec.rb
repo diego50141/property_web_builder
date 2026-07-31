@@ -294,7 +294,7 @@ RSpec.describe SiteAdmin::OnboardingController, type: :controller do
       it 'does not allow skipping step 2' do
         post :skip_step, params: { step: 2 }
         expect(response).to redirect_to(site_admin_onboarding_path(step: 2))
-        expect(flash[:alert]).to include('cannot be skipped')
+        expect(flash[:alert]).to include('no se puede omitir')
       end
     end
   end

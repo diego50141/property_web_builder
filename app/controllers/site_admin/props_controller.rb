@@ -5,6 +5,7 @@ module SiteAdmin
   # Manages properties for the current website
   # Uses Pwb::ListedProperty (materialized view) for reads and Pwb::RealtyAsset for writes
   class PropsController < SiteAdminController
+    before_action :redirect_to_onboarding_if_needed, only: :index
     before_action :set_property, only: [:show]
     before_action :set_realty_asset, only: [
       :edit_general, :edit_text, :edit_sale_rental, :edit_location,

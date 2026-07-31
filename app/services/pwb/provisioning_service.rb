@@ -258,6 +258,10 @@ module Pwb
         website.mark_ready!
         report_progress(progress_block, website, 'ready', 95)
 
+        # Assign the free plan so new sites start with subscription limits in place.
+        # Non-fatal: sites without a subscription keep legacy (unlimited) behavior.
+        assign_free_subscription(website)
+
         # Step 7: Enter locked state (awaiting email verification)
         Rails.logger.info("[Provisioning] Entering locked state for website #{website.id}")
         unless website.can_go_live?
@@ -290,6 +294,16 @@ module Pwb
         fail_with_details(website, e.message)
         notify_platform(:provisioning_failed, website.id, error: e.message)
         failure_result
+      end
+    end
+
+    # Assign the free plan to a newly provisioned website
+    def assign_free_subscription(website)
+      return if website.subscription&.allows_access?
+
+      result = SubscriptionService.new.create_free(website: website)
+      unless result[:success]
+        Rails.logger.warn("[Provisioning] Could not assign free plan to website #{website.id}: #{result[:errors].join(', ')}")
       end
     end
 

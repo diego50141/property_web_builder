@@ -5,6 +5,8 @@ module SiteAdmin
   # Main dashboard for site administration
   # Shows statistics and recent activity for the current website/tenant
   class DashboardController < SiteAdminController
+    before_action :redirect_to_onboarding_if_needed, only: :index
+
     def index
       # Panel deshabilitado por ahora en el modo simplificado: la inmobiliaria
       # entra directo a su lista de inmuebles. Reversible con

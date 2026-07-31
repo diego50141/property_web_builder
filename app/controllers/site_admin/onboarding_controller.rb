@@ -81,7 +81,7 @@ module SiteAdmin
       if @step == 3 # Only property step is skippable
         advance_step!
       else
-        redirect_to site_admin_onboarding_path(step: @step), alert: "This step cannot be skipped."
+        redirect_to site_admin_onboarding_path(step: @step), alert: "Este paso no se puede omitir."
       end
     end
 
@@ -103,20 +103,20 @@ module SiteAdmin
         onboarding_step: 1,
         site_admin_onboarding_completed_at: nil
       )
-      redirect_to site_admin_onboarding_path(step: 1), notice: "Onboarding restarted."
+      redirect_to site_admin_onboarding_path(step: 1), notice: "Configuración inicial reiniciada."
     end
 
     private
 
     def ensure_can_access_onboarding
       unless current_user && current_website
-        redirect_to root_path, alert: "Please sign in to continue."
+        redirect_to root_path, alert: "Inicia sesión para continuar."
         return
       end
 
       # Verify user has access to this website
       unless current_user.can_access_website?(current_website)
-        redirect_to root_path, alert: "You don't have access to this website."
+        redirect_to root_path, alert: "No tienes acceso a este sitio."
       end
     end
 
@@ -174,7 +174,7 @@ module SiteAdmin
       else
         @steps = STEPS
         @current_step_info = STEPS[@step]
-        flash.now[:error] = "Please fix the errors below."
+        flash.now[:error] = "Corrige los errores de abajo."
         render :profile, status: :unprocessable_entity
       end
     end
@@ -190,7 +190,7 @@ module SiteAdmin
         @steps = STEPS
         @current_step_info = STEPS[@step]
         @property_types = current_website.field_keys.where(tag: 'property-types')
-        flash.now[:error] = "Please fix the errors below."
+        flash.now[:error] = "Corrige los errores de abajo."
         render :property, status: :unprocessable_entity
       end
     end
@@ -207,7 +207,7 @@ module SiteAdmin
         @current_step_info = STEPS[@step]
         @themes = available_themes
         @current_theme = current_website.theme_name
-        flash.now[:error] = "Please select a valid theme."
+        flash.now[:error] = "Elige un tema válido."
         render :theme, status: :unprocessable_entity
       end
     end

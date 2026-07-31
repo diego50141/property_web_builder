@@ -55,6 +55,31 @@ module Pwb
       subscription.within_property_limit?(realty_assets.count + 1)
     end
 
+    # Count properties currently published (visible to the public).
+    # A property is published when it has a listing that is active,
+    # visible and not archived (same rule as the ListedProperty view).
+    #
+    # @return [Integer]
+    def published_properties_count
+      asset_ids = realty_assets.select(:id)
+      sale_ids = Pwb::SaleListing.active.where(realty_asset_id: asset_ids).distinct.pluck(:realty_asset_id)
+      rental_ids = Pwb::RentalListing.active.where(realty_asset_id: asset_ids).distinct.pluck(:realty_asset_id)
+      (sale_ids | rental_ids).size
+    end
+
+    # Check if one more property can be published under the current plan.
+    # The plan's property_limit caps PUBLISHED properties; drafts are unlimited.
+    #
+    # @param realty_asset [Pwb::RealtyAsset, nil] asset being published (already-published assets don't add to the count)
+    # @return [Boolean]
+    def can_publish_property?(realty_asset = nil)
+      return true unless subscription # No subscription = no limits (legacy behavior)
+      return true if plan.nil? || plan.unlimited_properties?
+      return true if realty_asset&.visible? # already published, re-publishing adds nothing
+
+      published_properties_count < plan.property_limit
+    end
+
     # Get remaining property slots
     #
     # @return [Integer, nil] nil means unlimited

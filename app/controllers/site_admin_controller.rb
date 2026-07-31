@@ -102,4 +102,29 @@ class SiteAdminController < ActionController::Base
     current_website&.subscription.nil? || current_website&.subscription&.in_good_standing?
   end
   helper_method :subscription_in_good_standing?
+
+  # Block access to a plan-gated feature.
+  # Websites without a subscription keep legacy (full) access.
+  def require_feature!(feature_key)
+    return if current_website.nil? || current_website.subscription.nil?
+    return if current_website.has_feature?(feature_key)
+
+    redirect_to site_admin_billing_path,
+                alert: I18n.t('pwb.plans.feature_not_included',
+                              default: 'Tu plan no incluye esta función. Mejora tu plan para usarla.')
+  end
+
+  # Users coming from signup (onboarding_step is set past 0 by the signup flow)
+  # are guided through the site admin onboarding wizard until they finish it.
+  # Legacy users (step 0) are never redirected.
+  def needs_onboarding?
+    current_user.present? &&
+      current_user.respond_to?(:site_admin_onboarding_completed_at) &&
+      current_user.site_admin_onboarding_completed_at.blank? &&
+      current_user.onboarding_step.to_i.between?(1, 4)
+  end
+
+  def redirect_to_onboarding_if_needed
+    redirect_to site_admin_onboarding_path(step: 1) if needs_onboarding?
+  end
 end

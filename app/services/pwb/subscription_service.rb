@@ -52,6 +52,43 @@ module Pwb
       { success: false, errors: [e.message] }
     end
 
+    # Create a free-plan subscription for a website (no trial, active immediately)
+    #
+    # Idempotent: keeps any existing subscription that still allows access.
+    #
+    # @param website [Website] The website to subscribe
+    # @return [Hash] { success: true, subscription: Subscription } or { success: false, errors: [] }
+    #
+    def create_free(website:)
+      plan = Plan.free_plan
+
+      return { success: false, errors: ['Free plan not found - run Pwb::PlansSeeder.seed!'] } unless plan
+      return { success: true, subscription: website.subscription } if website.subscription&.allows_access?
+
+      ActiveRecord::Base.transaction do
+        website.subscription&.destroy if website.subscription&.expired? || website.subscription&.canceled?
+
+        subscription = Subscription.create!(
+          website: website,
+          plan: plan,
+          status: 'active',
+          current_period_starts_at: Time.current
+        )
+
+        subscription.events.create!(
+          event_type: 'free_plan_assigned',
+          metadata: { plan_id: plan.id, plan_slug: plan.slug }
+        )
+
+        { success: true, subscription: subscription }
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      { success: false, errors: e.record.errors.full_messages }
+    rescue StandardError => e
+      Rails.logger.error "[SubscriptionService] create_free error: #{e.message}"
+      { success: false, errors: [e.message] }
+    end
+
     # Activate a subscription (convert from trial or reactivate)
     #
     # @param subscription [Subscription] The subscription to activate

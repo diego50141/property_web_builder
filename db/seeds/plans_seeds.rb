@@ -9,6 +9,21 @@ module Pwb
   class PlansSeeder
     PLANS = [
       {
+        name: 'gratis',
+        slug: 'gratis',
+        display_name: 'Gratis',
+        description: 'Empieza gratis: publica hasta 10 propiedades con descripciones de IA y CRM incluidos.',
+        price_cents: 0,
+        price_currency: 'USD',
+        billing_interval: 'month',
+        trial_days: 0,
+        trial_value: 0,
+        property_limit: 10,
+        user_limit: 1,
+        features: %w[ai_descriptions crm basic_themes ssl_included subdomain_only email_support],
+        position: 0
+      },
+      {
         name: 'starter',
         slug: 'starter',
         display_name: 'Starter',

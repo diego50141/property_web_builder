@@ -73,6 +73,16 @@ RSpec.describe 'SiteAdmin::OnboardingController', type: :request do
 
         expect(response).to have_http_status(:success)
       end
+
+      # GET onboarding/complete matches the :step route first, so the test above
+      # never renders the complete template. This one goes through show with
+      # step 5, which does render it (regression: undefined site_admin_dashboard_path).
+      it 'renders the complete template via step 5 and marks onboarding done' do
+        get site_admin_onboarding_path(step: 5), headers: { 'HTTP_HOST' => 'onboard-test.test.localhost' }
+
+        expect(response).to have_http_status(:success)
+        expect(admin_user.reload.site_admin_onboarding_completed_at).to be_present
+      end
     end
 
     context 'when onboarding is completed' do
@@ -184,7 +194,7 @@ RSpec.describe 'SiteAdmin::OnboardingController', type: :request do
              headers: { 'HTTP_HOST' => 'onboard-test.test.localhost' }
 
         expect(response).to redirect_to(site_admin_onboarding_path(step: 2))
-        expect(flash[:alert]).to include('cannot be skipped')
+        expect(flash[:alert]).to include('no se puede omitir')
       end
     end
   end

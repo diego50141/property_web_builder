@@ -90,6 +90,8 @@ module Pwb
 
       # Features
       ssl_included: 'SSL certificate included',
+      ai_descriptions: 'AI-generated property descriptions',
+      crm: 'CRM (leads and property owners)',
       analytics: 'Analytics dashboard',
       custom_integrations: 'Custom 3rd party integrations',
       api_access: 'API access for integrations',
@@ -172,6 +174,22 @@ module Pwb
     #
     def self.default_plan
       find_by(slug: 'starter') || active.ordered.first
+    end
+
+    # The free plan assigned to new signups
+    #
+    # @return [Plan, nil]
+    #
+    def self.free_plan
+      find_by(slug: 'gratis')
+    end
+
+    # Check if this is a free (zero-cost) plan
+    #
+    # @return [Boolean]
+    #
+    def free?
+      price_cents.zero?
     end
 
     # Calculate trial end date from a start date

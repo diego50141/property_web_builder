@@ -5,6 +5,8 @@ module SiteAdmin
   # del website actual. El cambio de etapa y la asignación de agente se hacen por
   # menú (sin drag) para el MVP.
   class PipelineController < SiteAdminController
+    before_action -> { require_feature!(:crm) }
+
     def index
       contacts = current_website.contacts.includes(:assigned_user).to_a
       grouped = contacts.group_by { |c| Pwb::Contact::STAGES.include?(c.stage) ? c.stage : 'nuevo' }

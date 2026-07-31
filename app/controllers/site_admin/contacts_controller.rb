@@ -4,6 +4,8 @@ module SiteAdmin
   # ContactsController
   # Manages contacts for the current website
   class ContactsController < SiteAdminController
+    before_action -> { require_feature!(:crm) }
+
     include SiteAdminIndexable
 
     indexable_config model: Pwb::Contact,

@@ -15,6 +15,7 @@ module ApiManage
     # - tone: Writing tone ('professional', 'casual', 'luxury', 'warm', 'modern')
     #
     class AiDescriptionsController < BaseController
+      before_action :require_ai_descriptions_feature!
       before_action :set_property
 
       # POST /api_manage/v1/:locale/properties/:property_id/ai_description
@@ -86,6 +87,18 @@ module ApiManage
 
       def generation_params
         params.permit(:locale, :tone)
+      end
+
+      # Plan gating: websites without a subscription keep legacy (full) access.
+      def require_ai_descriptions_feature!
+        return if current_website.subscription.nil?
+        return if current_website.has_feature?(:ai_descriptions)
+
+        render json: {
+          success: false,
+          error: 'feature_not_included',
+          message: 'Tu plan no incluye descripciones con IA. Mejora tu plan para usarlas.'
+        }, status: :forbidden
       end
 
       # current_user is now provided by BaseController with proper authentication
