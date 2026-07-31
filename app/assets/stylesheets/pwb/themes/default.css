@@ -591,3 +591,49 @@ button:focus-visible,
     top: 1rem;
   }
 }
+
+/* ============================================
+   Nav search dropdowns (Comprar / Arrendar)
+   Hover/focus opens a panel with quick filters.
+   Custom CSS (not Tailwind utilities) because the
+   prebuilt Tailwind bundle can't pick up new classes.
+   ============================================ */
+.pwb-nav__dropdown {
+  position: relative;
+}
+
+.pwb-nav__dropdown-menu {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 60; /* above the sticky nav (z-50) */
+  /* invisible bridge so the pointer can travel from link to panel */
+  padding-top: 0.75rem;
+}
+
+.pwb-nav__dropdown:hover > .pwb-nav__dropdown-menu,
+.pwb-nav__dropdown:focus-within > .pwb-nav__dropdown-menu {
+  display: block;
+}
+
+.pwb-nav__dropdown-panel {
+  width: 20rem;
+  max-width: 90vw;
+}
+
+/* property types in two columns */
+.pwb-nav__dropdown-types {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Mobile (hamburger menu): no hover — keep the plain links */
+@media (max-width: 767px) {
+  .pwb-nav__dropdown-menu {
+    display: none !important;
+  }
+  .pwb-nav__dropdown-caret {
+    display: none;
+  }
+}

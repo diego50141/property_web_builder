@@ -80,10 +80,34 @@
 
             <% if target_path %>
               <% is_active = current_page?(target_path) || (current_page?("/") && page.link_path == "home_path") %>
-              <li class="pwb-nav__menu-item">
-                <%= link_to page.link_title, target_path,
+              <%# Comprar/Arrendar get a hover dropdown with quick search filters %>
+              <% has_search_dropdown = %w[buy_path rent_path].include?(page.link_path) && nav_property_type_options.any? %>
+              <li class="pwb-nav__menu-item <%= 'pwb-nav__dropdown' if has_search_dropdown %>">
+                <%= link_to target_path,
                     target: page.href_target,
-                    class: "pwb-nav__menu-link block py-2 px-3 md:p-0 #{is_active ? 'text-pwb-primary font-semibold' : 'text-gray-700 hover:text-pwb-primary'}" %>
+                    "aria-haspopup": has_search_dropdown ? "true" : nil,
+                    class: "pwb-nav__menu-link block py-2 px-3 md:p-0 #{is_active ? 'text-pwb-primary font-semibold' : 'text-gray-700 hover:text-pwb-primary'}" do %><%= page.link_title %><% if has_search_dropdown %><svg class="pwb-nav__dropdown-caret w-4 h-4 ml-1 inline" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg><% end %><% end %>
+                <% if has_search_dropdown %>
+                  <div class="pwb-nav__dropdown-menu">
+                    <div class="pwb-nav__dropdown-panel bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                      <p class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider"><%= t('propertyTypes.label', default: 'Property type') %></p>
+                      <ul class="pwb-nav__dropdown-types text-sm text-gray-700">
+                        <% nav_property_type_options.each do |pt| %>
+                          <li>
+                            <a href="<%= "#{target_path}?type=#{nav_property_type_slug(pt.value)}" %>" class="block px-4 py-2 hover:bg-gray-100"><%= pt.label %></a>
+                          </li>
+                        <% end %>
+                      </ul>
+                      <p class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-t border-gray-200 mt-2"><%= t('amenities.bedrooms', default: 'Bedrooms') %></p>
+                      <div class="px-4 py-2 flex items-center space-x-2 text-sm">
+                        <% [2, 3, 4].each do |n| %>
+                          <a href="<%= "#{target_path}?bedrooms=#{n}" %>" class="px-3 py-1 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100"><%= n %>+</a>
+                        <% end %>
+                      </div>
+                      <a href="<%= target_path %>" class="block px-4 py-2 text-sm font-medium text-pwb-primary hover:bg-gray-100 border-t border-gray-200 mt-2"><%= t('propertyTypes.all', default: 'All types') %></a>
+                    </div>
+                  </div>
+                <% end %>
               </li>
             <% end %>
           <% end %>

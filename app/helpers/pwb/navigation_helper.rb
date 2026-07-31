@@ -91,5 +91,21 @@ module Pwb
       end
       html
     end
+
+    # Property-type options for the search dropdowns in the top nav
+    # (Comprar/Arrendar). Tenant-scoped, translated labels.
+    def nav_property_type_options
+      return [] unless @current_website
+
+      @nav_property_type_options ||= ActsAsTenant.with_tenant(@current_website) do
+        PwbTenant::FieldKey.get_options_by_tag("property-types")
+      end
+    end
+
+    # "types.country_house" -> "country_house": the ?type= friendly param that
+    # the ListedProperty property_type scope matches with LIKE "%.<slug>".
+    def nav_property_type_slug(global_key)
+      global_key.to_s.split(".").last
+    end
   end
 end

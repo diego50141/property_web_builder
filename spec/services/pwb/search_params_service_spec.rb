@@ -18,6 +18,18 @@ RSpec.describe Pwb::SearchParamsService do
         result = service.from_url_params(params)
         expect(result[:property_type]).to eq('villa')
       end
+
+      it 'keeps underscores so multi-word type slugs can match prop_type_key' do
+        params = ActionController::Parameters.new(type: 'country_house')
+        result = service.from_url_params(params)
+        expect(result[:property_type]).to eq('country_house')
+      end
+
+      it 'keeps dots so full field keys from the legacy search form can match' do
+        params = ActionController::Parameters.new(search: { property_type: 'types.apartment' })
+        result = service.from_url_params(params)
+        expect(result[:property_type]).to eq('types.apartment')
+      end
     end
 
     context 'with numeric parameters' do

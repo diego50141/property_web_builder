@@ -194,6 +194,10 @@ module Pwb
       end
     end
 
+    # Keeps "_" and "." so values like "country_house" (?type= friendly param)
+    # and full field keys like "types.apartment" (legacy search[property_type])
+    # survive normalization — the property_type scope matches them against
+    # prop_type_key, which uses both characters.
     def normalize_slug(value)
       return nil if value.blank?
 
@@ -201,7 +205,7 @@ module Pwb
            .downcase
            .strip
            .gsub(/\s+/, '-')
-           .gsub(/[^a-z0-9\-]/, '')
+           .gsub(/[^a-z0-9\-_.]/, '')
     end
   end
 end
